@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, GeoJSON } from 'react-leaflet';
 
+// pass in parameters mode/race.
 function MyComponent(props) {
     const [geojsonData, setGeojsonData] = useState({'al':null, 'de':null});
     const [isHovering, setIsHovering] = useState(false); // State to track hovering
@@ -109,6 +110,13 @@ function MyComponent(props) {
                         )}
                     </GeoJSON>}
             </MapContainer>
+
+            <div style={{width: '50px',
+                    height:'50px',
+                    backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
+                <span>50% color</span> {/* Text content */}
+            </div>
+            
         </div>
     );
 }

@@ -20,7 +20,7 @@
   border-bottom: solid;
 }
 .StatesContainer {
-  background-color:beige;
+  background-color:white;
   min-height:85vh;
   display: flex;
   flex-direction: row;

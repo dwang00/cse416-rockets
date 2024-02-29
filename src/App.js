@@ -1,5 +1,7 @@
 import logo from './rocketslogo.png';
 import './App.css';
+import GetData from "./get_data";
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
 
             <div className="State">
                 <div>ALABAMA</div>
+                <GetData/>
             </div>
 
             <div className="State">

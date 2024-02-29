@@ -112,6 +112,7 @@ function MyComponent(props) {
                 position:'absolute',
                 width: '50px',
                 height:'50px',
+                left:'100px',
                 backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
                 <span>50% color</span> {/* Text content */}
             </div>}

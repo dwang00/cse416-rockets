@@ -17,17 +17,19 @@ function App() {
 
             <div className="title">You are currently looking at the
                 <label>
-                    <select style={{fontSize:"40px"}} value={race} onChange={raceChange}>
-                        <option style={{fontSize:"20px"}} value="white">white</option>
-                        <option style={{fontSize:"20px"}} value="black">black</option>
+                    <select style={{fontSize: "40px"}} value={race} onChange={raceChange}>
+                        <option style={{fontSize: "20px"}} value="white">white</option>
+                        <option style={{fontSize: "20px"}} value="black">black</option>
                     </select>
                 </label>
                 population
             </div>
+
+            <img src={logo} className="App-logo" alt="logo"/>
         </header>
         <div className="StatesContainer">
 
-            <div className="State">
+        <div className="State">
                 <div className="center">ALABAMA</div>
 
                 <div className="graph">

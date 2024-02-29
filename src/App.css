@@ -12,9 +12,9 @@
   background-color: white;
   min-height: 15vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
-  justify-content: flex-start;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: black;
   border-bottom: solid;
@@ -40,6 +40,7 @@
   font-size:40px;
   font-family: "Trebuchet MS", Arial, sans-serif;
 
+  align-items:end;
 }
 .center{
   position:absolute;

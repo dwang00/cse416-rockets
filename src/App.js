@@ -1,10 +1,12 @@
 import logo from './rocketslogo.png';
 import './App.css';
-import React, { useEffect } from 'react';
 import { Bar, Scatter} from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import Chart from 'chart.js/auto'
+import GetData from "./get_data";
+import React, { useState, useEffect } from 'react';
+
 
 const generateRandomNumber = () => faker.number.int({ min: 1, max: 35 });
 Chart.register(BoxPlotController, BoxAndWiskers);
@@ -322,32 +324,48 @@ function App() {
 
         return <canvas id="canvas2" />;
     }
+    const [race,setRace] = useState("white");
+    const raceChange = (event) => {
+        setRace(event.target.value);
+    }
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
+                <img src={logo} className="App-logo" alt="logo"/>
+                <div className="title">You are currently looking at the
+                    <label>
+                        <select style={{ fontSize: "40px" }} value={race} onChange={raceChange}>
+                            <option style={{ fontSize: "20px" }} value="white">white</option>
+                            <option style={{ fontSize: "20px" }} value="black">black</option>
+                        </select>
+                    </label>
+                    population
+                </div>
             </header>
 
             <div className="StatesContainer">
-                <div className="State" style = {{ width: '400px', height: '400px' }}>
-                    <div style = {{ width: '700px', height: '400px' }}>ALABAMA
+                <div className="State" style={{ width: '400px', height: '400px' }}>
+                    <div style={{ width: '700px', height: '400px' }}>ALABAMA
+                        <div className="graph">
+                            <GetData mode={"density"} race={race}/>
+                        </div>
                         <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                        <Scatter options = {scatterOptionsAlabama} data = {scatterDataAlabama}/>
+                        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                         <BoxPlotAlabama/>
                     </div>
-
                 </div>
 
                 <div className="State">
-                    <div style = {{ width: '700px', height: '400px' }}>DELAWARE
+                    <div style={{ width: '700px', height: '400px' }}>DELAWARE
                         <Bar options={barOptionsDelaware} data={barDataDelaware}/>
-                        <Scatter options = {scatterOptionsDelaware} data = {scatterDataDelaware}/>
+                        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
                         <BoxPlotDelaware/>
                     </div>
                 </div>
             </div>
         </div>
     );
+
 }
 
 export default App;

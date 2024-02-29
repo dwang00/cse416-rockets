@@ -29,11 +29,28 @@
   max-width:50vw;
   flex-grow: 1;
   border-right: solid;
-  justify-content: center;
   display:flex;
-  font-size:25px;
+}
+
+.title{
+  text-align:center;
+  justify-content: center;
+  display: flex;
+  gap: 5px;
+  font-size:40px;
   font-family: "Trebuchet MS", Arial, sans-serif;
 
+}
+.center{
+  position:absolute;
+  text-align: left;
+  justify-content: left;
+  display:flex;
+  gap: 5px;
+  z-index:999;
+  height:6vh;
+  font-size:40px;
+  font-family: "Trebuchet MS", Arial, sans-serif;
 }
 
 .App-link {

@@ -84,11 +84,12 @@ function MyComponent(props) {
         <div>
             <MapContainer center={[32.7, -86.66]}
                           zoom={7}
-                          dragging={false}
-                          style={{ height: '600px', width: '500px', backgroundColor: 'white' }}
+                          dragging={true}
+                          style={{height: '500px', width: '400px', backgroundColor: 'white',left:'200px',top:'50px'}}
                           minZoom={7}
                           maxZoom={13}
-                          zoomControl={false}>
+                          zoomControl={false}
+                          attributionControl={false}>
                 {geojsonData['al'] &&
                     <GeoJSON
                         data={JSON.parse(geojsonData['al'])}
@@ -103,19 +104,17 @@ function MyComponent(props) {
                         onMouseOut={handleMouseOut}
                     >
 
-                        {isHovering && (
-                            <div isOpen={isHovering} className="dialogue-box">
-                                <p>Hovering over feature: TESTING</p>
-                            </div>
-                        )}
+
                     </GeoJSON>}
             </MapContainer>
 
-            <div style={{width: '50px',
+            {props.mode === "density" && <div style={{
+                position:'absolute',
+                width: '50px',
                 height:'50px',
                 backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
                 <span>50% color</span> {/* Text content */}
-            </div>
+            </div>}
 
         </div>
     );

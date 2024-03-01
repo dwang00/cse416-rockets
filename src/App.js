@@ -228,15 +228,15 @@ function App() {
                 position: 'absolute'
             }}></div>
 
-            <div style={{position: "absolute", top: "1560px", left: "42%", fontSize:'30px'}}>
+            <div style={{position: "absolute", top: "1560px", left: "40%", fontSize:'30px'}}>
                 Key takeaways
             </div>
 
-            <div style={{position: "absolute", top: "1605px", left: "42%"}}>
+            <div style={{position: "absolute", top: "1605px", left: "40%"}}>
                 Some placeholder text
             </div>
 
-            <div style={{position: "absolute", top: "1660px", left: "38%", fontSize:'30px'}}>
+            <div style={{position: "absolute", top: "1660px", left: "36%", fontSize:'30px'}}>
                 Enacted Partition Analysis
             </div>
 

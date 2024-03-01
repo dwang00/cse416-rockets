@@ -227,7 +227,20 @@ function App() {
                 top: '350px',
                 position: 'absolute'
             }}></div>
-            <div style={{position: "absolute", top: "2150px", width: '700px', height: '400px'}}>
+
+            <div style={{position: "absolute", top: "1560px", left: "42%", fontSize:'30px'}}>
+                Key takeaways
+            </div>
+
+            <div style={{position: "absolute", top: "1605px", left: "42%"}}>
+                Some placeholder text
+            </div>
+
+            <div style={{position: "absolute", top: "1660px", left: "38%", fontSize:'30px'}}>
+                Enacted Partition Analysis
+            </div>
+
+            <div style={{position: "absolute", top: "2290px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
 
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
@@ -237,12 +250,12 @@ function App() {
                 <Gerrymandering_Alabama chartId = "ChartAlabama2"/>
                 <div style={{marginBottom: "20px"}}></div>
             </div>
-            <div style={{position: "absolute", top: "3600px", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "3720px", width: '700px', height: '400px'}}>
                 <Slideshow components = {alComponents} />
             </div>
             <GraphDesc/>
 
-            <div style={{position: "absolute", top: "2150px", left: "50%", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "2270px", left: "50%", width: '700px', height: '400px'}}>
 
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "120px"}}></div>
@@ -252,21 +265,11 @@ function App() {
                 <div style={{marginBottom: "20px"}}></div>
 
             </div>
-            <div style={{position: "absolute", top: "3600px", left: "50%", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "3720px", left: "50%", width: '700px', height: '400px'}}>
                 <Slideshow components = {deComponents} />
             </div>
         </div>
   );
 }
-/*<div style={{position: "absolute", top: "1440px", left: "42%", fontSize:'30px'}}>
-                Key takeaways
-            </div>
-
-            <div style={{position: "absolute", top: "1485px", left: "42%"}}>
-                Some placeholder text
-            </div>
-
-            <div style={{position: "absolute", top: "1540px", left: "38%", fontSize:'30px'}}>
-                Enacted Partition Analysis
-            </div>*/
+/**/
 export default App;

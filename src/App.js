@@ -6,6 +6,8 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
+import GetData from "./get_data";
+import React, { useState, useEffect } from 'react';
 
 
 const generateRandomNumber = () => faker.number.int({ min: 1, max: 35 });
@@ -378,10 +380,8 @@ function App() {
                 <div style={{marginBottom: "20px"}}></div>
                 <BoxPlotDelaware/>
             </div>
-
         </div>
-    );
-
+  );
 }
 
 export default App;

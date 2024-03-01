@@ -100,7 +100,6 @@ function MyComponent(props) {
 
                     </GeoJSON>}
             </MapContainer>
-
             {props.state==='al' && props.mode === "density" && <div style={{
                 position:'relative',
                 width: '50px',

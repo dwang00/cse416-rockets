@@ -6,17 +6,34 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
+import Gerrymandering_Alabama from './Gerrymandering_Alabama';
+import Gerrymandering_Delaware from "./Gerrymandering_Delaware";
 
-
-const generateRandomNumber = () => faker.number.int({ min: 1, max: 35 });
+const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 75 });
+const generateRandomNumber_med = () => faker.number.int({ min: 15, max: 35 });
+const generateRandomNumber_small = () => faker.number.int({ min: 1, max: 10 });
 Chart.register(BoxPlotController, BoxAndWiskers);
-const createArray = (length, callback) => Array.from({ length }, callback);
+//const createArray = (length, callback) => Array.from({ length }, callback);
 
-const generateDataset = (length, minX, maxX, minY, maxY) => {
-    return createArray(length, () => ({
+const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
+    /*return createArray(length, () => ({
         x: faker.number.int({ min: minX, max: maxX }),
         y: faker.number.int({ min: minY, max: maxY }),
-    }));
+    }));*/
+    return Array.from({ length }, () => {
+        const x = faker.number.float({min: minX, max: maxX});
+        let y = slope * x + intercept + (Math.random() * 2 - 1) * noise; // Adding noise for randomness
+        if(y > 1){
+            y = 1;
+        }else if(y < -1){
+            y = -1;
+        }
+        const rand = faker.number.float({min: 0, max: 1})
+        if(rand > .75){
+            y = faker.number.float({min: minX, max: maxX});
+        }
+        return { x, y };
+    });
 };
 
 //ALABAMA STUFF ********************************************************************
@@ -25,7 +42,7 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
-            data: createArray(2, () => generateRandomNumber()),
+            data: [generateRandomNumber_large(),generateRandomNumber_med()],
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -44,19 +61,26 @@ const barOptionsAlabama = {
             beginAtZero: true,
         },
     },
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
 };
 
 const scatterDataAlabama = {
     datasets: [
         {
-            label: 'Katie Britt',
-            data: generateDataset(1700),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
+            label: 'Will Boyd',
+            //const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
+
+            data: generateDataset(400,0, 1, 0, 1, .48, .19, .12),
+            backgroundColor: 'rgba(75, 192, 192, 1)',
         },
         {
-            label: 'Will Boyd',
-            data: generateDataset(500),
-            backgroundColor: 'rgba(75, 192, 192, 1)',
+            label: 'Katie Britt',
+            data: generateDataset(168,0, 1, 0, 1, -.18, .73, .15),
+            backgroundColor: 'rgba(255, 99, 132, 1)',
         },
     ],
 };
@@ -88,7 +112,7 @@ const barDataDelaware = {
     datasets: [
         {
             label: 'Ethnicity of Delaware House Representatives',
-            data: createArray(3, () => generateRandomNumber()),
+            data: [generateRandomNumber_large(),generateRandomNumber_med(),generateRandomNumber_small()],
             backgroundColor: ['blue', 'green', 'red'],
             borderWidth: 1,
         },
@@ -107,20 +131,26 @@ const barOptionsDelaware = {
             beginAtZero: true,
         },
     },
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
 };
 
 
 const scatterDataDelaware = {
     datasets: [
         {
-            label: 'Gerald Hocker',
-            data: generateDataset(150),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
+            label: 'David Sokola',
+
+            data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
+            backgroundColor: 'rgba(75, 192, 192, 1)',
         },
         {
-            label: 'David Sokola',
-            data: generateDataset(250),
-            backgroundColor: 'rgba(75, 192, 192, 1)',
+            label: 'Gerald Hocker',
+            data: generateDataset(80,0, 1, 0, 1, -.2, .63, .18),
+            backgroundColor: 'rgba(255, 99, 132, 1)',
         },
     ],
 };
@@ -147,184 +177,7 @@ const scatterOptionsDelaware = {
 };
 function App() {
 
-    function BoxPlotAlabama() {
-        useEffect(() => {
 
-            function randomFloats(count, min, max) {
-                const delta = max - min;
-                return Array.from({ length: count }).map(() => Math.random() * delta + min);
-            }
-            
-            const boxplotData = {
-                labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16',
-                    '17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35'],
-                datasets: [
-                    {
-                        x: 8,
-                        y: 16,
-                        z: 2,
-                        label: 'Alabama Districts',
-                        backgroundColor: 'rgba(255,0,0,0.5)',
-                        borderColor: 'red',
-                        borderWidth: 1,
-                        outlierColor: '#999999',
-                        padding: 10,
-                        itemRadius: 0,
-                        data: [
-                            randomFloats(100, 0.05, .1),
-                            randomFloats(100, 0.06, .12),
-                            randomFloats(100, .06, .14),
-                            randomFloats(100, .07, .16),
-                            randomFloats(40, .07, .18),
-                            randomFloats(100, .07, .2),
-                            randomFloats(100, .09, .22),
-                            randomFloats(100, .14, .24),
-                            randomFloats(100, .15, .26),
-                            randomFloats(100, .14, .28),
-                            randomFloats(100, .16, .30),
-                            randomFloats(40, .18, .32),
-                            randomFloats(100, .22, .34),
-                            randomFloats(100, .25, .38),
-                            randomFloats(100, .34, .40),
-                            randomFloats(100, .30, .42),
-                            randomFloats(100, .35, .44),
-                            randomFloats(100, .40, .46),
-                            randomFloats(40, .42, .48),
-                            randomFloats(100, .45, .49),
-                            randomFloats(100, .45, .50),
-                            randomFloats(100, .45, .52),
-                            randomFloats(100, .48, .53),
-                            randomFloats(100, .49, .54),
-                            randomFloats(100, .5, .55),
-                            randomFloats(40, .42, .58),
-                            randomFloats(100, .48, .60),
-                            randomFloats(100, .55, .60),
-                            randomFloats(100, .55, .62),
-                            randomFloats(100, .58, .64),
-                            randomFloats(100, .58, .68),
-                            randomFloats(100, .62, .68),
-                            randomFloats(40, .64, .70),
-                            randomFloats(100, .68, .74),
-                            randomFloats(40, .7, .76),
-                        ],
-                    },
-                ],
-            };
-
-            const ctx = document.getElementById('canvas1').getContext('2d');
-            Chart.getChart(ctx)?.destroy();
-            window.myBar = new Chart(ctx, {
-                type: 'boxplot',
-                data: boxplotData,
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: "Indexed districts",
-                            },
-                            ticks: {
-                              stepSize: 1
-                            }
-                        },
-                        y: {
-                            grace: '5%',
-                            title: {
-                                display: true,
-                                text: "% Minority",
-                            }
-                        },
-                    },
-                    responsive: true,
-                },
-            });
-        }, []);
-
-        return <canvas id="canvas1" />;
-    }
-    function BoxPlotDelaware() {
-        useEffect(() => {
-
-
-            function randomFloats(count, min, max) {
-                const delta = max - min;
-                return Array.from({ length: count }).map(() => Math.random() * delta + min);
-            }
-
-            const boxplotData = {
-                labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16',
-                    '17','18','19','20','21'],
-                datasets: [
-                    {
-                        x: 8,
-                        y: 16,
-                        z: 2,
-                        label: 'Delaware Districts',
-                        backgroundColor: 'rgba(3,138,255,0.5)',
-                        borderColor: 'blue',
-                        borderWidth: 1,
-                        outlierColor: '#999999',
-                        padding: 10,
-                        itemRadius: 0,
-                        data: [
-                            randomFloats(100, 0.05, .1),
-                            randomFloats(40, .07, .18),
-                            randomFloats(100, .07, .2),
-                            randomFloats(100, .09, .22),
-                            randomFloats(100, .14, .24),
-                            randomFloats(100, .15, .26),
-                            randomFloats(100, .14, .28),
-                            randomFloats(100, .16, .30),
-                            randomFloats(40, .18, .32),
-                            randomFloats(100, .30, .42),
-                            randomFloats(100, .35, .44),
-                            randomFloats(100, .40, .46),
-                            randomFloats(40, .42, .48),
-                            randomFloats(100, .45, .49),
-                            randomFloats(100, .49, .54),
-                            randomFloats(100, .5, .55),
-                            randomFloats(40, .42, .58),
-                            randomFloats(100, .55, .60),
-                            randomFloats(100, .55, .62),
-                            randomFloats(100, .58, .64),
-                            randomFloats(100, .58, .68),
-                            randomFloats(40, .64, .70),
-                        ],
-                    },
-                ],
-            };
-
-            const ctx = document.getElementById('canvas2').getContext('2d');
-            Chart.getChart(ctx)?.destroy();
-            window.myBar = new Chart(ctx, {
-                type: 'boxplot',
-                data: boxplotData,
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: "Indexed districts",
-                            },
-                            ticks: {
-                                stepSize: 1
-                            }
-                        },
-                        y: {
-                            grace: '5%',
-                            title: {
-                                display: true,
-                                text: "% Minority",
-                            }
-                        },
-                    },
-                    responsive: true,
-                },
-            });
-        }, []);
-
-        return <canvas id="canvas2" />;
-    }
     const [race,setRace] = useState("white");
     const raceChange = (event) => {
         setRace(event.target.value);
@@ -367,7 +220,7 @@ function App() {
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                 <div style={{marginBottom: "20px"}}></div>
-                <BoxPlotAlabama/>
+                <Gerrymandering_Alabama/>
             </div>
 
 
@@ -376,12 +229,12 @@ function App() {
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>
-                <BoxPlotDelaware/>
+                <Gerrymandering_Delaware/>
             </div>
 
         </div>
     );
 
 }
-
+//
 export default App;

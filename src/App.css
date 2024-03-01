@@ -5,8 +5,8 @@
 }
 
 .App-logo {
-  height: 15vmin;
-  width: 15vmin;
+  height: 8vmin;
+  width: 8vmin;
   pointer-events: none;
 }
 
@@ -43,7 +43,7 @@
   justify-content: center;
   display: flex;
   gap: 5px;
-  font-size:40px;
+  font-size:70px;
   font-family: "Trebuchet MS", Arial, sans-serif;
 
   align-items:end;

@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, GeoJSON } from 'react-leaflet';
 
 // pass in parameters mode/race.
 function MyComponent(props) {
+
+    const center_locations = {"al": [32.7, -86.66],
+        "de": [39.1,-75.539787]}
+
+    const map_locations = {"al":'15%', "de":'55%'}
+
+    const default_zoom = {"al":6.9, "de":8.5}
 
     // Define the colors for the tab20 colormap
     const tab20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
@@ -62,17 +69,25 @@ function MyComponent(props) {
     // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
         <div>
-            <MapContainer center={[32.7, -86.66]}
-                          zoom={7}
+            <MapContainer center={center_locations[props.state]}
+                          zoom={default_zoom[props.state]}
                           dragging={true}
-                          style={{height: '500px', width: '400px', backgroundColor: 'white',left:'200px',top:'50px'}}
-                          minZoom={7}
+                          style={{
+                              position:'absolute',
+                              height: '500px',
+                              width: '400px',
+                              backgroundColor: 'white',
+                              left:map_locations[props.state],
+                              top:'200px'}}
+
+                          minZoom={default_zoom[props.state]}
                           maxZoom={13}
                           zoomControl={false}
+                          zoomSnap={.1}
                           attributionControl={false}>
-                {props.my_json &&
+                {(props.my_json)[props.state] &&
                     <GeoJSON
-                        data={JSON.parse(props.my_json)}
+                        data={JSON.parse((props.my_json)[props.state])}
                         style={feature => ({
                             // Customize styling for GeoJSON features
                             color: 'black',
@@ -86,14 +101,15 @@ function MyComponent(props) {
                     </GeoJSON>}
             </MapContainer>
 
-            {props.mode === "density" && <div style={{
-                position:'absolute',
+            {props.state==='al' && props.mode === "density" && <div style={{
+                position:'relative',
                 width: '50px',
                 height:'50px',
+                top: '400px',
+                left:'8%',
                 backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
                 <span>50% color</span> {/* Text content */}
             </div>}
-
         </div>
     );
 }

@@ -87,7 +87,7 @@ const barDataDelaware = {
     labels: ['Caucasian', 'African American', 'Asian'],
     datasets: [
         {
-            label: 'Ethnicity of Alabama House Representatives',
+            label: 'Ethnicity of Delaware House Representatives',
             data: createArray(3, () => generateRandomNumber()),
             backgroundColor: ['blue', 'green', 'red'],
             borderWidth: 1,
@@ -331,39 +331,54 @@ function App() {
     }
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <div className="title">You are currently looking at the
-                    <label>
-                        <select style={{ fontSize: "40px" }} value={race} onChange={raceChange}>
-                            <option style={{ fontSize: "20px" }} value="white">white</option>
-                            <option style={{ fontSize: "20px" }} value="black">black</option>
-                        </select>
-                    </label>
-                    population
-                </div>
-            </header>
 
-            <div className="StatesContainer">
-                <div className="State" style={{ width: '400px', height: '400px' }}>
-                    <div style={{ width: '700px', height: '400px' }}>ALABAMA
-                        <div className="graph">
-                            <GetData mode={"density"} race={race}/>
-                        </div>
-                        <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
-                        <BoxPlotAlabama/>
-                    </div>
-                </div>
-
-                <div className="State">
-                    <div style={{ width: '700px', height: '400px' }}>DELAWARE
-                        <Bar options={barOptionsDelaware} data={barDataDelaware}/>
-                        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
-                        <BoxPlotDelaware/>
-                    </div>
-                </div>
+            <img src={logo} className="App-logo" alt="logo"/>
+            <div className="title">You are currently looking at the&nbsp;
+                <label>
+                    <select style={{fontSize: "40px"}} value={race} onChange={raceChange}>
+                        <option style={{fontSize: "20px"}} value="white">white</option>
+                        <option style={{fontSize: "20px"}} value="black">black</option>
+                    </select>
+                </label>
+                &nbsp;population.
             </div>
+
+            <div className="State">
+                <div className="center" style={{position: 'absolute', left: "12%", top: '715px'}}>ALABAMA</div>
+            </div>
+            <div className="State">
+                <div className="center" style={{position: 'absolute', left: "72%", top: '715px'}}>DELAWARE</div>
+            </div>
+            <GetData mode={"density"} race={race}/>
+            <div style={{
+                color: 'black',
+                borderRight: 'solid',
+                height: '321px',
+                width: '20%',
+                left: '15%',
+                transform: 'translateX(200px)',
+                top: '350px',
+                position: 'absolute'
+            }}></div>
+
+            <div style={{position: "absolute", top: "800px", width: '700px', height: '400px'}}>
+                <div className="graph"></div>
+                <Bar options={barOptionsAlabama} data={barDataAlabama}/>
+                <div style={{marginBottom: "20px"}}></div>
+                <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
+                <div style={{marginBottom: "20px"}}></div>
+                <BoxPlotAlabama/>
+            </div>
+
+
+            <div style={{position: "absolute", top: "800px", left: "50%", width: '700px', height: '400px'}}>
+                <Bar options={barOptionsDelaware} data={barDataDelaware}/>
+                <div style={{marginBottom: "20px"}}></div>
+                <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
+                <div style={{marginBottom: "20px"}}></div>
+                <BoxPlotDelaware/>
+            </div>
+
         </div>
     );
 

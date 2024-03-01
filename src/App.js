@@ -7,6 +7,7 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
+import Slideshow from './Slideshow.js';
 
 
 const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 85 });
@@ -350,6 +351,19 @@ function App() {
     const raceChange = (event) => {
         setRace(event.target.value);
     }
+
+    const alComponents = [
+        <Bar options={barOptionsAlabama} data={barDataAlabama}/>,
+        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>,
+        <BoxPlotAlabama/>
+    ];
+
+    const deComponents = [
+        <Bar options={barOptionsDelaware} data={barDataDelaware}/>,
+        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>,
+        <BoxPlotDelaware/>
+    ]
+
     return (
         <div className="App">
 
@@ -385,6 +399,7 @@ function App() {
 
             <div style={{position: "absolute", top: "1600px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
+                <Slideshow components = {alComponents} />
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
@@ -394,6 +409,7 @@ function App() {
 
 
             <div style={{position: "absolute", top: "1600px", left: "50%", width: '700px', height: '400px'}}>
+                <Slideshow components = {deComponents} />
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>

@@ -8,7 +8,7 @@ import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
 import Slideshow from './Slideshow.js';
-
+import GraphDesc from './graph_descriptions.js';
 
 const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 85 });
 const generateRandomNumber_med = () => faker.number.int({ min: 20, max: 35 });
@@ -403,19 +403,20 @@ function App() {
                 <div className="graph"></div>
                 <Slideshow components = {alComponents} />
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                <div style={{marginBottom: "20px", textAlign:"center"}}></div>
+                <div style={{marginBottom: "120px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
-                <div style={{marginBottom: "20px"}}></div>
+                <div style={{marginBottom: "120px"}}></div>
                 <BoxPlotAlabama/>
             </div>
 
+            <GraphDesc/>
 
             <div style={{position: "absolute", top: "1600px", left: "50%", width: '700px', height: '400px'}}>
                 <Slideshow components = {deComponents} />
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
-                <div style={{marginBottom: "20px"}}></div>
+                <div style={{marginBottom: "120px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
-                <div style={{marginBottom: "20px"}}></div>
+                <div style={{marginBottom: "120px"}}></div>
                 <BoxPlotDelaware/>
             </div>
         </div>

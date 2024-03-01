@@ -113,7 +113,7 @@ function MyComponent(props) {
                 height: '500px',
                 width: '400px',
                 backgroundColor: 'white',
-                top:'3000px',
+                top:'3500px',
                 left: '34%'}}>
                 <Bar options = {barOptionsAggregate} data = {barDataAggregate}/>
             </div>

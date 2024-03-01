@@ -65,19 +65,19 @@ function MyComponent(props) {
         labels: ['Caucasian', 'African American', 'Asian American'],
         datasets: [
             {
-                label: "White",
+                label: "Whites per Rep",
                 data: [alabamaWhiteRatio2, delawareWhiteRatio2],
                 backgroundColor: ['blue'],
                 borderWidth: 1,
             },
             {
-                label: "Black",
+                label: "Blacks per Rep",
                 data: [alabamaBlackRatio2, delawareBlackRatio2],
                 backgroundColor: ['green'],
                 borderWidth: 1,
             },
             {
-                label: "Asian",
+                label: "Asians per Rep",
                 data: [alabamaAsianRatio2, delawareAsianRatio2],
                 backgroundColor: ['red'],
                 borderWidth: 1,
@@ -128,7 +128,7 @@ function MyComponent(props) {
                 <div style={{position:'absolute',
                             fontSize:'30px',
                             top:'-90px',
-                            left:'17%',
+                            left:'15%',
                             width:'350px'}}>
                     <p> How did our partition do?</p>
                 </div>

@@ -6,19 +6,31 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
-import GetData from "./get_data";
-import React, { useState, useEffect } from 'react';
 
 
 const generateRandomNumber = () => faker.number.int({ min: 1, max: 35 });
 Chart.register(BoxPlotController, BoxAndWiskers);
 const createArray = (length, callback) => Array.from({ length }, callback);
 
-const generateDataset = (length, minX, maxX, minY, maxY) => {
-    return createArray(length, () => ({
+const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
+    /*return createArray(length, () => ({
         x: faker.number.int({ min: minX, max: maxX }),
         y: faker.number.int({ min: minY, max: maxY }),
-    }));
+    }));*/
+    return Array.from({ length }, () => {
+        const x = faker.number.float({min: minX, max: maxX});
+        let y = slope * x + intercept + (Math.random() * 2 - 1) * noise; // Adding noise for randomness
+        if(y > 1){
+            y = 1;
+        }else if(y < -1){
+            y = -1;
+        }
+        const rand = faker.number.float({min: 0, max: 1})
+        if(rand > .75){
+            y = faker.number.float({min: minX, max: maxX});
+        }
+        return { x, y };
+    });
 };
 
 //ALABAMA STUFF ********************************************************************
@@ -51,14 +63,16 @@ const barOptionsAlabama = {
 const scatterDataAlabama = {
     datasets: [
         {
-            label: 'Katie Britt',
-            data: generateDataset(1700),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
+            label: 'Will Boyd',
+            //const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
+
+            data: generateDataset(400,0, 1, 0, 1, .48, .19, .12),
+            backgroundColor: 'rgba(75, 192, 192, 1)',
         },
         {
-            label: 'Will Boyd',
-            data: generateDataset(500),
-            backgroundColor: 'rgba(75, 192, 192, 1)',
+            label: 'Katie Britt',
+            data: generateDataset(168,0, 1, 0, 1, -.18, .73, .15),
+            backgroundColor: 'rgba(255, 99, 132, 1)',
         },
     ],
 };
@@ -115,14 +129,15 @@ const barOptionsDelaware = {
 const scatterDataDelaware = {
     datasets: [
         {
-            label: 'Gerald Hocker',
-            data: generateDataset(150),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
+            label: 'David Sokola',
+
+            data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
+            backgroundColor: 'rgba(75, 192, 192, 1)',
         },
         {
-            label: 'David Sokola',
-            data: generateDataset(250),
-            backgroundColor: 'rgba(75, 192, 192, 1)',
+            label: 'Gerald Hocker',
+            data: generateDataset(80,0, 1, 0, 1, -.2, .63, .18),
+            backgroundColor: 'rgba(255, 99, 132, 1)',
         },
     ],
 };

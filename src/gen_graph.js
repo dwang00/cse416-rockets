@@ -111,10 +111,10 @@ function MyComponent(props) {
             <div style={{
                 position:'absolute',
                 height: '500px',
-                width: '400px',
+                width: '500px',
                 backgroundColor: 'white',
-                top:'3500px',
-                left: '34%'}}>
+                top:'1590px',
+                left: '32%'}}>
                 <Bar options = {barOptionsAggregate} data = {barDataAggregate}/>
             </div>
 
@@ -126,25 +126,25 @@ function MyComponent(props) {
                 top:'920px',
                 left: '34%'}}>
                 <div style={{position:'absolute',
-                            fontSize:'30px',
-                            top:'-90px',
-                            left:'15%',
-                            width:'350px'}}>
+                    fontSize:'30px',
+                    top:'-90px',
+                    left:'15%',
+                    width:'350px'}}>
                     <p> How did our partition do?</p>
                 </div>
                 <Bar style={{top:'50px'}} options = {barOptionsAggregate2} data = {barDataAggregate2}/>
                 <div style={{position:"absolute", left:'-25%', top:'500px', width:'1000px'}}>
                     {al_expected_reps_per_citizen*1.3 < alabamaBlackRatio2?
-                    <p>Minorities in Alabama seem to have higher than average representation in this plan.</p>:
+                        <p>Minorities in Alabama seem to have higher than average representation in this plan.</p>:
                         al_expected_reps_per_citizen*.7 > alabamaBlackRatio2?
-                        <p>Minorities in Alabama seem to have lower than average representation in this plan.</p>:
+                            <p>Minorities in Alabama seem to have lower than average representation in this plan.</p>:
                             <p>Minorities in Alabama seem to have about average representation in this plan.</p>}
 
                     {de_expected_reps_per_citizen*1.3 < delawareBlackRatio2?
-                    <p>Minorities in Delaware seem to have higher than average representation in this plan.</p>:
+                        <p>Minorities in Delaware seem to have higher than average representation in this plan.</p>:
                         de_expected_reps_per_citizen*.7 > delawareBlackRatio2?
-                        <p>Minorities in Delaware seem to have lower than average representation in this plan.</p>:
-                        <p>Minorities in Delaware seem to have about average representation in this plan.</p>
+                            <p>Minorities in Delaware seem to have lower than average representation in this plan.</p>:
+                            <p>Minorities in Delaware seem to have about average representation in this plan.</p>
                     }
 
                     <p>In fact, each minority citizen in Alabama receive

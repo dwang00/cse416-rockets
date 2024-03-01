@@ -25,7 +25,7 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
-            data: createArray(2, () => generateRandomNumber()),
+            data: [75,27],
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -88,7 +88,7 @@ const barDataDelaware = {
     datasets: [
         {
             label: 'Ethnicity of Delaware House Representatives',
-            data: createArray(3, () => generateRandomNumber()),
+            data: [30,10,1],
             backgroundColor: ['blue', 'green', 'red'],
             borderWidth: 1,
         },
@@ -364,7 +364,7 @@ function App() {
             <div style={{position: "absolute", top: "800px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                <div style={{marginBottom: "20px"}}></div>
+                <div style={{marginBottom: "20px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <BoxPlotAlabama/>

@@ -7,13 +7,11 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
+import Gerrymandering_Alabama from './Gerrymandering_Alabama';
+import Gerrymandering_Delaware from "./Gerrymandering_Delaware";
 import Slideshow from './Slideshow.js';
 import GraphDesc from './graph_descriptions.js';
 
-const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 85 });
-const generateRandomNumber_med = () => faker.number.int({ min: 20, max: 35 });
-const generateRandomNumber_small = () => faker.number.int({ min: 1, max: 10 });
-const generateRandomNumber_remainder= (min, max) => faker.number.int({ min: min, max: max });
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
 
@@ -44,9 +42,7 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
-
             data: [75,27],
-
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -65,6 +61,11 @@ const barOptionsAlabama = {
             beginAtZero: true,
         },
     },
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
 };
 
 const scatterDataAlabama = {
@@ -130,6 +131,11 @@ const barOptionsDelaware = {
             beginAtZero: true,
         },
     },
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
 };
 
 
@@ -171,184 +177,7 @@ const scatterOptionsDelaware = {
 };
 function App() {
 
-    function BoxPlotAlabama() {
-        useEffect(() => {
 
-            function randomFloats(count, min, max) {
-                const delta = max - min;
-                return Array.from({ length: count }).map(() => Math.random() * delta + min);
-            }
-            
-            const boxplotData = {
-                labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16',
-                    '17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35'],
-                datasets: [
-                    {
-                        x: 8,
-                        y: 16,
-                        z: 2,
-                        label: 'Alabama Districts',
-                        backgroundColor: 'rgba(255,0,0,0.5)',
-                        borderColor: 'red',
-                        borderWidth: 1,
-                        outlierColor: '#999999',
-                        padding: 10,
-                        itemRadius: 0,
-                        data: [
-                            randomFloats(100, 0.05, .1),
-                            randomFloats(100, 0.06, .12),
-                            randomFloats(100, .06, .14),
-                            randomFloats(100, .07, .16),
-                            randomFloats(40, .07, .18),
-                            randomFloats(100, .07, .2),
-                            randomFloats(100, .09, .22),
-                            randomFloats(100, .14, .24),
-                            randomFloats(100, .15, .26),
-                            randomFloats(100, .14, .28),
-                            randomFloats(100, .16, .30),
-                            randomFloats(40, .18, .32),
-                            randomFloats(100, .22, .34),
-                            randomFloats(100, .25, .38),
-                            randomFloats(100, .34, .40),
-                            randomFloats(100, .30, .42),
-                            randomFloats(100, .35, .44),
-                            randomFloats(100, .40, .46),
-                            randomFloats(40, .42, .48),
-                            randomFloats(100, .45, .49),
-                            randomFloats(100, .45, .50),
-                            randomFloats(100, .45, .52),
-                            randomFloats(100, .48, .53),
-                            randomFloats(100, .49, .54),
-                            randomFloats(100, .5, .55),
-                            randomFloats(40, .42, .58),
-                            randomFloats(100, .48, .60),
-                            randomFloats(100, .55, .60),
-                            randomFloats(100, .55, .62),
-                            randomFloats(100, .58, .64),
-                            randomFloats(100, .58, .68),
-                            randomFloats(100, .62, .68),
-                            randomFloats(40, .64, .70),
-                            randomFloats(100, .68, .74),
-                            randomFloats(40, .7, .76),
-                        ],
-                    },
-                ],
-            };
-
-            const ctx = document.getElementById('canvas1').getContext('2d');
-            Chart.getChart(ctx)?.destroy();
-            window.myBar = new Chart(ctx, {
-                type: 'boxplot',
-                data: boxplotData,
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: "Indexed districts",
-                            },
-                            ticks: {
-                              stepSize: 1
-                            }
-                        },
-                        y: {
-                            grace: '5%',
-                            title: {
-                                display: true,
-                                text: "% Minority",
-                            }
-                        },
-                    },
-                    responsive: true,
-                },
-            });
-        }, []);
-
-        return <canvas id="canvas1" />;
-    }
-    function BoxPlotDelaware() {
-        useEffect(() => {
-
-
-            function randomFloats(count, min, max) {
-                const delta = max - min;
-                return Array.from({ length: count }).map(() => Math.random() * delta + min);
-            }
-
-            const boxplotData = {
-                labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16',
-                    '17','18','19','20','21'],
-                datasets: [
-                    {
-                        x: 8,
-                        y: 16,
-                        z: 2,
-                        label: 'Delaware Districts',
-                        backgroundColor: 'rgba(3,138,255,0.5)',
-                        borderColor: 'blue',
-                        borderWidth: 1,
-                        outlierColor: '#999999',
-                        padding: 10,
-                        itemRadius: 0,
-                        data: [
-                            randomFloats(100, 0.05, .1),
-                            randomFloats(40, .07, .18),
-                            randomFloats(100, .07, .2),
-                            randomFloats(100, .09, .22),
-                            randomFloats(100, .14, .24),
-                            randomFloats(100, .15, .26),
-                            randomFloats(100, .14, .28),
-                            randomFloats(100, .16, .30),
-                            randomFloats(40, .18, .32),
-                            randomFloats(100, .30, .42),
-                            randomFloats(100, .35, .44),
-                            randomFloats(100, .40, .46),
-                            randomFloats(40, .42, .48),
-                            randomFloats(100, .45, .49),
-                            randomFloats(100, .49, .54),
-                            randomFloats(100, .5, .55),
-                            randomFloats(40, .42, .58),
-                            randomFloats(100, .55, .60),
-                            randomFloats(100, .55, .62),
-                            randomFloats(100, .58, .64),
-                            randomFloats(100, .58, .68),
-                            randomFloats(40, .64, .70),
-                        ],
-                    },
-                ],
-            };
-
-            const ctx = document.getElementById('canvas2').getContext('2d');
-            Chart.getChart(ctx)?.destroy();
-            window.myBar = new Chart(ctx, {
-                type: 'boxplot',
-                data: boxplotData,
-                options: {
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: "Indexed districts",
-                            },
-                            ticks: {
-                                stepSize: 1
-                            }
-                        },
-                        y: {
-                            grace: '5%',
-                            title: {
-                                display: true,
-                                text: "% Minority",
-                            }
-                        },
-                    },
-                    responsive: true,
-                },
-            });
-        }, []);
-
-        return <canvas id="canvas2" />;
-    }
     const [race,setRace] = useState("white");
     const raceChange = (event) => {
         setRace(event.target.value);
@@ -357,13 +186,13 @@ function App() {
     const alComponents = [
         <Bar options={barOptionsAlabama} data={barDataAlabama}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>,
-        <BoxPlotAlabama/>
+        <Gerrymandering_Alabama chartId = "chartAlabama1"/>
     ];
 
     const deComponents = [
         <Bar options={barOptionsDelaware} data={barDataDelaware}/>,
         <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>,
-        <BoxPlotDelaware/>
+        <Gerrymandering_Delaware chartId="chartDelaware1"/>
     ]
 
     return (
@@ -399,28 +228,36 @@ function App() {
                 position: 'absolute'
             }}></div>
 
-            <div style={{position: "absolute", top: "1600px", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "2150px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
-                <Slideshow components = {alComponents} />
+
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
                 <div style={{marginBottom: "120px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                 <div style={{marginBottom: "120px"}}></div>
-                <BoxPlotAlabama/>
+                <Gerrymandering_Alabama chartId = "ChartAlabama2"/>
+                <div style={{marginBottom: "20px"}}></div>
             </div>
-
+            <div style={{position: "absolute", top: "3600px", width: '700px', height: '400px'}}>
+                <Slideshow components = {alComponents} />
+            </div>
             <GraphDesc/>
 
-            <div style={{position: "absolute", top: "1600px", left: "50%", width: '700px', height: '400px'}}>
-                <Slideshow components = {deComponents} />
+            <div style={{position: "absolute", top: "2150px", left: "50%", width: '700px', height: '400px'}}>
+
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "120px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
                 <div style={{marginBottom: "120px"}}></div>
-                <BoxPlotDelaware/>
+                <Gerrymandering_Delaware chartId="chartDelaware2"/>
+                <div style={{marginBottom: "20px"}}></div>
+
+            </div>
+            <div style={{position: "absolute", top: "3600px", left: "50%", width: '700px', height: '400px'}}>
+                <Slideshow components = {deComponents} />
             </div>
         </div>
   );
 }
-
+//
 export default App;

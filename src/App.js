@@ -396,6 +396,7 @@ function App() {
 
             <div style={{position: "absolute", top: "800px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
+                <Slideshow components = {alComponents} />
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
@@ -404,6 +405,7 @@ function App() {
             </div>
 
             <div style={{position: "absolute", top: "800px", left: "50%", width: '700px', height: '400px'}}>
+                <Slideshow components = {deComponents} />
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>

@@ -1,4 +1,5 @@
 import logo from './rocketslogo.png';
+import line from './line.png'
 import './App.css';
 import { Bar, Scatter} from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
@@ -8,10 +9,8 @@ import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
 import Gerrymandering_Alabama from './Gerrymandering_Alabama';
 import Gerrymandering_Delaware from "./Gerrymandering_Delaware";
+import Slideshow from './Slideshow.js';
 
-const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 75 });
-const generateRandomNumber_med = () => faker.number.int({ min: 15, max: 35 });
-const generateRandomNumber_small = () => faker.number.int({ min: 1, max: 10 });
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
 
@@ -42,7 +41,7 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
-            data: [generateRandomNumber_large(),generateRandomNumber_med()],
+            data: [75,27],
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -112,7 +111,7 @@ const barDataDelaware = {
     datasets: [
         {
             label: 'Ethnicity of Delaware House Representatives',
-            data: [generateRandomNumber_large(),generateRandomNumber_med(),generateRandomNumber_small()],
+            data: [30,10,1],
             backgroundColor: ['blue', 'green', 'red'],
             borderWidth: 1,
         },
@@ -182,10 +181,24 @@ function App() {
     const raceChange = (event) => {
         setRace(event.target.value);
     }
+
+    const alComponents = [
+        <Bar options={barOptionsAlabama} data={barDataAlabama}/>,
+        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>,
+        <Gerrymandering_Alabama/>
+    ];
+
+    const deComponents = [
+        <Bar options={barOptionsDelaware} data={barDataDelaware}/>,
+        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>,
+        <Gerrymandering_Delaware/>
+    ]
+
     return (
         <div className="App">
 
             <img src={logo} className="App-logo" alt="logo"/>
+            <img src={line} style={{position:"absolute", left:'25%', top:'700px', width:'800px'}} className="a-line-line" alt="logo"/>
             <div className="title">You are currently looking at the&nbsp;
                 <label>
                     <select style={{fontSize: "40px"}} value={race} onChange={raceChange}>
@@ -214,27 +227,26 @@ function App() {
                 position: 'absolute'
             }}></div>
 
-            <div style={{position: "absolute", top: "800px", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "1600px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
+                <Slideshow components = {alComponents} />
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                <div style={{marginBottom: "20px"}}></div>
+                <div style={{marginBottom: "20px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                 <div style={{marginBottom: "20px"}}></div>
-                <Gerrymandering_Alabama/>
             </div>
 
 
-            <div style={{position: "absolute", top: "800px", left: "50%", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "1600px", left: "50%", width: '700px', height: '400px'}}>
+                <Slideshow components = {deComponents} />
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>
-                <Gerrymandering_Delaware/>
+
             </div>
-
         </div>
-    );
-
+  );
 }
 //
 export default App;

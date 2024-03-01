@@ -22,11 +22,8 @@
   border-bottom: solid;
 }
 .StatesContainer {
-  background-color:beige;
   min-height: 85vh;
   flex-grow: 1;
-  background-color:white;
-  min-height:85vh;
   display: flex;
   flex-direction: row;
 }
@@ -45,8 +42,6 @@
   gap: 5px;
   font-size:65px;
   font-family: "Trebuchet MS", Arial, sans-serif;
-
-  align-items:end;
 }
 .center{
   position:absolute;

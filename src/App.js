@@ -44,7 +44,9 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
-            data: [generateRandomNumber_large(),generateRandomNumber_med()],
+
+            data: [75,27],
+
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -109,7 +111,7 @@ const barDataDelaware = {
     datasets: [
         {
             label: 'Ethnicity of Delaware House Representatives',
-            data: [generateRandomNumber_large(),generateRandomNumber_med(),generateRandomNumber_small()],
+            data: [30,10,1],
             backgroundColor: ['blue', 'green', 'red'],
             borderWidth: 1,
         },
@@ -401,7 +403,7 @@ function App() {
                 <div className="graph"></div>
                 <Slideshow components = {alComponents} />
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                <div style={{marginBottom: "20px"}}></div>
+                <div style={{marginBottom: "20px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <BoxPlotAlabama/>
@@ -416,10 +418,8 @@ function App() {
                 <div style={{marginBottom: "20px"}}></div>
                 <BoxPlotDelaware/>
             </div>
-
         </div>
-    );
-
+  );
 }
 
 export default App;

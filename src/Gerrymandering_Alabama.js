@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ApexCharts from 'apexcharts';
 
 function Gerrymandering_Alabama({chartId}) {
+    const chartContainerRef = useRef(null);
 
     useEffect(() => {
         window.dispatchEvent(new Event('resize'));
@@ -95,17 +96,22 @@ function Gerrymandering_Alabama({chartId}) {
                 },
             },
         };
-
         const chartElement = document.querySelector(`#${chartId}`);
 
 
         if (chartElement) {
-            const chart = new ApexCharts(chartElement, options);
+            // Your code here
+            const chart = new ApexCharts(chartContainerRef.current, options);
             chart.render();
+
+            // Clean up on component unmount
+            return () => {
+                chart.destroy();
+            };
         }
     }, [chartId]);
 
-    return <div id={chartId} />;
+    return <div id={chartId} ref = {chartContainerRef}/>;
 }
 
 export default Gerrymandering_Alabama;

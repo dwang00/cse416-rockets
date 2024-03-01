@@ -11,15 +11,15 @@ function MyComponent(props) {
     const [geojsonData, setGeojsonData] = useState({'al':null, 'de':null, 'sums':null});
 
     useEffect(() => {
-        fetch('http://localhost:3021/get_geojson') // Replace with your Flask endpoint
+        fetch('http://localhost:3021/get_geojson')
             .then(response => response.json())
             .then(data => setGeojsonData(data))
             .catch(error => console.error(error));
     }, []);
 
-    return (<div>
-        <GenState {...props} my_json={geojsonData} state={'de'}/>
+    return (<div className = "maps">
         <GenState {...props} my_json={geojsonData} state={'al'}/>
+        <GenState {...props} my_json={geojsonData} state={'de'}/>
         {geojsonData['sums'] && <GenGraph {...props} my_json={geojsonData} />}
     </div>)
 }

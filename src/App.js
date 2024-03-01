@@ -175,8 +175,8 @@ const scatterOptionsDelaware = {
         },
     },
 };
-function App() {
 
+function App() {
 
     const [race,setRace] = useState("white");
     const raceChange = (event) => {
@@ -198,9 +198,12 @@ function App() {
     return (
         <div className="App">
 
-            <img src={logo} className="App-logo" alt="logo"/>
-            <img src={line} style={{position:"absolute", left:'25%', top:'700px', width:'800px'}} className="a-line-line" alt="logo"/>
-            <div className="title">You are currently looking at the&nbsp;
+            <div className = "header">
+                <img src={logo} className="App-logo" alt="logo"/>
+                <span className = "header_title">Rockets - Data Analysis </span>
+            </div>
+            {/* <img src={line} style={{position:"absolute", left:'25%', top:'700px', width:'800px'}} className="a-line-line" alt="logo"/> */}
+            {/* <div className="title">You are currently looking at the&nbsp;
                 <label>
                     <select style={{fontSize: "40px"}} value={race} onChange={raceChange}>
                         <option style={{fontSize: "20px"}} value="white">white</option>
@@ -208,16 +211,16 @@ function App() {
                     </select>
                 </label>
                 &nbsp;population.
-            </div>
+            </div> */}
 
-            <div className="State">
+            {/* <div className="State">
                 <div className="center" style={{position: 'absolute', left: "12%", top: '715px'}}>ALABAMA</div>
             </div>
             <div className="State">
                 <div className="center" style={{position: 'absolute', left: "72%", top: '715px'}}>DELAWARE</div>
-            </div>
+            </div> */}
             <GetData mode={"density"} race={race}/>
-            <div style={{
+            {/* <div style={{
                 color: 'black',
                 borderRight: 'solid',
                 height: '321px',
@@ -226,7 +229,7 @@ function App() {
                 transform: 'translateX(200px)',
                 top: '350px',
                 position: 'absolute'
-            }}></div>
+            }}></div> */}
 
             <div style={{position: "absolute", top: "2150px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>

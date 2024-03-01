@@ -7,7 +7,7 @@ import { MapContainer, GeoJSON } from 'react-leaflet';
 function MyComponent(props) {
 
     const center_locations = {"al": [32.7, -86.66],
-                                     "de": [39.1,-75.539787]}
+        "de": [39.1,-75.539787]}
 
     const map_locations = {"al":'15%', "de":'55%'}
 
@@ -78,7 +78,7 @@ function MyComponent(props) {
                               width: '400px',
                               backgroundColor: 'white',
                               left:map_locations[props.state],
-                              top:'300px'}}
+                              top:'200px'}}
 
                           minZoom={default_zoom[props.state]}
                           maxZoom={13}
@@ -102,10 +102,11 @@ function MyComponent(props) {
             </MapContainer>
 
             {props.state==='al' && props.mode === "density" && <div style={{
-                position:'absolute',
+                position:'relative',
                 width: '50px',
                 height:'50px',
                 top: '400px',
+                left:'8%',
                 backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
                 <span>50% color</span> {/* Text content */}
             </div>}

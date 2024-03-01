@@ -8,7 +8,9 @@ import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
 
 
-const generateRandomNumber = () => faker.number.int({ min: 1, max: 35 });
+const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 75 });
+const generateRandomNumber_med = () => faker.number.int({ min: 15, max: 35 });
+const generateRandomNumber_small = () => faker.number.int({ min: 1, max: 10 });
 Chart.register(BoxPlotController, BoxAndWiskers);
 const createArray = (length, callback) => Array.from({ length }, callback);
 
@@ -25,7 +27,7 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
-            data: createArray(2, () => generateRandomNumber()),
+            data: [generateRandomNumber_large(),generateRandomNumber_med()],
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -88,7 +90,7 @@ const barDataDelaware = {
     datasets: [
         {
             label: 'Ethnicity of Delaware House Representatives',
-            data: createArray(3, () => generateRandomNumber()),
+            data: [generateRandomNumber_large(),generateRandomNumber_med(),generateRandomNumber_small()],
             backgroundColor: ['blue', 'green', 'red'],
             borderWidth: 1,
         },

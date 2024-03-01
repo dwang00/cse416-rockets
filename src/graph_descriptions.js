@@ -14,14 +14,14 @@ function MyComponent(){
             We can conclude that white people are overrepresented, black people are slightly overrepresented and asians
             are under represented.</div>
 
-            <div style={{position: "absolute", top: "3070px", width: '700px', height: '400px', textAlign:"center"}}>
+            <div style={{position: "absolute", top: "3140px", width: '700px', height: '400px', textAlign:"center"}}>
             The scatter plot representing Alabama shows a correlation between the percent of african
             americans in a district and the voter share of Will Boyd, the democrat representative. This tells us that
             minorities are more likely to vote for democratic party. Meanwhile, there is a slight decline in
             voter share for Katie Britt, telling us that the republican party voter share is slightly decreases when
             the percentage of african americans in a district increases.</div>
 
-            <div style={{position: "absolute", left:"50%", top: "3070px", width: '700px', height: '400px', textAlign:"center"}}>
+            <div style={{position: "absolute", left:"50%", top: "3140px", width: '700px', height: '400px', textAlign:"center"}}>
             The scatter plot representing Delaware shows a correlation between the percent of african
             americans in a district and the voter share of David Sokola, the democrat representative. This tells us that
             minorities are more likely to vote for democratic party. Gerald Hocker, the republican representative, does

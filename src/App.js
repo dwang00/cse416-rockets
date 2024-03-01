@@ -62,6 +62,13 @@ const barOptionsAlabama = {
         },
     },
     plugins: {
+        title: {
+          display: true,
+          text: "Ethnicity of Alabama House Representatives",
+          font: {
+              size: 20
+          },
+        },
         legend: {
             display: false
         }
@@ -104,6 +111,15 @@ const scatterOptionsAlabama = {
             },
         },
     },
+    plugins: {
+        title: {
+            display: true,
+            text: "Ethnicity of Alabama House Representatives",
+            font: {
+                size: 20
+            }
+        },
+    }
 };
 
 //DELAWARE STUFF ***********************************************************
@@ -132,6 +148,13 @@ const barOptionsDelaware = {
         },
     },
     plugins: {
+        title: {
+            display: true,
+            text: "Ethnicity of Delaware House Representatives",
+            font: {
+                size: 20
+            }
+        },
         legend: {
             display: false
         }
@@ -174,6 +197,15 @@ const scatterOptionsDelaware = {
             },
         },
     },
+    plugins: {
+        title: {
+            display: true,
+            text: "Ethnicity of Delaware House Representatives",
+            font: {
+                size: 20
+            }
+        },
+    }
 };
 
 function App() {
@@ -235,13 +267,13 @@ function App() {
                 <div className="graph"></div>
 
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
-                <div style={{marginBottom: "120px", textAlign:"center"}}></div>
+                <div style={{marginBottom: "190px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
                 <div style={{marginBottom: "120px"}}></div>
                 <Gerrymandering_Alabama chartId = "ChartAlabama2"/>
                 <div style={{marginBottom: "20px"}}></div>
             </div>
-            <div style={{position: "absolute", top: "3600px", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "3670px", width: '700px', height: '400px'}}>
                 <Slideshow components = {alComponents} />
             </div>
             <GraphDesc/>
@@ -249,14 +281,14 @@ function App() {
             <div style={{position: "absolute", top: "2150px", left: "50%", width: '700px', height: '400px'}}>
 
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
-                <div style={{marginBottom: "120px"}}></div>
+                <div style={{marginBottom: "190px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>
                 <div style={{marginBottom: "120px"}}></div>
                 <Gerrymandering_Delaware chartId="chartDelaware2"/>
                 <div style={{marginBottom: "20px"}}></div>
 
             </div>
-            <div style={{position: "absolute", top: "3600px", left: "50%", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "3670px", left: "50%", width: '700px', height: '400px'}}>
                 <Slideshow components = {deComponents} />
             </div>
         </div>

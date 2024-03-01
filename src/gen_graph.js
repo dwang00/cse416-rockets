@@ -123,17 +123,17 @@ function MyComponent(props) {
                 height: '500px',
                 width: '400px',
                 backgroundColor: 'white',
-                top:'920px',
+                top:'800px',
                 left: '34%'}}>
                 <div style={{position:'absolute',
                     fontSize:'30px',
                     top:'-90px',
-                    left:'15%',
+                    left:'12%',
                     width:'350px'}}>
                     <p> How did our partition do?</p>
                 </div>
                 <Bar style={{top:'50px'}} options = {barOptionsAggregate2} data = {barDataAggregate2}/>
-                <div style={{position:"absolute", left:'-25%', top:'500px', width:'1000px'}}>
+                <div style={{position:"absolute", left:'-68%', top:'500px', width:'1000px'}}>
                     {al_expected_reps_per_citizen*1.3 < alabamaBlackRatio2?
                         <p>Minorities in Alabama seem to have higher than average representation in this plan.</p>:
                         al_expected_reps_per_citizen*.7 > alabamaBlackRatio2?

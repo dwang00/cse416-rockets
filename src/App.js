@@ -230,6 +230,17 @@ function App() {
                 top: '350px',
                 position: 'absolute'
             }}></div> */}
+            <div style={{position: "absolute", top: "1440px", left: "42%", fontSize:'30px'}}>
+                Key takeaways
+            </div>
+
+            <div style={{position: "absolute", top: "1485px", left: "42%"}}>
+                Some placeholder text
+            </div>
+
+            <div style={{position: "absolute", top: "1540px", left: "38%", fontSize:'30px'}}>
+                Enacted Partition Analysis
+            </div>
 
             <div style={{position: "absolute", top: "2150px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>

@@ -71,6 +71,15 @@ function MyComponent(props) {
     // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
         <div><span className = "state_name">{names[props.state]}</span>
+            { props.state==='al' && props.mode === "density" && <div style={{
+                    position:'absolute',
+                    width: '50px',
+                    height:'50px',
+                    top: '400px',
+                    left:'5%',
+                    backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
+                    <span>50% color</span> {/* Text content */}
+                </div>}
         <div className = "map_container">
             <MapContainer center={center_locations[props.state]}
                           zoom={default_zoom[props.state]}
@@ -108,16 +117,9 @@ function MyComponent(props) {
 
                     </GeoJSON>}
             </MapContainer>
-            {/* {props.state==='al' && props.mode === "density" && <div style={{
-                position:'relative',
-                width: '50px',
-                height:'50px',
-                top: '400px',
-                left:'8%',
-                backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
-                <span>50% color</span>
-            </div>} */}
+
         </div>
+
         </div>
     );
 }

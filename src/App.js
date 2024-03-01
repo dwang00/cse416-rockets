@@ -37,7 +37,9 @@ function App() {
         <div style={{color:'black',
                     borderRight:'solid',
                     height:'321px',
-                    left:'50%',
+                    width:'22%',
+                    left:'15%',
+                    transform: 'translateX(200px)',
                     top:'350px',
                     position:'absolute'}}></div>
     </div>

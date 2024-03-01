@@ -1,37 +1,16 @@
 import React, { useState, useEffect } from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
-// import { MapContainer, GeoJSON } from 'react-leaflet';
-import GenState from "./gen_state";
+import { MapContainer, GeoJSON } from 'react-leaflet';
 
 // pass in parameters mode/race.
 function MyComponent(props) {
-    const [geojsonData, setGeojsonData] = useState({'al':null, 'de':null});
 
-    useEffect(() => {
-        fetch('http://localhost:3021/get_geojson') // Replace with your Flask endpoint
-            .then(response => response.json())
-            .then(data => setGeojsonData(data))
-            .catch(error => console.error(error));
-    }, []);
-
-
-    return (<div>
-        <GenState {...props} my_json={geojsonData['al']}/>
-    </div>)
     // Define the colors for the tab20 colormap
     const tab20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
         '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5',
         '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f',
         '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
-
-    /*const pastel1 = ['#fbb4ae', '#b3cde3', '#ccebc5', '#decbe4', '#fed9a6',
-                              '#ffffcc', '#e5d8bd', '#fddaec', '#f2f2f2']*/
-
-    /*const tab20b = ['#393b79', '#5254a3', '#6b6ecf', '#9c9ede', '#637939',
-        '#8ca252', '#b5cf6b', '#cedb9c', '#8c6d31', '#bd9e39', '#e7ba52',
-        '#e7cb94', '#843c39', '#ad494a', '#d6616b', '#e7969c', '#7b4173',
-        '#a55194', '#ce6dbd', '#de9ed6']*/
 
     const purplesColors = [
         '#fcfbfd', '#fbfafd', '#fbfafc', '#faf9fc', '#faf9fc', '#f9f8fb', '#f9f8fb',
@@ -91,9 +70,9 @@ function MyComponent(props) {
                           maxZoom={13}
                           zoomControl={false}
                           attributionControl={false}>
-                {geojsonData['al'] &&
+                {props.my_json &&
                     <GeoJSON
-                        data={JSON.parse(geojsonData['al'])}
+                        data={JSON.parse(props.my_json)}
                         style={feature => ({
                             // Customize styling for GeoJSON features
                             color: 'black',
@@ -101,8 +80,6 @@ function MyComponent(props) {
                             fillColor: getColor(feature),
                             fillOpacity: 1
                         })}
-                        onMouseOver={handleMouseOver}
-                        onMouseOut={handleMouseOut}
                     >
 
 
@@ -113,7 +90,6 @@ function MyComponent(props) {
                 position:'absolute',
                 width: '50px',
                 height:'50px',
-                left:'100px',
                 backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
                 <span>50% color</span> {/* Text content */}
             </div>}

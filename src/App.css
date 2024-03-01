@@ -1,5 +1,7 @@
 .App {
   #text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -20,6 +22,9 @@
   border-bottom: solid;
 }
 .StatesContainer {
+  background-color:beige;
+  min-height: 85vh;
+  flex-grow: 1;
   background-color:white;
   min-height:85vh;
   display: flex;
@@ -30,6 +35,7 @@
   flex-grow: 1;
   border-right: solid;
   display:flex;
+  font-size:35px;
 }
 
 .title{

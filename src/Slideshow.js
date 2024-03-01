@@ -35,10 +35,10 @@ function Slideshow({ components }) {
             <div className="pagination">
                 {components.map((_, componentIndex) => (
                 <span
-                    key={componentIndex}
-                    // className={componentIndex === index ? 'dot active' : 'dot'}
-                    className={componentIndex === index ? 'indicator active' : 'indicator'}
-                    onClick={() => setSlide(componentIndex)}
+                    key = {componentIndex}
+                    // className = {componentIndex === index ? "dot active" : "dot"}
+                    className = {componentIndex === index ? "indicator active" : "indicator"}
+                    onClick = {() => setSlide(componentIndex)}
                 >{typeMapping[componentIndex]}</span>
                 ))}
             </div>

@@ -403,7 +403,6 @@ function App() {
                 <BoxPlotAlabama/>
             </div>
 
-
             <div style={{position: "absolute", top: "800px", left: "50%", width: '700px', height: '400px'}}>
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>

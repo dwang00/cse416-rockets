@@ -231,9 +231,11 @@ function App() {
             </div> */}
             <GetData mode={"density"} race={race}/>
             <div className="toggle_container">
-                <div onClick = {() => raceChange("white")} className='toggle_button'>White</div>
+                <div onClick = {() => raceChange("white")} className='toggle_button'
+                    style={{color: race === "white" ? "#f00840" : "#ffffff"}}>White</div>
                 &nbsp;
-                <div onClick = {() => raceChange("black")} className='toggle_button'>Black</div>
+                <div onClick = {() => raceChange("black")} className='toggle_button'
+                    style={{color: race === "black" ? "#f00840" : "#ffffff"}}>Black</div>
             </div>
             <span className = "map_instructions">Drag to move the map around</span>
             <span className = "map_instructions">Use the scroll wheel to zoom</span>

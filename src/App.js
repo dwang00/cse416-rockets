@@ -6,6 +6,7 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
+import Slideshow from "./Slideshow.js"
 
 
 const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 75 });
@@ -348,6 +349,19 @@ function App() {
     const raceChange = (event) => {
         setRace(event.target.value);
     }
+    const alComponents = [
+        <Bar options={barOptionsAlabama} data={barDataAlabama}/>,
+        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>,
+        <BoxPlotAlabama/>
+    ];
+    const deComponents = [
+        <Bar options={barOptionsDelaware} data={barDataDelaware}/>,
+        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>,
+        <BoxPlotDelaware/>
+    ];
+    deComponents.forEach((item, index) => {
+        console.log(item.type);
+    });
     return (
         <div className="App">
 

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ApexCharts from 'apexcharts';
 
-function Gerrymandering_Alabama({chartId}) {
-
+function Gerrymandering_Delaware({chartId}) {
+    const chartContainerRef = useRef(null);
     useEffect(() => {
         window.dispatchEvent(new Event('resize'));
 
@@ -28,9 +28,9 @@ function Gerrymandering_Alabama({chartId}) {
                 x: '1',
                 y: randomFloats(100, 0.05, 0.1),
             },
-            ...Array.from({ length: 34 }, (_, index) => ({
+            ...Array.from({ length: 21 }, (_, index) => ({
                 x: `${index + 2}`,
-                y: randomFloats(100, 0.05 + index * 0.015, 0.1 + index * 0.02),
+                y: randomFloats(100, 0.05 + index * 0.024, 0.1 + index * 0.03),
             })),
         ].map((data) => ({
             x: data.x,
@@ -42,9 +42,9 @@ function Gerrymandering_Alabama({chartId}) {
                 Math.max(...data.y),
             ],
         }));
-        const scatterData = boxplotData.map((data, index) => ({
+        const scatterData = boxplotData.map((data) => ({
             x: data.x,
-            y: index < 25 ? data.y[0] +(Math.random() * 0.05 - 0.05): data.y[4] + (Math.random() * 0.05 + 0.02),
+            y: data.y[2] + (Math.random() * .09 - Math.random() * .09 ), // Use the minimum value of the box plot
         }));
 
         const options = {
@@ -53,59 +53,67 @@ function Gerrymandering_Alabama({chartId}) {
                     name: 'ReCom Ensemble',
                     type: 'boxPlot',
                     data: boxplotData,
-                    color: '#e0163d', // Set the color to red
                 },
                 {
                     name: 'Enacted',
                     type: 'scatter',
                     data: scatterData,
-                    color: '#128fc4',
                 },
             ],
             chart: {
                 type: 'boxPlot',
-                height: 350,
+                height: 350
             },
             title: {
-                text: 'Alabama Districts',
-                align: 'left',
+                text: 'Delaware Districts',
+                align: 'left'
             },
             xaxis: {
                 type: 'category',
                 title: {
-                    text: 'Indexed districts',
-                },
+                    text: 'Indexed districts'
+                }
             },
             yaxis: {
                 title: {
-                    text: '% Minority',
+                    text: '% Minority'
                 },
                 labels: {
                     formatter: function (value) {
                         return value.toFixed(2);
                     },
-                },
+                }
             },
             plotOptions: {
                 boxPlot: {
                     colors: {
-                        upper: '#d9153b',
-                        lower: '#e0163d',
+                        upper: '#159ed9',
+                        lower: '#16b1e0',
                     },
+                },
+                markers: {
+                    size: 1,
+                    colors: ['#d30808'], // Adjust the size of the scatter plot points
                 },
             },
         };
-
         const chartElement = document.querySelector(`#${chartId}`);
 
 
         if (chartElement) {
-            const chart = new ApexCharts(chartElement, options);
+            // Your code here
+            const chart = new ApexCharts(chartContainerRef.current, options);
             chart.render();
+
+            // Clean up on component unmount
+            return () => {
+                chart.destroy();
+            };
         }
+
     }, [chartId]);
 
-    return <div id={chartId} />;
+    return <div id={chartId} ref = {chartContainerRef}/>;
 }
 
-export default Gerrymandering_Alabama;
+export default Gerrymandering_Delaware;

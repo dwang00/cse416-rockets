@@ -6,12 +6,14 @@ import { MapContainer, GeoJSON } from 'react-leaflet';
 // pass in parameters mode/race.
 function MyComponent(props) {
 
-    const center_locations = {"al": [32.7, -86.66],
-        "de": [39.1,-75.539787]}
+    const center_locations = {"al": [32.655, -86.66],
+        "de": [39.15,-75.439787]}
 
     const map_locations = {"al":'15%', "de":'55%'}
 
-    const default_zoom = {"al":6.9, "de":8.5}
+    const default_zoom = {"al":6.8, "de":8.5}
+
+    const names = {"al":"Alabama", "de":"Delaware"}
 
     // Define the colors for the tab20 colormap
     const tab20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
@@ -68,17 +70,32 @@ function MyComponent(props) {
 
     // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
-        <div>
+        <div><span className = "state_name">{names[props.state]}</span>
+            { props.state==='al' && props.mode === "density" && <div style={{
+                    position:'absolute',
+                    width: '50px',
+                    height:'50px',
+                    top: '400px',
+                    left:'5%',
+                    backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
+                    <span>50% color</span> {/* Text content */}
+                </div>}
+        <div className = "map_container">
             <MapContainer center={center_locations[props.state]}
                           zoom={default_zoom[props.state]}
                           dragging={true}
                           style={{
                               position:'absolute',
-                              height: '500px',
-                              width: '400px',
-                              backgroundColor: 'white',
-                              left:map_locations[props.state],
-                              top:'200px'}}
+                              height: '75vmin',
+                              width: '60vmin',
+                              backgroundColor: '#666666',
+                              borderStyle: 'solid',
+                            //   display: 'flex',
+                            //   alignItems: 'center',
+                            //   justifyContent: 'center',
+                            //   left:map_locations[props.state],
+                            //   top:'200px'
+                            }}
 
                           minZoom={default_zoom[props.state]}
                           maxZoom={13}
@@ -100,15 +117,9 @@ function MyComponent(props) {
 
                     </GeoJSON>}
             </MapContainer>
-            {props.state==='al' && props.mode === "density" && <div style={{
-                position:'relative',
-                width: '50px',
-                height:'50px',
-                top: '400px',
-                left:'8%',
-                backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
-                <span>50% color</span> {/* Text content */}
-            </div>}
+
+        </div>
+
         </div>
     );
 }

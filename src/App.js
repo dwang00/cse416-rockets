@@ -211,20 +211,29 @@ const scatterOptionsDelaware = {
 function App() {
 
     const [race,setRace] = useState("white");
-    const raceChange = (event) => {
-        setRace(event.target.value);
+    // const raceChange = (event) => {
+    //     setRace(event.target.value);
+    // }
+    
+    const raceChange = (value) => {
+        setRace(value);
     }
 
+    // const handleButtonClick = (newValue) => {
+    //     setRace(newValue);
+    //     console.log(race);
+    // };
+
     const alComponents = [
-        <Bar options={barOptionsAlabama} data={barDataAlabama}/>,
-        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>,
-        <Gerrymandering_Alabama chartId = "chartAlabama1"/>
+        <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
+        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
+        <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>
     ];
 
     const deComponents = [
-        <Bar options={barOptionsDelaware} data={barDataDelaware}/>,
-        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>,
-        <Gerrymandering_Delaware chartId="chartDelaware1"/>
+        <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
+        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware} style={{display:"inline-block"}}/>,
+        <Gerrymandering_Delaware chartId="chartDelaware1" style={{display:"inline-block"}}/>
     ]
 
     return (
@@ -245,6 +254,7 @@ function App() {
                 &nbsp;population.
             </div> */}
 
+            
             {/* <div className="State">
                 <div className="center" style={{position: 'absolute', left: "12%", top: '715px'}}>ALABAMA</div>
             </div>
@@ -252,6 +262,15 @@ function App() {
                 <div className="center" style={{position: 'absolute', left: "72%", top: '715px'}}>DELAWARE</div>
             </div> */}
             <GetData mode={"density"} race={race}/>
+            <div className="toggle_container">
+                <div onClick = {() => raceChange("white")} className='toggle_button'
+                    style={{color: race === "white" ? "#f00840" : "#ffffff"}}>White</div>
+                &nbsp;
+                <div onClick = {() => raceChange("black")} className='toggle_button'
+                    style={{color: race === "black" ? "#f00840" : "#ffffff"}}>Black</div>
+            </div>
+            <span className = "map_instructions">Drag to move the map around</span>
+            <span className = "map_instructions">Use the scroll wheel to zoom</span>
             {/* <div style={{
                 color: 'black',
                 borderRight: 'solid',
@@ -262,6 +281,17 @@ function App() {
                 top: '350px',
                 position: 'absolute'
             }}></div> */}
+            <div style={{position: "absolute", top: "1440px", left: "42%", fontSize:'30px'}}>
+                Key takeaways
+            </div>
+
+            <div style={{position: "absolute", top: "1485px", left: "42%"}}>
+                Some placeholder text
+            </div>
+
+            <div style={{position: "absolute", top: "1540px", left: "38%", fontSize:'30px'}}>
+                Enacted Partition Analysis
+            </div>
 
             <div style={{position: "absolute", top: "2150px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>

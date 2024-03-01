@@ -70,54 +70,66 @@ function MyComponent(props) {
 
     // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
-        <div><span className = "state_name">{names[props.state]}</span>
-        <div className = "map_container">
-            <MapContainer center={center_locations[props.state]}
-                          zoom={default_zoom[props.state]}
-                          dragging={true}
-                          style={{
-                              position:'absolute',
-                              height: '75vmin',
-                              width: '60vmin',
-                              backgroundColor: '#666666',
-                              borderStyle: 'solid',
-                            //   display: 'flex',
-                            //   alignItems: 'center',
-                            //   justifyContent: 'center',
-                            //   left:map_locations[props.state],
-                            //   top:'200px'
-                            }}
+        <div>
+            <span className = "state_name">{names[props.state]}</span>
+            <div className = "map_container">
+                <MapContainer center={center_locations[props.state]}
+                            zoom={default_zoom[props.state]}
+                            dragging={true}
+                            style={{
+                                position:'absolute',
+                                height: '75vmin',
+                                width: '60vmin',
+                                backgroundColor: '#666666',
+                                borderStyle: 'solid',
+                                //   display: 'flex',
+                                //   alignItems: 'center',
+                                //   justifyContent: 'center',
+                                //   left:map_locations[props.state],
+                                //   top:'200px'
+                                }}
 
-                          minZoom={default_zoom[props.state]}
-                          maxZoom={13}
-                          zoomControl={false}
-                          zoomSnap={.1}
-                          attributionControl={false}>
-                {(props.my_json)[props.state] &&
-                    <GeoJSON
-                        data={JSON.parse((props.my_json)[props.state])}
-                        style={feature => ({
-                            // Customize styling for GeoJSON features
-                            color: 'black',
-                            weight: 0.5,
-                            fillColor: getColor(feature),
-                            fillOpacity: 1
-                        })}
-                    >
+                            minZoom={default_zoom[props.state]}
+                            maxZoom={13}
+                            zoomControl={false}
+                            zoomSnap={.1}
+                            attributionControl={false}>
+                    {(props.my_json)[props.state] &&
+                        <GeoJSON
+                            data={JSON.parse((props.my_json)[props.state])}
+                            style={feature => ({
+                                // Customize styling for GeoJSON features
+                                color: 'black',
+                                weight: 0.5,
+                                fillColor: getColor(feature),
+                                fillOpacity: 1
+                            })}
+                        >
 
 
-                    </GeoJSON>}
-            </MapContainer>
-            {/* {props.state==='al' && props.mode === "density" && <div style={{
-                position:'relative',
-                width: '50px',
-                height:'50px',
-                top: '400px',
-                left:'8%',
-                backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
-                <span>50% color</span>
-            </div>} */}
-        </div>
+                        </GeoJSON>}
+                </MapContainer>
+                {props.state==='al' && props.mode === "density" && 
+                    <div style={{
+                        display:"flex", 
+                        justifyContent:"space-between", 
+                        alignItems:"center",
+                        position: "relative",
+                        top: '94%',
+                        left: '50%',
+                        height: "5vmin"}}>
+                        <div style={{
+                            // position:'relative',
+                            width: '20px',
+                            height:'20px',
+                            // top: '97%',
+                            // left:'200%',
+                            display:'flex',
+                            backgroundColor: purplesColors[Math.floor(purplesColors.length*.5)]}}>
+                        </div>
+                    <span style={{color:"#f00840"}}>&nbsp;Represents 50% of the population</span>
+                </div>}
+            </div>
         </div>
     );
 }

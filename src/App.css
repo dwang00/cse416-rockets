@@ -40,7 +40,7 @@
   justify-content: center;
   display: flex;
   gap: 5px;
-  font-size:70px;
+  font-size:65px;
   font-family: "Trebuchet MS", Arial, sans-serif;
 }
 .center{
@@ -57,6 +57,33 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.slideshow {
+  display: flex;
+  align-items: center;
+}
+
+.slide {
+  height: 400px;
+  width: 95%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.indicator {
+  padding: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  background-color: #d3d3d3;
+}
+
+.indicator.active {
+  background-color: #808080;
 }
 
 @keyframes App-logo-spin {

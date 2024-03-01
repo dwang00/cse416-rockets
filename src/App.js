@@ -1,4 +1,5 @@
 import logo from './rocketslogo.png';
+import line from './line.png'
 import './App.css';
 import { Bar, Scatter} from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
@@ -6,11 +7,15 @@ import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot
 import Chart from 'chart.js/auto'
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
+import Slideshow from './Slideshow.js';
 
 
-const generateRandomNumber = () => faker.number.int({ min: 1, max: 35 });
+const generateRandomNumber_large = () => faker.number.int({ min: 50, max: 85 });
+const generateRandomNumber_med = () => faker.number.int({ min: 20, max: 35 });
+const generateRandomNumber_small = () => faker.number.int({ min: 1, max: 10 });
+const generateRandomNumber_remainder= (min, max) => faker.number.int({ min: min, max: max });
 Chart.register(BoxPlotController, BoxAndWiskers);
-const createArray = (length, callback) => Array.from({ length }, callback);
+//const createArray = (length, callback) => Array.from({ length }, callback);
 
 const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
     /*return createArray(length, () => ({
@@ -39,7 +44,9 @@ const barDataAlabama = {
     datasets: [
         {
             label: 'Ethnicity of Alabama House Representatives',
+
             data: [75,27],
+
             backgroundColor: ['blue', 'green'],
             borderWidth: 1,
         },
@@ -346,10 +353,24 @@ function App() {
     const raceChange = (event) => {
         setRace(event.target.value);
     }
+
+    const alComponents = [
+        <Bar options={barOptionsAlabama} data={barDataAlabama}/>,
+        <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>,
+        <BoxPlotAlabama/>
+    ];
+
+    const deComponents = [
+        <Bar options={barOptionsDelaware} data={barDataDelaware}/>,
+        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>,
+        <BoxPlotDelaware/>
+    ]
+
     return (
         <div className="App">
 
             <img src={logo} className="App-logo" alt="logo"/>
+            <img src={line} style={{position:"absolute", left:'25%', top:'700px', width:'800px'}} className="a-line-line" alt="logo"/>
             <div className="title">You are currently looking at the&nbsp;
                 <label>
                     <select style={{fontSize: "40px"}} value={race} onChange={raceChange}>
@@ -378,8 +399,9 @@ function App() {
                 position: 'absolute'
             }}></div>
 
-            <div style={{position: "absolute", top: "800px", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "1600px", width: '700px', height: '400px'}}>
                 <div className="graph"></div>
+                <Slideshow components = {alComponents} />
                 <Bar options={barOptionsAlabama} data={barDataAlabama}/>
                 <div style={{marginBottom: "20px", textAlign:"center"}}></div>
                 <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama}/>
@@ -388,7 +410,8 @@ function App() {
             </div>
 
 
-            <div style={{position: "absolute", top: "800px", left: "50%", width: '700px', height: '400px'}}>
+            <div style={{position: "absolute", top: "1600px", left: "50%", width: '700px', height: '400px'}}>
+                <Slideshow components = {deComponents} />
                 <Bar options={barOptionsDelaware} data={barDataDelaware}/>
                 <div style={{marginBottom: "20px"}}></div>
                 <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware}/>

@@ -34,8 +34,12 @@ def grab():
     summations['de_ttl_black'] = sum(de_lower['ADJ_BLACK'])
     summations['al_ttl_white'] = sum(al_lower['WHITE'])
     summations['de_ttl_white'] = sum(de_lower['ADJ_WHITE'])
+    summations['al_ttl_asian'] = sum(al_lower['ASIAN'])
+    summations['de_ttl_asian'] = sum(de_lower['ADJ_ASIAN'])
     summations['al_ttl_pop'] = sum(al_lower['POPULATION'])
     summations['de_ttl_pop'] = sum(de_lower['ADJ_POPULA'])
+    # summations['al_white_gt_black'] = al_lower['WHITE'] > al_lower['BLACK']
+    # summations['de_white_gt_black'] = de_lower['WHITE'] > de_lower['BLACK']
 
     al_and_de = {"al": al_lower.to_json(), "de": de_lower.to_json(), "sums": json.dumps(summations)}
     # Return GeoJSON data as JSON response

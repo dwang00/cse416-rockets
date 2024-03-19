@@ -5,12 +5,14 @@ import { Bar, Scatter} from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import Chart from 'chart.js/auto'
+import * as d3 from 'd3';
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
 import Gerrymandering_Alabama from './Gerrymandering_Alabama';
 import Gerrymandering_Delaware from "./Gerrymandering_Delaware";
 import Slideshow from './Slideshow.js';
 import GraphDesc from './graph_descriptions.js';
+import EiDelaware from './EiDelaware'
 
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
@@ -114,7 +116,7 @@ const scatterOptionsAlabama = {
     plugins: {
         title: {
             display: true,
-            text: "Ethnicity of Alabama House Representatives",
+            text: "2022 Boyd v Britt",
             font: {
                 size: 20
             }
@@ -288,6 +290,51 @@ function App() {
             <div style={{position: "absolute", top: "1485px", left: "42%"}}>
                 Some placeholder text
             </div>
+
+            <EiDelaware
+                data={[
+                    {
+                        color: "steelblue",
+                        values: [
+                            { x: 0.0, value: 0.05 },
+                            { x: 0.1, value: 0.05 },
+                            { x: 0.2, value: 0.04 },
+                            { x: 0.3, value: 0.03 },
+                            { x: 0.4, value: 0.04 },
+                            { x: 0.44, value: 0.04 },
+                            { x: 0.5, value: 0.9 },
+                            { x: 0.52, value: 0.04 },
+                            { x: 0.53, value: 0.04 },
+                            { x: 0.6, value: 0.04 },
+                            { x: 0.7, value: 0.03 },
+                            { x: 0.8, value: 0.04 },
+                            { x: 0.9, value: 0.07 },
+                            { x: 1.0, value: 0.04 }
+                        ]
+                    },
+                    {
+                        color: "green",
+                        values: [
+                            { x: 0.0, value: 0.05 },
+                            { x: 0.1, value: 0.05 },
+                            { x: 0.2, value: 0.4 },
+                            { x: 0.3, value: 0.03 },
+                            { x: 0.4, value: 0.04 },
+                            { x: 0.44, value: 0.04 },
+                            { x: 0.5, value: 0.03 },
+                            { x: 0.52, value: 0.04 },
+                            { x: 0.53, value: 0.04 },
+                            { x: 0.6, value: 0.04 },
+                            { x: 0.7, value: 0.03 },
+                            { x: 0.8, value: 0.04 },
+                            { x: 0.9, value: 0.07 },
+                            { x: 1.0, value: 0.04 }
+                        ]
+                    },
+                ]}
+                width={600}
+                height={200}
+            />
 
             <div style={{position: "absolute", top: "1540px", left: "38%", fontSize:'30px'}}>
                 Enacted Partition Analysis

@@ -65,7 +65,7 @@ function Gerrymandering_Delaware({chartId}) {
                 height: 350
             },
             title: {
-                text: 'Delaware Districts',
+                text: 'Alabama Districts',
                 align: 'left'
             },
             xaxis: {

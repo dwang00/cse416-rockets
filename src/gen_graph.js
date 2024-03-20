@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs-2';
 // pass in parameters mode/race.
 
 function MyComponent(props) {
-    const json_file = JSON.parse((props.my_json)['sums'])
+    const json_file = (props.my_json)['sums']
     let alabamaWhiteRatio = (json_file.al_ttl_white)/(json_file.al_ttl_pop)
     let alabamaBlackRatio  = (json_file.al_ttl_black)/(json_file.al_ttl_pop)
     let alabamaAsianRatio  = (json_file.al_ttl_asian)/(json_file.al_ttl_pop)

@@ -22,8 +22,14 @@ public class StateAssemblyRaceController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/by_state")
-    public List<RaceData> getStateAssemblyRaceDataByState(@RequestParam String state) {
-        return stateAssemblyRaceService.getStateAssemblyRaceDataByState(state);
+    @GetMapping("/alabama")
+    public List<RaceData> getStateAssemblyRaceDataAlabama() {
+        return stateAssemblyRaceService.getStateAssemblyRaceDataByState("Alabama");
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/delaware")
+    public List<RaceData> getStateAssemblyRaceDataDelaware() {
+        return stateAssemblyRaceService.getStateAssemblyRaceDataByState("Delaware");
     }
 }

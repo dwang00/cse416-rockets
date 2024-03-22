@@ -14,7 +14,6 @@ function MyComponent(props) {
         fetch('http://localhost:8080/get_geojson/all')
             .then(response => response.json())
             .then(data => {
-                console.log('type:',typeof(data[0]))
                 console.log('Received data from Spring:', data[0]);
                 setGeojsonData(data[0])
             })

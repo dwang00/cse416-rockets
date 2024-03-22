@@ -14,204 +14,233 @@ import Slideshow from './Slideshow.js';
 import GraphDesc from './graph_descriptions.js';
 import EiDelaware from './EiDelaware'
 
+
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
 
-const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
-    /*return createArray(length, () => ({
-        x: faker.number.int({ min: minX, max: maxX }),
-        y: faker.number.int({ min: minY, max: maxY }),
-    }));*/
-    return Array.from({ length }, () => {
-        const x = faker.number.float({min: minX, max: maxX});
-        let y = slope * x + intercept + (Math.random() * 2 - 1) * noise; // Adding noise for randomness
-        if(y > 1){
-            y = 1;
-        }else if(y < -1){
-            y = -1;
-        }
-        const rand = faker.number.float({min: 0, max: 1})
-        if(rand > .75){
-            y = faker.number.float({min: minX, max: maxX});
-        }
-        return { x, y };
-    });
-};
-
-
-//ALABAMA STUFF ********************************************************************
-const barDataAlabama = {
-    labels: ['Caucasian', 'African American'],
-    datasets: [
-        {
-            label: 'Ethnicity of Alabama House Representatives',
-            data: [75,27],
-            backgroundColor: ['blue', 'green'],
-            borderWidth: 1,
-        },
-    ],
-};
-
-const barOptionsAlabama = {
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            indexAxis: 'Ethnicity',
-            labels: ['Caucasian', 'African American'],
-        },
-        y: {
-            indexAxis: 'Number of Representatives',
-            beginAtZero: true,
-        },
-    },
-    plugins: {
-        title: {
-          display: true,
-          text: "Ethnicity of Alabama House Representatives",
-          font: {
-              size: 20
-          },
-        },
-        legend: {
-            display: false
-        }
-    }
-};
-
-const scatterDataAlabama = {
-    datasets: [
-        {
-            label: 'Will Boyd',
-            //const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
-
-            data: generateDataset(400,0, 1, 0, 1, .48, .19, .12),
-            backgroundColor: 'rgba(75, 192, 192, 1)',
-        },
-        {
-            label: 'Katie Britt',
-            data: generateDataset(168,0, 1, 0, 1, -.18, .73, .15),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
-        },
-    ],
-};
-const scatterOptionsAlabama = {
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            title: {
-                display: true,
-                text: 'Percent African American',
-            },
-        },
-        y: {
-            beginAtZero: true,
-            title: {
-                display: true,
-                text: 'Vote Share',
-            },
-            ticks: {
-                stepSize: 20,
-            },
-        },
-    },
-    plugins: {
-        title: {
-            display: true,
-            text: "2022 Boyd v Britt",
-            font: {
-                size: 20
-            }
-        },
-    }
-};
-
-//DELAWARE STUFF ***********************************************************
-const barDataDelaware = {
-    labels: ['Caucasian', 'African American', 'Asian'],
-    datasets: [
-        {
-            label: 'Ethnicity of Delaware House Representatives',
-            data: [30,10,1],
-            backgroundColor: ['blue', 'green', 'red'],
-            borderWidth: 1,
-        },
-    ],
-};
-
-const barOptionsDelaware = {
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            indexAxis: 'Ethnicity',
-            labels: ['Caucasian', 'African American', 'Asian'],
-        },
-        y: {
-            indexAxis: 'Number of Representatives',
-            beginAtZero: true,
-        },
-    },
-    plugins: {
-        title: {
-            display: true,
-            text: "Ethnicity of Delaware House Representatives",
-            font: {
-                size: 20
-            }
-        },
-        legend: {
-            display: false
-        }
-    }
-};
-
-
-const scatterDataDelaware = {
-    datasets: [
-        {
-            label: 'David Sokola',
-
-            data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
-            backgroundColor: 'rgba(75, 192, 192, 1)',
-        },
-        {
-            label: 'Gerald Hocker',
-            data: generateDataset(80,0, 1, 0, 1, -.2, .63, .18),
-            backgroundColor: 'rgba(255, 99, 132, 1)',
-        },
-    ],
-};
-const scatterOptionsDelaware = {
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            title: {
-                display: true,
-                text: 'Percent African American',
-            },
-        },
-        y: {
-            beginAtZero: true,
-            title: {
-                display: true,
-                text: 'Vote Share',
-            },
-            ticks: {
-                stepSize: 20,
-            },
-        },
-    },
-    plugins: {
-        title: {
-            display: true,
-            text: "Ethnicity of Delaware House Representatives",
-            font: {
-                size: 20
-            }
-        },
-    }
-};
-
 function App() {
+    const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
+        /*return createArray(length, () => ({
+            x: faker.number.int({ min: minX, max: maxX }),
+            y: faker.number.int({ min: minY, max: maxY }),
+        }));*/
+        return Array.from({ length }, () => {
+            const x = faker.number.float({min: minX, max: maxX});
+            let y = slope * x + intercept + (Math.random() * 2 - 1) * noise; // Adding noise for randomness
+            if(y > 1){
+                y = 1;
+            }else if(y < -1){
+                y = -1;
+            }
+            const rand = faker.number.float({min: 0, max: 1})
+            if(rand > .75){
+                y = faker.number.float({min: minX, max: maxX});
+            }
+            return { x, y };
+        });
+    };
+
+
+    //ALABAMA STUFF ********************************************************************
+    const [alBarData, setAlBarData]= useState(null);
+    useEffect(() => {
+        fetch('http://localhost:8080/get_racedata/alabama') // Fetch data for Alabama
+            .then(response => response.json())
+            .then(data => {
+                // Set the fetched data to the state
+                setAlBarData([data[0].representatives.caucasian, data[0].representatives.africanAmerican]);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+
+    const barDataAlabama = {
+        labels: ['Caucasian', 'African American'],
+        datasets: [
+            {
+                label: 'Ethnicity of Alabama House Representatives',
+                data: alBarData,
+                backgroundColor: ['blue', 'green'],
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const barOptionsAlabama = {
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                indexAxis: 'Ethnicity',
+                labels: ['Caucasian', 'African American'],
+            },
+            y: {
+                indexAxis: 'Number of Representatives',
+                beginAtZero: true,
+            },
+        },
+        plugins: {
+            title: {
+              display: true,
+              text: "Ethnicity of Alabama House Representatives",
+              font: {
+                  size: 20
+              },
+            },
+            legend: {
+                display: false
+            }
+        }
+    };
+
+    const scatterDataAlabama = {
+        datasets: [
+            {
+                label: 'Will Boyd',
+                //const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
+
+                data: generateDataset(400,0, 1, 0, 1, .48, .19, .12),
+                backgroundColor: 'rgba(75, 192, 192, 1)',
+            },
+            {
+                label: 'Katie Britt',
+                data: generateDataset(168,0, 1, 0, 1, -.18, .73, .15),
+                backgroundColor: 'rgba(255, 99, 132, 1)',
+            },
+        ],
+    };
+    const scatterOptionsAlabama = {
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Percent African American',
+                },
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Vote Share',
+                },
+                ticks: {
+                    stepSize: 20,
+                },
+            },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: "2022 Boyd v Britt",
+                font: {
+                    size: 20
+                }
+            },
+        }
+    };
+
+    //DELAWARE STUFF ***********************************************************
+    const [deBarData, setDeBarData]= useState(null);
+    useEffect(() => {
+        fetch('http://localhost:8080/get_racedata/delaware') // Fetch data for Alabama
+            .then(response => response.json())
+            .then(data => {
+                // Set the fetched data to the state
+                console.log("Delaware: ", data[0].representatives);
+                setDeBarData([data[0].representatives.caucasian,data[0].representatives.africanAmerican,
+                    data[0].representatives.asian]);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
+    const barDataDelaware = {
+        labels: ['Caucasian', 'African American', 'Asian'],
+        datasets: [
+            {
+                label: 'Ethnicity of Delaware House Representatives',
+                data: deBarData,
+                backgroundColor: ['blue', 'green', 'red'],
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const barOptionsDelaware = {
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                indexAxis: 'Ethnicity',
+                labels: ['Caucasian', 'African American', 'Asian'],
+            },
+            y: {
+                indexAxis: 'Number of Representatives',
+                beginAtZero: true,
+            },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: "Ethnicity of Delaware House Representatives",
+                font: {
+                    size: 20
+                }
+            },
+            legend: {
+                display: false
+            }
+        }
+    };
+
+
+    const scatterDataDelaware = {
+        datasets: [
+            {
+                label: 'David Sokola',
+
+                data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
+                backgroundColor: 'rgba(75, 192, 192, 1)',
+            },
+            {
+                label: 'Gerald Hocker',
+                data: generateDataset(80,0, 1, 0, 1, -.2, .63, .18),
+                backgroundColor: 'rgba(255, 99, 132, 1)',
+            },
+        ],
+    };
+    const scatterOptionsDelaware = {
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Percent African American',
+                },
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Vote Share',
+                },
+                ticks: {
+                    stepSize: 20,
+                },
+            },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: "Ethnicity of Delaware House Representatives",
+                font: {
+                    size: 20
+                }
+            },
+        }
+    };
+
+
 
     const [race,setRace] = useState("white");
     // const raceChange = (event) => {

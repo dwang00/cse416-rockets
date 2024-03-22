@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // pass in parameters mode/race.
 function MyComponent(props) {
-    console.log(props);
 
     const center_locations = {"al": [32.655, -86.66],
         "de": [39.15,-75.439787]}
@@ -72,7 +71,18 @@ function MyComponent(props) {
 
     // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
-        <div className="d-flex justify-content-center" style={{height: '100%', width: '100%',}}>
+        <div className="d-flex justify-content-center" style={{height: '100%', width: '100%', color: "#f00840", fontWeight: "bold"}}>
+            <div className="d-block justify-content-center">
+                <div>Legend</div>
+                <div className="d-flex">
+                    <div style={{height: "150px", width: "35px"}}>
+                        <div className="align-items-start">100</div>
+                        <div className="align-items-center" style={{marginTop: "40px"}}>50</div>
+                        <div className="align-self-end" style={{marginTop: "50px"}}>0</div>
+                    </div>
+                    <div className="legend" style={{height: "150px", width: "30px"}}></div>
+            </div>
+            </div>
             <MapContainer center={center_locations[props.state]}
                 zoom={default_zoom[props.state]}
                 dragging={true}

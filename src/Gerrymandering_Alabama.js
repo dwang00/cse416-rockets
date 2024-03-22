@@ -62,7 +62,7 @@ function Gerrymandering_Alabama({chartId}) {
             ],
             chart: {
                 type: 'boxPlot',
-                height: 350
+                height: "100%"
             },
             title: {
                 text: 'Alabama Districts',

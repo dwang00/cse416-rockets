@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // pass in parameters mode/race.
 function MyComponent(props) {
-    const [geojsonData, setGeojsonData] = useState({'al':null, 'de':null, 'sums':null});
+    const [geojsonData, setGeojsonData] = useState();
 
     useEffect(() => {
         fetch('http://localhost:8080/get_geojson/all')
@@ -22,11 +22,11 @@ function MyComponent(props) {
             .catch(error => console.error(error));
     }, []);
 
-    return (<div className="row">
-        <GenState {...props} my_json={geojsonData} state={'al'}/>
-        <GenState {...props} my_json={geojsonData} state={'de'}/>
-        {geojsonData['sums'] && <GenGraph {...props} my_json={geojsonData} />}
-    </div>)
+    return (<>
+        {geojsonData && <GenState {...props} my_json={geojsonData} state={props.state}/>}
+        {/* {geojsonData['sums'] && <GenGraph {...props} my_json={geojsonData} />} */}
+    </>
+    )
 }
 
 export default MyComponent;

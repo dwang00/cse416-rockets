@@ -12,8 +12,9 @@ function Slideshow({ components }) {
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
             </ol>
-            <div className="carousel-inner" style={{height: "100%"}}>
+            <div className="carousel-inner" style={{height: "100%", backgroundColor: '#666666', borderStyle: 'solid',}}>
                 <div className="carousel-item active" style={{height: "100%"}}>
                     {React.createElement(components[0].type, { ...components[0].props })}
                 </div>
@@ -25,6 +26,9 @@ function Slideshow({ components }) {
                 </div>
                 <div className="carousel-item" style={{height: "100%"}}>
                     {React.createElement(components[3].type, { ...components[3].props })}
+                </div>
+                <div className="carousel-item" style={{height: "100%"}}>
+                    {React.createElement(components[4].type, { ...components[4].props })}
                 </div>
             </div>
             <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style={{left: "-3%"}}>

@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 // pass in parameters mode/race.
 function MyComponent(props) {
+    console.log(props);
 
     const center_locations = {"al": [32.655, -86.66],
         "de": [39.15,-75.439787]}
@@ -71,7 +72,7 @@ function MyComponent(props) {
 
     // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
-        <div className="col-sm">
+        <div className="d-flex justify-content-center" style={{height: '100%', width: '100%',}}>
             <MapContainer center={center_locations[props.state]}
                 zoom={default_zoom[props.state]}
                 dragging={true}
@@ -81,12 +82,12 @@ function MyComponent(props) {
                 zoomSnap={.1}
                 attributionControl={false}
                 style={{
-                    // position:'absolute',
-                    // height: '100%',
-                    // width: '100%',
+                    height: '100%',
+                    width: '100%',
                     backgroundColor: '#666666',
-                    borderStyle: 'solid',
-                }}>
+                    // borderStyle: 'solid',
+                }}
+                className='align-self-center'>
                 {(props.my_json)[props.state] &&
                     <GeoJSON
                         data={JSON.parse((props.my_json)[props.state])}

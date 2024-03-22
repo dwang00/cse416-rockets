@@ -8,7 +8,6 @@ function StateTab({components, navbarHeight}) {
     const height = window.innerHeight - navbarHeight;
     return (
         <div className="w-100 d-flex justify-content-center" style={{backgroundColor: "#333333", height: `${height}px`}}>
-            {/* <GetData /> */}
             <Slideshow components={components} />
         </div>
     )

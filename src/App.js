@@ -11,8 +11,10 @@ import React, { useState, useEffect } from 'react';
 import Gerrymandering_Alabama from './Gerrymandering_Alabama';
 import Gerrymandering_Delaware from "./Gerrymandering_Delaware";
 import Slideshow from './Slideshow.js';
+import StateTab from './StateTab.js'
 import GraphDesc from './graph_descriptions.js';
 import EiDelaware from './EiDelaware'
+import 'bootstrap/dist/css/bootstrap.css'
 
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
@@ -240,11 +242,19 @@ function App() {
 
     return (
         <div className="App">
-
-            <div className = "header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <span className = "header_title">Rockets - Data Analysis </span>
-            </div>
+            <nav class = "navbar navbar-expand-lg navbar-dark" style={{backgroundColor: "#1e1e1e",}}>
+                <a class="navbar-brand" href="#" style={{color: "#f00840", fontWeight: "bold",}}>
+                    <img src={logo} width="auto" height="40" class="d-inline-block" alt="logo"/>
+                    <span class="align-middle">Election Analysis</span>
+                </a>
+                {/* <div class="collapse navbar-collapse" id="navbarNavAltMarkup"> */}
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="#">Alabama</a>
+                    <a class="nav-item nav-link" href="#">Delaware</a>
+                    <a class="nav-item nav-link" href="#">Side-by-Side</a>
+                </div>
+                {/* </div> */}
+            </nav>
             {/* <img src={line} style={{position:"absolute", left:'25%', top:'700px', width:'800px'}} className="a-line-line" alt="logo"/> */}
             {/* <div className="title">You are currently looking at the&nbsp;
                 <label>
@@ -263,6 +273,7 @@ function App() {
             <div className="State">
                 <div className="center" style={{position: 'absolute', left: "72%", top: '715px'}}>DELAWARE</div>
             </div> */}
+            <StateTab />
             <GetData mode={"density"} race={race}/>
             <div className="toggle_container">
                 <div onClick = {() => raceChange("white")} className='toggle_button'

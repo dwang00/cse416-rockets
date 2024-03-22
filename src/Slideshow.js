@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import arrow from "./arrow.png";
 
 function Slideshow({ components }) {
     const [index, setIndex] = useState(0);
@@ -30,9 +29,9 @@ function Slideshow({ components }) {
             <div className = "slideshow-container">
                 {/* <button onClick = {prevSlide}>&lt;</button> */}
                 <div className = "slide">
-                    <img src={arrow} alt="larrow" className="arrow" id="larrow" onClick = {prevSlide}/>
+                    {/* <img src={arrow} alt="larrow" className="arrow" id="larrow" onClick = {prevSlide}/> */}
                     {React.createElement(Slide.type, { ...Slide.props })}
-                    <img src={arrow} alt="rarrow" className="arrow" id="rarrow" onClick = {nextSlide}/>
+                    {/* <img src={arrow} alt="rarrow" className="arrow" id="rarrow" onClick = {nextSlide}/> */}
                 </div>
                 {/* <button onClick = {nextSlide}>&gt;</button> */}
             </div>

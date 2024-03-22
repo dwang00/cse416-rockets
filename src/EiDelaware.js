@@ -12,6 +12,9 @@ const EiDelaware = ({ data, width, height }) => {
 
         const svg = d3.select(svgRef.current);
 
+        svg.style('fill', '#f00840')
+
+        // Create scales
         const xScale = d3.scaleLinear()
             .domain([0, 1])
             .range([0, innerWidth]);
@@ -25,12 +28,14 @@ const EiDelaware = ({ data, width, height }) => {
 
         svg.select('.x-axis')
             .attr('transform', `translate(0, ${innerHeight})`)
-            .call(xAxis);
+            .call(xAxis)
+            .style('stroke', '#f00840');
 
         const yAxis = d3.axisLeft(yScale).tickValues([0.0, 0.2, 0.4, 0.6, 0.8, 1.0]);
         svg.select('.y-axis')
             .attr('transform', `translate(0, 0)`)
-            .call(yAxis);
+            .call(yAxis)
+            .style('stroke', '#f00840');
 
         svg.append("text")
             .attr("class", "x label")

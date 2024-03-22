@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { Bar } from 'react-chartjs-2';
@@ -161,4 +162,5 @@ function MyComponent(props) {
     );
 }
 //
+
 export default MyComponent;

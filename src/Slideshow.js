@@ -1,54 +1,42 @@
+
 import React, { useState } from "react";
-import arrow from "./arrow.png";
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
 
 function Slideshow({ components }) {
-    const [index, setIndex] = useState(0);
-
-    function prevSlide() {
-        setIndex( (prevIndex) => (prevIndex - 1 + components.length) % components.length );
-    }
-
-    function nextSlide() {
-        setIndex( (prevIndex) => (prevIndex + 1) % components.length );
-    }
-
-    function setSlide(slide) {
-        setIndex( slide );
-    }
-
-    const Slide = components[index];
-    
-    // const typeMapping = {
-    //     0: 'Bar Chart',
-    //     1: 'Scatter Plot',
-    //     2: 'Box Plot'
-    //   };
-    // console.log(components);
     
     return (
-        <div>
-            <div className = "slideshow-container">
-                {/* <button onClick = {prevSlide}>&lt;</button> */}
-                <div className = "slide">
-                    <img src={arrow} alt="larrow" className="arrow" id="larrow" onClick = {prevSlide}/>
-                    {React.createElement(Slide.type, { ...Slide.props })}
-                    <img src={arrow} alt="rarrow" className="arrow" id="rarrow" onClick = {nextSlide}/>
+        <div id="carouselExampleIndicators" className="carousel slide align-self-center" data-ride="carousel" style={{height: "90%", width: "90%"}}>
+            <ol className="carousel-indicators" style={{bottom: "-5%"}}>
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            </ol>
+            <div className="carousel-inner" style={{height: "100%"}}>
+                <div className="carousel-item active" style={{height: "100%"}}>
+                    {React.createElement(components[0].type, { ...components[0].props })}
                 </div>
-                {/* <button onClick = {nextSlide}>&gt;</button> */}
+                <div className="carousel-item" style={{height: "100%"}}>
+                    {React.createElement(components[1].type, { ...components[1].props })}
+                </div>
+                <div className="carousel-item" style={{height: "100%"}}>
+                    {React.createElement(components[2].type, { ...components[2].props })}
+                </div>
+                <div className="carousel-item" style={{height: "100%"}}>
+                    {React.createElement(components[3].type, { ...components[3].props })}
+                </div>
             </div>
-            <div className="pagination">
-                {components.map((_, componentIndex) => (
-                <span
-                    key = {componentIndex}
-                    className = {componentIndex === index ? "dot active" : "dot"}
-                    // className = {componentIndex === index ? "indicator active" : "indicator"}
-                    onClick = {() => setSlide(componentIndex)}
-                ></span> // {typeMapping[componentIndex]}
-                ))}
-            </div>
+            <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style={{left: "-3%"}}>
+                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span className="sr-only">Previous</span>
+            </a>
+            <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style={{right: "-5%"}}>
+                <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                <span className="sr-only">Next</span>
+            </a>
         </div>
     );
 
-};
-
+}
 export default Slideshow;

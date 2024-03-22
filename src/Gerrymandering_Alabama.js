@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import ApexCharts from 'apexcharts';
 
-function Gerrymandering_Delaware({chartId}) {
+function Gerrymandering_Alabama({chartId}) {
     const chartContainerRef = useRef(null);
     useEffect(() => {
         window.dispatchEvent(new Event('resize'));
@@ -66,22 +66,44 @@ function Gerrymandering_Delaware({chartId}) {
             },
             title: {
                 text: 'Alabama Districts',
-                align: 'left'
+                align: 'left',
+                style: {
+                    color: "#f00840"
+                }
             },
             xaxis: {
                 type: 'category',
                 title: {
-                    text: 'Indexed districts'
+                    text: 'Indexed districts',
+                    style: {
+                        color: "#f00840"
+                    }
+                },
+                labels: {
+                    style: {
+                        colors: "#f00840"
+                    }
                 }
             },
             yaxis: {
                 title: {
-                    text: '% Minority'
+                    text: '% Minority',
+                    style: {
+                        color: "#f00840"
+                    }
                 },
                 labels: {
                     formatter: function (value) {
                         return value.toFixed(2);
                     },
+                    style: {
+                        colors: "#f00840"
+                    }
+                }
+            },
+            legend: {
+                labels: {
+                    colors: "#f00840"
                 }
             },
             plotOptions: {
@@ -116,4 +138,4 @@ function Gerrymandering_Delaware({chartId}) {
     return <div id={chartId} ref = {chartContainerRef}/>;
 }
 
-export default Gerrymandering_Delaware;
+export default Gerrymandering_Alabama;

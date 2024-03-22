@@ -1,4 +1,4 @@
-package com.example.java_stuff;
+package com.example.java_stuff.geojson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

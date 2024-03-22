@@ -1,4 +1,4 @@
-package com.example.java_stuff;
+package com.example.java_stuff.geojson;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

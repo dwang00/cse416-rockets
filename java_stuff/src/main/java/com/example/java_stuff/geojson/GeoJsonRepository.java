@@ -1,6 +1,5 @@
-package com.example.java_stuff;
+package com.example.java_stuff.geojson;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 

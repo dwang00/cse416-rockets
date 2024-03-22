@@ -62,7 +62,7 @@
   display: flex;
   text-align: center;
   justify-content: center;
-  background-color: #333333;
+  background-color: #e6e6e6;
   font-size: 7vmin;
   color: #f00840;
   font-weight: bold;
@@ -76,7 +76,7 @@
 
 .map_instructions {
   color: #f00840;
-  background-color: #333333;
+  background-color: #e6e6e6;
   /* border-style: solid; */
 }
 
@@ -159,7 +159,7 @@
   /* justify-content: space-evenly;
   display: flex;
   width: 20%; */
-  background-color: #333333;
+  background-color: #e6e6e6;
 }
 
 .toggle_button {

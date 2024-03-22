@@ -231,7 +231,6 @@ const barOptionsDelaware = {
         datasets: [
             {
                 label: 'David Sokola',
-
                 data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
                 backgroundColor: 'rgba(75, 192, 192, 1)',
             },
@@ -271,7 +270,7 @@ const barOptionsDelaware = {
         plugins: {
             title: {
                 display: true,
-                text: "Ethnicity of Delaware House Representatives",
+                text: "Sokola v Hocker",
                 font: {
                     size: 20
                 },

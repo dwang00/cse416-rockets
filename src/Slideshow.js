@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import arrow from "./arrow.png";
 
@@ -49,6 +50,5 @@ function Slideshow({ components }) {
         </div>
     );
 
-};
-
+}
 export default Slideshow;

@@ -11,9 +11,13 @@ function MyComponent(props) {
     const [geojsonData, setGeojsonData] = useState({'al':null, 'de':null, 'sums':null});
 
     useEffect(() => {
-        fetch('http://localhost:3021/get_geojson')
+        fetch('http://localhost:8080/get_geojson/all')
             .then(response => response.json())
-            .then(data => setGeojsonData(data))
+            .then(data => {
+                console.log('type:',typeof(data[0]))
+                console.log('Received data from Spring:', data[0]);
+                setGeojsonData(data[0])
+            })
             .catch(error => console.error(error));
     }, []);
 

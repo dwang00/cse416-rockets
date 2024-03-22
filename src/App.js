@@ -38,6 +38,7 @@ const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise
     });
 };
 
+
 //ALABAMA STUFF ********************************************************************
 const barDataAlabama = {
     labels: ['Caucasian', 'African American'],

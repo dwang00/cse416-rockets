@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 function Slideshow({ components }) {
     
     return (
-        <div id="carouselExampleIndicators" className="carousel slide align-self-center" data-ride="carousel" style={{height: "90%", width: "90%"}}>
+        <div id="carouselExampleIndicators" className="carousel slide align-self-center" data-interval="false" style={{height: "90%", width: "90%"}}>
             <ol className="carousel-indicators" style={{bottom: "-5%"}}>
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>

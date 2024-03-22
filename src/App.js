@@ -310,6 +310,7 @@ const barOptionsDelaware = {
     // };
 
     const alComponents = [
+        <GetData mode={"density"} race={race} state='al' />,
         <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
@@ -361,6 +362,7 @@ const barOptionsDelaware = {
     ];
 
     const deComponents = [
+        <GetData mode={"density"} race={race} state='de' />,
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware} style={{display:"inline-block"}}/>,
         <Gerrymandering_Delaware chartId="chartDelaware1" style={{display:"inline-block"}}/>,

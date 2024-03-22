@@ -2,6 +2,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  max-height: 100%;
 }
 
 .header {
@@ -53,8 +54,8 @@
   /* align-items: center; */
   background-color: #333333;
   /* border-style: solid; */
-  width: 50vmax;
-  height: 80vmin;
+  width: 33%;
+  height: 100%;
 }
 
 .state_name {
@@ -68,10 +69,10 @@
   height: 10vmin;
 }
 
-.maps {
+/* .maps {
   display: flex;
   justify-content: space-between;
-}
+} */
 
 .map_instructions {
   color: #f00840;

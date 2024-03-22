@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 // import { MapContainer, GeoJSON } from 'react-leaflet';
 import GenState from "./gen_state";
 import GenGraph from "./gen_graph";
+import 'bootstrap/dist/css/bootstrap.css';
 
 
 // pass in parameters mode/race.
@@ -47,6 +48,7 @@ function MyComponent(props) {
         <GenState {...props} my_json={geojsonAl} state={'al'}/>
         <GenState {...props} my_json={geojsonDe} state={'de'}/>
         {geojsonSums['sums'] && <GenGraph {...props} my_json={geojsonSums} />}
+
     </div>)
 }
 

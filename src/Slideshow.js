@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 function Slideshow({ components }) {
@@ -48,6 +49,5 @@ function Slideshow({ components }) {
         </div>
     );
 
-};
-
+}
 export default Slideshow;

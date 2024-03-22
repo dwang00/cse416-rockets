@@ -5,15 +5,10 @@ import pandas as pd
 import geopandas as gpd
 import numpy as np
 import json
-
-from flask import Flask, jsonify
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"])
+import requests
+import pymongo
 
 
-@app.route('/get_geojson')
 def grab():
     al_lower = gpd.read_file('al_sldl_2021.zip')
     de_lower = gpd.read_file('de_sldl_adopted_2022.zip')
@@ -43,8 +38,21 @@ def grab():
 
     al_and_de = {"al": al_lower.to_json(), "de": de_lower.to_json(), "sums": json.dumps(summations)}
     # Return GeoJSON data as JSON response
-    return jsonify(al_and_de)
+    return al_and_de
+
+def insert_to_mongodb(data):
+    try:
+        client = pymongo.MongoClient('mongodb://localhost:27017/')
+        db = client['cse416-rockets']
+        collection = db['geojson']
+        collection.insert_one(data)
+        print("Inserted successfully into mongodb")
+    except Exception as e:
+        print(f'Failed to insert: {e}')
+
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3021)
+    data = grab()
+    insert_to_mongodb(data)
+

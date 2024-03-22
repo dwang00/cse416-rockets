@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const EiDelaware = ({ data, width, height }) => {
+const EiAlabama = ({ data, width, height }) => {
     const svgRef = useRef();
 
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -37,7 +37,7 @@ const EiDelaware = ({ data, width, height }) => {
             .attr("text-anchor", "end")
             .attr("x", width/2)
             .attr("y", height - 6)
-            .text("Support for Bob");
+            .text("Support for Alice");
 
         svg.select('.y-axis-label')
             .attr('transform', `rotate(-90) translate(${-innerHeight / 2}, ${-margin.left + 20})`)
@@ -77,4 +77,4 @@ const EiDelaware = ({ data, width, height }) => {
         </svg>
     );
 };
-export default EiDelaware;
+export default EiAlabama;

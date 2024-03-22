@@ -36,7 +36,10 @@ def grab():
     # summations['al_white_gt_black'] = al_lower['WHITE'] > al_lower['BLACK']
     # summations['de_white_gt_black'] = de_lower['WHITE'] > de_lower['BLACK']
 
-    al_and_de = {"al": al_lower.to_json(), "de": de_lower.to_json(), "sums": json.dumps(summations)}
+    al_and_de = [{"al": al_lower.to_json()},
+                 {"de": de_lower.to_json()},
+                 {"sums": json.dumps(summations)}
+        ]
     # Return GeoJSON data as JSON response
     return al_and_de
 
@@ -45,7 +48,7 @@ def insert_to_mongodb(data):
         client = pymongo.MongoClient('mongodb://localhost:27017/')
         db = client['cse416-rockets']
         collection = db['geojson']
-        collection.insert_one(data)
+        collection.insert_many(data)
         print("Inserted successfully into mongodb")
     except Exception as e:
         print(f'Failed to insert: {e}')

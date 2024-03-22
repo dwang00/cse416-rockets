@@ -147,7 +147,6 @@ function App() {
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state
-                console.log("Delaware: ", data[0].representatives);
                 setDeBarData([data[0].representatives.caucasian,data[0].representatives.africanAmerican,
                     data[0].representatives.asian]);
             })
@@ -232,7 +231,7 @@ function App() {
         plugins: {
             title: {
                 display: true,
-                text: "Ethnicity of Delaware House Representatives",
+                text: "Sokola v Hocker",
                 font: {
                     size: 20
                 }

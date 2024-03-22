@@ -5,5 +5,9 @@ import java.util.List;
 
 @Repository
 public interface GeoJsonRepository extends MongoRepository<GeoJsonData, String>{
-    List<GeoJsonData> findAll();
+
+    GeoJsonData findByAlNotNull();
+    GeoJsonData findByDeNotNull();
+    GeoJsonData findBySumsNotNull();
+
 }

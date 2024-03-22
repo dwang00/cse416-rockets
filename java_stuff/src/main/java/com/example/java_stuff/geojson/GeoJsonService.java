@@ -13,7 +13,21 @@ public class GeoJsonService {
     public GeoJsonService(GeoJsonRepository geoJsonRepository) {
         this.geoJsonRepository = geoJsonRepository;
     }
+
+    public GeoJsonData getByAl() {
+        return geoJsonRepository.findByAlNotNull();
+    }
+
+    public GeoJsonData getByDe() {
+        return geoJsonRepository.findByDeNotNull();
+    }
+
+    public GeoJsonData getBySums() {
+        return geoJsonRepository.findBySumsNotNull();
+    }
+
     public List<GeoJsonData> getAllGeoJsonData() {
         return geoJsonRepository.findAll();
     }
+
 }

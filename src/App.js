@@ -236,7 +236,6 @@ const barOptionsDelaware = {
         datasets: [
             {
                 label: 'David Sokola',
-
                 data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
                 backgroundColor: 'rgba(75, 192, 192, 1)',
             },

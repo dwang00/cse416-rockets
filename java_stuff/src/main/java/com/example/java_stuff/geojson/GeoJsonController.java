@@ -10,15 +10,6 @@ import java.util.List;
 public class GeoJsonController {
 
     private final GeoJsonService geoJsonService;
-
-    private GeoJsonData alData;
-    private boolean alDataLoaded = false;
-
-    private GeoJsonData deData;
-    private boolean deDataLoaded = false;
-
-    private GeoJsonData sumsData;
-    private boolean sumsDataLoaded = false;
     
     @Autowired
     public GeoJsonController(GeoJsonService geoJsonService) {
@@ -28,31 +19,19 @@ public class GeoJsonController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/al_geojson")
     public GeoJsonData getByAl() {
-        if(!alDataLoaded) {
-            alData = geoJsonService.getByAl();
-            alDataLoaded = true;
-        }
-        return alData;
+        return geoJsonService.getByAl();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/de_geojson")
     public GeoJsonData getByDe() {
-        if(!deDataLoaded) {
-            deData = geoJsonService.getByDe();
-            deDataLoaded = true;
-        }
-        return deData;
+        return geoJsonService.getByDe();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/sums_geojson")
     public GeoJsonData getBySums() {
-        if(!sumsDataLoaded) {
-            sumsData = geoJsonService.getBySums();
-            sumsDataLoaded = true;
-        }
-        return sumsData;
+        return geoJsonService.getBySums();
     }
 
     /*

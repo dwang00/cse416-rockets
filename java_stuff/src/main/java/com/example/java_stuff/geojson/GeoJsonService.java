@@ -8,6 +8,15 @@ import java.util.List;
 public class GeoJsonService {
     private final GeoJsonRepository geoJsonRepository;
 
+    private GeoJsonData alData;
+    private boolean alDataLoaded = false;
+
+    private GeoJsonData deData;
+    private boolean deDataLoaded = false;
+
+    private GeoJsonData sumsData;
+    private boolean sumsDataLoaded = false;
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GeoJsonService(GeoJsonRepository geoJsonRepository) {
@@ -15,19 +24,31 @@ public class GeoJsonService {
     }
 
     public GeoJsonData getByAl() {
-        return geoJsonRepository.findByAlNotNull();
+        if(!alDataLoaded) {
+            alData = geoJsonRepository.findByAlNotNull();
+            alDataLoaded = true;
+        }
+        return alData;
     }
 
     public GeoJsonData getByDe() {
-        return geoJsonRepository.findByDeNotNull();
+        if(!deDataLoaded) {
+            deData = geoJsonRepository.findByDeNotNull();
+            deDataLoaded = true;
+        }
+        return deData;
     }
 
     public GeoJsonData getBySums() {
-        return geoJsonRepository.findBySumsNotNull();
+        if(!sumsDataLoaded) {
+            sumsData = geoJsonRepository.findBySumsNotNull();
+            sumsDataLoaded = true;
+        }
+        return sumsData;
     }
 
-    public List<GeoJsonData> getAllGeoJsonData() {
+    /*public List<GeoJsonData> getAllGeoJsonData() {
         return geoJsonRepository.findAll();
-    }
+    }*/
 
 }

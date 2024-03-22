@@ -1,10 +1,9 @@
 
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
 
 function Slideshow({ components }) {
-
-    console.log(components);
     
     return (
         <div id="carouselExampleIndicators" className="carousel slide align-self-center" data-ride="carousel" style={{height: "90%", width: "90%"}}>
@@ -15,7 +14,7 @@ function Slideshow({ components }) {
                 <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
             </ol>
             <div className="carousel-inner" style={{height: "100%"}}>
-                <div className="carousel-item" style={{height: "100%"}}>
+                <div className="carousel-item active" style={{height: "100%"}}>
                     {React.createElement(components[0].type, { ...components[0].props })}
                 </div>
                 <div className="carousel-item" style={{height: "100%"}}>
@@ -24,7 +23,7 @@ function Slideshow({ components }) {
                 <div className="carousel-item" style={{height: "100%"}}>
                     {React.createElement(components[2].type, { ...components[2].props })}
                 </div>
-                <div className="carousel-item active" style={{height: "100%"}}>
+                <div className="carousel-item" style={{height: "100%"}}>
                     {React.createElement(components[3].type, { ...components[3].props })}
                 </div>
             </div>

@@ -66,22 +66,44 @@ function Gerrymandering_Delaware({chartId}) {
             },
             title: {
                 text: 'Alabama Districts',
-                align: 'left'
+                align: 'left',
+                style: {
+                    color: "#f00840"
+                }
             },
             xaxis: {
                 type: 'category',
                 title: {
-                    text: 'Indexed districts'
+                    text: 'Indexed districts',
+                    style: {
+                        color: "#f00840"
+                    }
+                },
+                labels: {
+                    style: {
+                        colors: "#f00840"
+                    }
                 }
             },
             yaxis: {
                 title: {
-                    text: '% Minority'
+                    text: '% Minority',
+                    style: {
+                        color: "#f00840"
+                    }
                 },
                 labels: {
                     formatter: function (value) {
                         return value.toFixed(2);
                     },
+                    style: {
+                        colors: "#f00840"
+                    }
+                }
+            },
+            legend: {
+                labels: {
+                    colors: "#f00840"
                 }
             },
             plotOptions: {

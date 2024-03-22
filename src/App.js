@@ -59,10 +59,16 @@ const barOptionsAlabama = {
         x: {
             indexAxis: 'Ethnicity',
             labels: ['Caucasian', 'African American'],
+            ticks: {
+                color: "#f00840"
+            }
         },
         y: {
             indexAxis: 'Number of Representatives',
             beginAtZero: true,
+            ticks: {
+                color: "#f00840"
+            }
         },
     },
     plugins: {
@@ -72,6 +78,7 @@ const barOptionsAlabama = {
           font: {
               size: 20
           },
+          color: "#f00840"
         },
         legend: {
             display: false
@@ -102,16 +109,22 @@ const scatterOptionsAlabama = {
             title: {
                 display: true,
                 text: 'Percent African American',
+                color: "#f00840"
             },
+            ticks: {
+                color: "#f00840"
+            }
         },
         y: {
             beginAtZero: true,
             title: {
                 display: true,
                 text: 'Vote Share',
+                color: "#f00840"
             },
             ticks: {
                 stepSize: 20,
+                color: "#f00840"
             },
         },
     },
@@ -121,8 +134,14 @@ const scatterOptionsAlabama = {
             text: "2022 Boyd v Britt",
             font: {
                 size: 20
-            }
+            },
+            color: "#f00840"
         },
+        legend: {
+            labels: { 
+                color: "#f00840"
+            }
+        }
     }
 };
 
@@ -241,7 +260,13 @@ function App() {
     const raceChange = (value) => {
         setRace(value);
     }
-    const [currState, setCurrState] = useState('de');
+    const [currState, setCurrState] = useState('al');
+    function setAl() {
+        setCurrState('al');
+    }
+    function setDe() {
+        setCurrState('de');
+    }
 
     // const handleButtonClick = (newValue) => {
     //     setRace(newValue);
@@ -359,8 +384,8 @@ function App() {
                     <span className="align-middle">Election Analysis</span>
                 </a>
                 <div className="navbar-nav">
-                    <a className="nav-item nav-link" href="#">Alabama</a>
-                    <a className="nav-item nav-link" href="#">Delaware</a>
+                    <a className="nav-item nav-link" href="#" onClick={() => setAl()}>Alabama</a>
+                    <a className="nav-item nav-link" href="#" onClick={() => setDe()}>Delaware</a>
                     <a className="nav-item nav-link" href="#">Side-by-Side</a>
                 </div>
             </nav>

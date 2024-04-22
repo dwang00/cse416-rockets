@@ -41,10 +41,13 @@ public class StateAssembly {
     @Field("state")
     private State state;
 
+    @Field("margin")
+    private double margin;
+
     public StateAssembly() {
     }
 
-    public StateAssembly(String id, String name, int district, String img, List<String> races, Party party, State state) {
+    public StateAssembly(String id, String name, int district, String img, List<String> races, Party party, State state, double margin) {
         this.id = id;
         this.name = name;
         this.district = district;
@@ -52,6 +55,7 @@ public class StateAssembly {
         this.races = races;
         this.party = party;
         this.state = state;
+        this.margin = margin;
     }
 
     public String getId() {
@@ -110,5 +114,11 @@ public class StateAssembly {
         this.state = state;
     }
 
+    public double getMargin() {
+        return margin;
+    }
 
+    public void setMargin(double margin) {
+        this.margin = margin;
+    }
 }

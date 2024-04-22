@@ -21,10 +21,22 @@ public class GinglesData {
         DELAWARE
     }
 
-    public GinglesData(String id, List<DataPoint> dataPoints, State state) {
+    @Field("party")
+    private Party party;
+    enum Party {
+        DEMOCRAT,
+        REPUBLICAN
+    }
+
+    @Field("race")
+    private String race;
+
+    public GinglesData(String id, List<DataPoint> dataPoints, State state, Party party, String race) {
         this.id = id;
         this.dataPoints = dataPoints;
         this.state = state;
+        this.party = party;
+        this.race = race;
     }
 
     public String getId() {
@@ -49,6 +61,22 @@ public class GinglesData {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Party getParty() {
+        return party;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
     }
 }
 

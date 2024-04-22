@@ -16,6 +16,7 @@ public class GraphsController {
 
     private final BoxPlotService boxPlotService;
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GraphsController(StateAssemblyRaceDataService stateAssemblyRaceService,
                             GinglesService ginglesService, BoxPlotService boxPlotService) {

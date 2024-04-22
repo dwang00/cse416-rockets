@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.example.java_stuff.horMembers",
         "com.example.java_stuff.stateAssemblyRaceData",
-        "com.example.java_stuff.geojson", "com.example.java_stuff.gingles"})
+        "com.example.java_stuff.geojson", "com.example.java_stuff.gingles", "com.example.java_stuff.boxPlotGraph"})
 public class JavaStuffApplication{
     public static void main(String[] args) {
         SpringApplication.run(JavaStuffApplication.class, args);

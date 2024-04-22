@@ -178,6 +178,8 @@ const barOptionsAlabama = {
         fetch('http://localhost:8080/get_racedata/byState?state=DELAWARE') // Fetch data for Alabama
             .then(response => response.json())
             .then(data => {
+                console.log("BARRRRRRRRRRR")
+                console.log(data)
                 // Set the fetched data to the state
                 setDeBarData([data[0].representatives.caucasian,data[0].representatives.africanAmerican,
                     data[0].representatives.asian]);
@@ -231,17 +233,30 @@ const barOptionsDelaware = {
         }
     }
 };
-
+    const [deScatterDataDemWhite, setDeScatterDataDemWhite]= useState(null);
+    const [deScatterDataRepWhite, setDeScatterDataRepWhite] = useState(null);
+    useEffect(() => {
+        fetch('http://localhost:8080/ginglesByState?state=DELAWARE') // Fetch data for Alabama
+            .then(response => response.json())
+            .then(data => {
+                // Set the fetched data to the state
+                setDeScatterDataDemWhite(data[2].dataPoints)
+                setDeScatterDataRepWhite(data[3].dataPoints)
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
     const scatterDataDelaware = {
         datasets: [
             {
                 label: 'David Sokola',
-                data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
+                data: deScatterDataDemWhite,
                 backgroundColor: 'rgba(75, 192, 192, 1)',
             },
             {
                 label: 'Gerald Hocker',
-                data: generateDataset(80,0, 1, 0, 1, -.2, .63, .18),
+                data: deScatterDataRepWhite,
                 backgroundColor: 'rgba(255, 99, 132, 1)',
             },
         ],
@@ -430,8 +445,18 @@ const barOptionsDelaware = {
             {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight}/>}
             {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight}/>}
             {/* <GetData mode={"density"} race={race}/> */}
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Assembly Districts For Delaware</h1>
+                <StateAssemblyTableDelaware/>
+            </div>
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Assembly Districts For Alabama</h1>
+                <StateAssemblyTableAlabama/>
+            </div>
+
         </div>
-  );
+    );
 }
+
 //
 export default App;

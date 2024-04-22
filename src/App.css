@@ -196,3 +196,33 @@
   border-width: 2px;
   display: flex;
 }
+.react-data-table-component .data-table-title {
+  background-color: #333; /* Change background color */
+  color: white; /* Change text color */
+  padding: 10px; /* Add padding */
+  border-radius: 5px; /* Add border radius */
+}
+
+[data-column-id="margin"].rdt_TableCol {
+  background-color: #686464;
+  width: 80%;
+}
+
+[data-column-id="races"].rdt_TableCol {
+  background-color: #686464;
+
+}
+[data-column-id="party"].rdt_TableCol {
+  background-color: #686464;
+}
+
+[data-column-id="district"].rdt_TableCol {
+  background-color: #686464;
+}
+[data-column-id="name"].rdt_TableCol {
+  background-color: #686464;
+}
+
+[data-column-id="img"].rdt_TableCol {
+  background-color: #686464;
+}

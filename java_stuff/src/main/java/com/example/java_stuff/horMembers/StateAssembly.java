@@ -10,7 +10,7 @@ import java.util.List;
 @Document("StateAssemblyMembers")
 public class StateAssembly {
 
-    public enum Party {
+    enum Party {
         DEMOCRAT,
         REPUBLICAN
     }

@@ -42,13 +42,13 @@ public class StateAssemblyService {
         return membersWithMatchingRace;
     }
 
-    public List<StateAssembly> getMembersByParty(StateAssembly.Party party) {
+    public List<StateAssembly> getMembersByParty(String party) {
         if(allStateAssemblyData == null) {
             allStateAssemblyData = stateAssemblyRepository.findAll();
         }
         List<StateAssembly> membersWithMatchingParty = new ArrayList<>();
         for (StateAssembly member : allStateAssemblyData) {
-            if (member.getParty() == party) {
+            if (member.getParty().toString().equals(party)) {
                 membersWithMatchingParty.add(member);
             }
         }
@@ -60,8 +60,8 @@ public class StateAssemblyService {
             allStateAssemblyData = stateAssemblyRepository.findAll();
         }
         List<StateAssembly> membersInState = new ArrayList<>();
-        for (StateAssembly member : allStateAssemblyData) {
-            if (member.getState().toString().equals(state)) {
+        for(StateAssembly member : allStateAssemblyData) {
+            if(member.getState().toString().equals(state)) {
                 membersInState.add(member);
             }
         }

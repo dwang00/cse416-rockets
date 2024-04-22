@@ -14,7 +14,7 @@ function Slideshow({ components }) {
                 <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
             </ol>
-            <div className="carousel-inner" style={{height: "100%", backgroundColor: '#666666', borderStyle: 'solid',}}>
+            <div className="carousel-inner" style={{height: "100%", backgroundColor: '#e6e6e6', borderStyle: 'solid',}}>
                 <div className="carousel-item active" style={{height: "100%"}}>
                     {React.createElement(components[0].type, { ...components[0].props })}
                 </div>

@@ -27,7 +27,7 @@ public class StateAssemblyController {
     }
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/membersByParty")
-    public List<StateAssembly> getMembersByParty(@RequestParam StateAssembly.Party party) {
+    public List<StateAssembly> getMembersByParty(@RequestParam String party) {
         return stateAssemblyService.getMembersByParty(party);
     }
 

@@ -50,7 +50,7 @@ function App() {
     //ALABAMA STUFF ********************************************************************
     const [alBarData, setAlBarData]= useState(null);
     useEffect(() => {
-        fetch('http://localhost:8080/get_racedata/alabama') // Fetch data for Alabama
+        fetch('http://localhost:8080/get_racedata/byState?state=ALABAMA') // Fetch data for Alabama
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state
@@ -175,7 +175,7 @@ const barOptionsAlabama = {
     //DELAWARE STUFF ***********************************************************
     const [deBarData, setDeBarData]= useState(null);
     useEffect(() => {
-        fetch('http://localhost:8080/get_racedata/delaware') // Fetch data for Alabama
+        fetch('http://localhost:8080/get_racedata/byState?state=DELAWARE') // Fetch data for Alabama
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state

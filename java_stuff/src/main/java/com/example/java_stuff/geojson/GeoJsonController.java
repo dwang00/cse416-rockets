@@ -11,58 +11,14 @@ public class GeoJsonController {
 
     private final GeoJsonService geoJsonService;
 
-    private GeoJsonData alData;
-    private boolean alDataLoaded = false;
-
-    private GeoJsonData deData;
-    private boolean deDataLoaded = false;
-
-    private GeoJsonData sumsData;
-    private boolean sumsDataLoaded = false;
-    
     @Autowired
     public GeoJsonController(GeoJsonService geoJsonService) {
         this.geoJsonService = geoJsonService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/al_geojson")
-    public GeoJsonData getByAl() {
-        if(!alDataLoaded) {
-            alData = geoJsonService.getByAl();
-            alDataLoaded = true;
-        }
-        return alData;
+    @GetMapping
+    public GeoJsonData getGeoJsonData(@RequestParam(name = "region") String region) {
+        return geoJsonService.getGeoJsonData(region);
     }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/de_geojson")
-    public GeoJsonData getByDe() {
-        if(!deDataLoaded) {
-            deData = geoJsonService.getByDe();
-            deDataLoaded = true;
-        }
-        return deData;
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/sums_geojson")
-    public GeoJsonData getBySums() {
-        if(!sumsDataLoaded) {
-            sumsData = geoJsonService.getBySums();
-            sumsDataLoaded = true;
-        }
-        return sumsData;
-    }
-
-    /*
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/all")
-    public List<GeoJsonData> getAllGeoJsonData() {
-        if(!dataLoaded) {
-            cachedGeoJsonData = geoJsonService.getAllGeoJsonData();
-            dataLoaded = true;
-        }
-        return cachedGeoJsonData;
-    }*/
 }

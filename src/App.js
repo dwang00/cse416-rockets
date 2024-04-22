@@ -54,7 +54,7 @@ function App() {
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state
-                setAlBarData([data[0].representatives.caucasian, data[0].representatives.africanAmerican]);
+                setAlBarData([data[0].raceCount.caucasian, data[0].raceCount.africanAmerican]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -181,8 +181,8 @@ const barOptionsAlabama = {
                 console.log("BARRRRRRRRRRR")
                 console.log(data)
                 // Set the fetched data to the state
-                setDeBarData([data[0].representatives.caucasian,data[0].representatives.africanAmerican,
-                    data[0].representatives.asian]);
+                setDeBarData([data[0].raceCount.caucasian,data[0].raceCount.africanAmerican,
+                    data[0].raceCount.asian]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -250,12 +250,12 @@ const barOptionsDelaware = {
     const scatterDataDelaware = {
         datasets: [
             {
-                label: 'David Sokola',
+                label: 'Lisa Blunt Rochester',
                 data: deScatterDataDemWhite,
                 backgroundColor: 'rgba(75, 192, 192, 1)',
             },
             {
-                label: 'Gerald Hocker',
+                label: 'Lee Murphy',
                 data: deScatterDataRepWhite,
                 backgroundColor: 'rgba(255, 99, 132, 1)',
             },
@@ -290,7 +290,7 @@ const barOptionsDelaware = {
         plugins: {
             title: {
                 display: true,
-                text: "Sokola v Hocker",
+                text: "Blunt v Murphy",
                 font: {
                     size: 20
                 },

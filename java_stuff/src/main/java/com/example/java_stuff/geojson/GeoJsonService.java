@@ -9,13 +9,12 @@ public class GeoJsonService {
     private final GeoJsonRepository geoJsonRepository;
 
     private GeoJsonData alData;
-    private boolean alDataLoaded = false;
 
     private GeoJsonData deData;
-    private boolean deDataLoaded = false;
 
     private GeoJsonData sumsData;
-    private boolean sumsDataLoaded = false;
+
+    private List<GeoJsonData> allGeoJsonData;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -23,32 +22,27 @@ public class GeoJsonService {
         this.geoJsonRepository = geoJsonRepository;
     }
 
-    public GeoJsonData getByAl() {
-        if(!alDataLoaded) {
-            alData = geoJsonRepository.findByAlNotNull();
-            alDataLoaded = true;
+    public GeoJsonData getGeoJsonData(String region) {
+        if(allGeoJsonData == null) {
+            allGeoJsonData = geoJsonRepository.findAll();
         }
-        return alData;
-    }
-
-    public GeoJsonData getByDe() {
-        if(!deDataLoaded) {
-            deData = geoJsonRepository.findByDeNotNull();
-            deDataLoaded = true;
+        for(GeoJsonData data: allGeoJsonData) {
+            if(data.getAl() != null)
+                alData = data;
+            if(data.getDe() != null)
+                deData = data;
+            if(data.getSums() != null)
+                sumsData = data;
         }
-        return deData;
-    }
-
-    public GeoJsonData getBySums() {
-        if(!sumsDataLoaded) {
-            sumsData = geoJsonRepository.findBySumsNotNull();
-            sumsDataLoaded = true;
+        switch (region) {
+            case "al":
+                return alData;
+            case "de":
+                return deData;
+            case "sums":
+                return sumsData;
+            default:
+                throw new IllegalArgumentException("Invalid region: " + region);
         }
-        return sumsData;
     }
-
-    /*public List<GeoJsonData> getAllGeoJsonData() {
-        return geoJsonRepository.findAll();
-    }*/
-
 }

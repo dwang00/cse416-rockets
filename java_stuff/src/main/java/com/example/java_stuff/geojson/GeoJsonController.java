@@ -10,38 +10,15 @@ import java.util.List;
 public class GeoJsonController {
 
     private final GeoJsonService geoJsonService;
-    
+
     @Autowired
     public GeoJsonController(GeoJsonService geoJsonService) {
         this.geoJsonService = geoJsonService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/al_geojson")
-    public GeoJsonData getByAl() {
-        return geoJsonService.getByAl();
+    @GetMapping
+    public GeoJsonData getGeoJsonData(@RequestParam(name = "region") String region) {
+        return geoJsonService.getGeoJsonData(region);
     }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/de_geojson")
-    public GeoJsonData getByDe() {
-        return geoJsonService.getByDe();
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/sums_geojson")
-    public GeoJsonData getBySums() {
-        return geoJsonService.getBySums();
-    }
-
-    /*
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/all")
-    public List<GeoJsonData> getAllGeoJsonData() {
-        if(!dataLoaded) {
-            cachedGeoJsonData = geoJsonService.getAllGeoJsonData();
-            dataLoaded = true;
-        }
-        return cachedGeoJsonData;
-    }*/
 }

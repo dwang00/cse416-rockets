@@ -18,7 +18,7 @@ function MyComponent(props) {
     // const [geojsonData, setGeojsonData] = useState();
 
     useEffect(() => {
-        fetch('http://localhost:8080/get_geojson/al_geojson')
+        fetch('http://localhost:8080/get_geojson?region=al')
             .then(response => response.json())
             .then(data => {
                 console.log('Received al data from Spring:', data);
@@ -27,7 +27,7 @@ function MyComponent(props) {
             .catch(error => console.error(error));
     }, []);
     useEffect(() => {
-        fetch('http://localhost:8080/get_geojson/de_geojson')
+        fetch('http://localhost:8080/get_geojson?region=de')
             .then(response => response.json())
             .then(data => {
                 console.log('Received de data from Spring:', data);
@@ -36,7 +36,7 @@ function MyComponent(props) {
             .catch(error => console.error(error));
     }, []);
     useEffect(() => {
-        fetch('http://localhost:8080/get_geojson/sums_geojson')
+        fetch('http://localhost:8080/get_geojson?region=sums')
             .then(response => response.json())
             .then(data => {
                 console.log('Received sums data from Spring:',data);

@@ -31,12 +31,16 @@ public class GinglesData {
     @Field("race")
     private String race;
 
-    public GinglesData(String id, List<DataPoint> dataPoints, State state, Party party, String race) {
+    @Field("function")
+    private List<Double> function;
+
+    public GinglesData(String id, List<DataPoint> dataPoints, State state, Party party, String race, List<Double> function) {
         this.id = id;
         this.dataPoints = dataPoints;
         this.state = state;
         this.party = party;
         this.race = race;
+        this.function = function;
     }
 
     public String getId() {
@@ -78,6 +82,14 @@ public class GinglesData {
     public void setRace(String race) {
         this.race = race;
     }
+
+    public List<Double> getFunction() {
+        return function;
+    }
+
+    public void setFunction(List<Double> function) {
+        this.function = function;
+    }
 }
 
 class DataPoint {
@@ -106,5 +118,6 @@ class DataPoint {
     public void setY(double y) {
         this.y = y;
     }
+
 
 }

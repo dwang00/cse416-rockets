@@ -61,7 +61,7 @@ public class StateAssemblyService {
         }
         List<StateAssembly> membersInState = new ArrayList<>();
         for (StateAssembly member : allStateAssemblyData) {
-            if (member.getState().equals(state)) {
+            if (member.getState().toString().equals(state)) {
                 membersInState.add(member);
             }
         }

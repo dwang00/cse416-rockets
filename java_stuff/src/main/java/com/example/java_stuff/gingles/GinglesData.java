@@ -4,33 +4,22 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.List;
+import com.example.java_stuff.enums.*;
 
 
 @Document("gingles")
 public class GinglesData {
+
     @Id
     private String id;
-
     @Field("dataPoints")
     private List<DataPoint> dataPoints;
-
     @Field("state")
     private State state;
-    enum State {
-        ALABAMA,
-        DELAWARE
-    }
-
     @Field("party")
     private Party party;
-    enum Party {
-        DEMOCRAT,
-        REPUBLICAN
-    }
-
     @Field("race")
     private String race;
-
     @Field("func")
     private List<Double> function;
 

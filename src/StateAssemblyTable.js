@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
+import "./App.css";
 
-function StateAssemblyTableAlabama() {
+function StateAssemblyTable({state}) {
 
     const [tableData, setTableData] = useState(null);
     useEffect( () => {
-        fetch('http://localhost:8080/get_members/membersByState?state=ALABAMA')
+        fetch(`http://localhost:8080/get_members/membersByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
                 setTableData(data)
@@ -21,7 +22,6 @@ function StateAssemblyTableAlabama() {
     const data = tableData
 
     const columns = [
-
         {
             name: 'Image',
             selector: 'img',
@@ -88,10 +88,10 @@ function StateAssemblyTableAlabama() {
         },
         table: {
             style: {
-                backgroundColor: '#333', // Change the background color of the title area
-                color: '#fff', // Change the text color of the title
-                padding: '20px', // Add padding to the title area
-                borderRadius: '5px', // Add border radius to the title area
+                backgroundColor: '#333',
+                color: '#fff',
+                padding: '20px',
+                borderRadius: '5px',
             },
         },
         header: {
@@ -122,7 +122,6 @@ function StateAssemblyTableAlabama() {
             },
         },
     };
-
     return (
         <div>
             <DataTable
@@ -130,10 +129,10 @@ function StateAssemblyTableAlabama() {
                 data={data}
                 pagination
                 selectableRows = {false}
-                customStyles={customStyles}
+                customStyles = {customStyles}
             />
         </div>
     );
 }
 
-export default StateAssemblyTableAlabama;
+export default StateAssemblyTable;

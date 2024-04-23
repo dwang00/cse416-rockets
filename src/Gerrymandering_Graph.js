@@ -1,50 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ApexCharts from 'apexcharts';
 
-function Gerrymandering_Delaware({chartId}) {
+function Gerrymandering_Graph({ state, race, chartId }) {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/boxPlotByState?state=${state}`)
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
     useEffect(() => {
         window.dispatchEvent(new Event('resize'));
+        if(!data.length)
+            return;
 
-        function randomFloats(count, min, max) {
-            const delta = max - min;
-            return Array.from({ length: count }, () => Math.random() * delta + min);
-        }
-
-        const quantile = (arr, q) => {
-            const sorted = arr.slice().sort((a, b) => a - b);
-            const pos = (sorted.length - 1) * q;
-            const base = Math.floor(pos);
-            const rest = pos - base;
-            if (sorted[base + 1] !== undefined) {
-                return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
-            } else {
-                return sorted[base];
-            }
-        };
-
-        const boxplotData = [
-            {
-                x: '1',
-                y: randomFloats(100, 0.05, 0.1),
-            },
-            ...Array.from({ length: 21 }, (_, index) => ({
-                x: `${index + 2}`,
-                y: randomFloats(100, 0.05 + index * 0.024, 0.1 + index * 0.03),
-            })),
-        ].map((data) => ({
-            x: data.x,
-            y: [
-                Math.min(...data.y),
-                quantile(data.y, 0.25),
-                quantile(data.y, 0.5),
-                quantile(data.y, 0.75),
-                Math.max(...data.y),
-            ],
+        const boxplotData = data.map(item => ({
+            x: item.districtNum.toString(),
+            y: [item.min, item.lower, item.med, item.upper, item.max]
         }));
-        const scatterData = boxplotData.map((data) => ({
-            x: data.x,
-            y: data.y[2] + (Math.random() * .09 - Math.random() * .09 ), // Use the minimum value of the box plot
+        const scatterData = data.map(item => ({
+            x: item.districtNum.toString(),
+            y: item.med + (Math.random() * .01 - Math.random() * .01)
         }));
 
         const options = {
@@ -65,7 +43,7 @@ function Gerrymandering_Delaware({chartId}) {
                 height: "100%"
             },
             title: {
-                text: 'Delaware Districts',
+                text: `${state} Districts`,
                 align: 'left',
                 style: {
                     color: "#f00840"
@@ -87,7 +65,7 @@ function Gerrymandering_Delaware({chartId}) {
             },
             yaxis: {
                 title: {
-                    text: '% Minority',
+                    text: `% ${race}`,
                     style: {
                         color: "#f00840"
                     }
@@ -121,14 +99,14 @@ function Gerrymandering_Delaware({chartId}) {
         };
 
         const chartElement = document.querySelector(`#${chartId}`);
+        if(!chartElement)
+            return;
 
-        if (chartElement) {
-            const chart = new ApexCharts(chartElement, options);
-            chart.render();
-        }
-    }, [chartId]);
+        const chart = new ApexCharts(chartElement, options);
+        chart.render();
+    }, [data, chartId]);
 
     return <div id={chartId} />;
 }
 
-export default Gerrymandering_Delaware;
+export default Gerrymandering_Graph;

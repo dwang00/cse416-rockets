@@ -31,7 +31,7 @@ public class GinglesData {
     @Field("race")
     private String race;
 
-    @Field("function")
+    @Field("func")
     private List<Double> function;
 
     public GinglesData(String id, List<DataPoint> dataPoints, State state, Party party, String race, List<Double> function) {

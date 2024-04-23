@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const EiDelaware = ({ data, width, height }) => {
+const EcoInf = ({ data, width, height }) => {
     const svgRef = useRef();
 
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
@@ -82,4 +82,4 @@ const EiDelaware = ({ data, width, height }) => {
         </svg>
     );
 };
-export default EiDelaware;
+export default EcoInf;

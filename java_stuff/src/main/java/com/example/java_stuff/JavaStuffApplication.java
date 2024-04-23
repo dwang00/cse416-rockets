@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.example.java_stuff.horMembers",
-        "com.example.java_stuff.stateAssemblyRaceData",
+@ComponentScan(basePackages = {"com.example.java_stuff.hormembers",
+        "com.example.java_stuff.stateassemblyracedata",
         "com.example.java_stuff.geojson", "com.example.java_stuff.gingles",
-        "com.example.java_stuff.boxPlotGraph"})
+        "com.example.java_stuff.boxplotgraph","com.example.java_stuff.statesummary"})
 public class JavaStuffApplication{
     public static void main(String[] args) {
         SpringApplication.run(JavaStuffApplication.class, args);

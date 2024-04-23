@@ -6,6 +6,5 @@ import java.util.List;
 
 @Repository
 public interface GinglesRepository extends MongoRepository<GinglesData, String> {
-
     List<GinglesData> findAll();
 }

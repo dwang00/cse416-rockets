@@ -1,7 +1,7 @@
 import logo from './rocketslogo.png';
 import line from './line.png';
 import './App.css';
-import { Bar, Scatter} from 'react-chartjs-2';
+import { Bar, Scatter } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import Chart from 'chart.js/auto';
@@ -13,12 +13,13 @@ import * as d3 from 'd3';
 import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
 import Gerrymandering_Alabama from './Gerrymandering_Alabama';
-import Gerrymandering_Delaware from "./Gerrymandering_Delaware";
+import Gerrymandering_Graph from "./Gerrymandering_Graph";
 import StateTab from './StateTab.js';
 import GraphDesc from './graph_descriptions.js';
-import EiDelaware from './EiDelaware'
-import StateAssemblyTableDelaware from "./StateAssemblyTableDelaware";
-import StateAssemblyTableAlabama from "./StateAssemblyTableAlabama";
+import EcoInf from './EcoInf'
+import StateAssemblyTable from "./StateAssemblyTable";
+import Gingles_Graph from "./Gingles_Graph";
+import StateDataSummary from "./StateDataSummary";
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
 
@@ -51,11 +52,11 @@ function App() {
     //ALABAMA STUFF ********************************************************************
     const [alBarData, setAlBarData]= useState(null);
     useEffect(() => {
-        fetch('http://localhost:8080/get_racedata/alabama') // Fetch data for Alabama
+        fetch('http://localhost:8080/get_racedata/byState?state=ALABAMA') // Fetch data for Alabama
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state
-                setAlBarData([data[0].representatives.caucasian, data[0].representatives.africanAmerican]);
+                setAlBarData([data[0].raceCount.caucasian, data[0].raceCount.africanAmerican]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -176,12 +177,12 @@ const barOptionsAlabama = {
     //DELAWARE STUFF ***********************************************************
     const [deBarData, setDeBarData]= useState(null);
     useEffect(() => {
-        fetch('http://localhost:8080/get_racedata/delaware') // Fetch data for Alabama
+        fetch('http://localhost:8080/get_racedata/byState?state=DELAWARE') // Fetch data for Alabama
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state
-                setDeBarData([data[0].representatives.caucasian,data[0].representatives.africanAmerican,
-                    data[0].representatives.asian]);
+                setDeBarData([data[0].raceCount.caucasian,data[0].raceCount.africanAmerican,
+                    data[0].raceCount.asian]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -233,62 +234,7 @@ const barOptionsDelaware = {
     }
 };
 
-    const scatterDataDelaware = {
-        datasets: [
-            {
-                label: 'David Sokola',
-                data: generateDataset(220,0, 1, 0, 1, .3, .39, .12),
-                backgroundColor: 'rgba(75, 192, 192, 1)',
-            },
-            {
-                label: 'Gerald Hocker',
-                data: generateDataset(80,0, 1, 0, 1, -.2, .63, .18),
-                backgroundColor: 'rgba(255, 99, 132, 1)',
-            },
-        ],
-    };
-    const scatterOptionsDelaware = {
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Percent African American',
-                    color: "#f00840"
-                },
-                ticks: {
-                    color: "#f00840"
-                }
-            },
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Vote Share',
-                    color: "#f00840"
-                },
-                ticks: {
-                    stepSize: 20,
-                    color: "#f00840"
-                },
-            },
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: "Sokola v Hocker",
-                font: {
-                    size: 20
-                },
-                color: "#f00840"
-            },
-            legend: {
-                labels: {
-                    color: "#f00840"
-                }
-            }
-        }
-    };
+
     const [race,setRace] = useState("white");
     // const raceChange = (event) => {
     //     setRace(event.target.value);
@@ -305,6 +251,9 @@ const barOptionsDelaware = {
         setCurrState('de');
     }
 
+
+
+
     // const handleButtonClick = (newValue) => {
     //     setRace(newValue);
     //     console.log(race);
@@ -316,7 +265,7 @@ const barOptionsDelaware = {
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
         // placeholder
-        <EiDelaware
+        <EcoInf
         data={[
             {
                 color: "steelblue",
@@ -365,9 +314,9 @@ const barOptionsDelaware = {
     const deComponents = [
         // <GetData mode={"density"} race={race} state='de' />,
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
-        <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware} style={{display:"inline-block"}}/>,
-        <Gerrymandering_Delaware chartId="chartDelaware1" style={{display:"inline-block"}}/>,
-        <EiDelaware
+        <Gingles_Graph state = "DELAWARE" race = "caucasian" demCan = "Lisa Blunt Rochester" repCan = "Lee Murphy"/>,
+        <Gerrymandering_Graph state = "DELAWARE" race = "caucasian" chartId="chartDelaware1" style={{display:"inline-block"}}/>,
+        <EcoInf
             data={[
                 {
                     color: "steelblue",
@@ -419,7 +368,8 @@ const barOptionsDelaware = {
     return (
         <div className="App">
             <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor: "#1e1e1e",}}>
-                <a className="navbar-brand" href="/" height={navbarHeight} style={{color: "#f00840", fontWeight: "bold",}}>
+                <a className="navbar-brand" href="/" height={navbarHeight}
+                   style={{color: "#f00840", fontWeight: "bold",}}>
                     <img src={logo} width="auto" height={navbarHeight * 0.63} className="d-inline-block" alt="logo"/>
                     <span className="align-middle">Election Analysis</span>
                 </a>
@@ -432,8 +382,26 @@ const barOptionsDelaware = {
             {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJson={geoJsons["de"]}/>}
             {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJson={geoJsons["al"]}/>}
             {/* <GetData mode={"density"} race={race}/> */}
+
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Assembly Districts For Delaware</h1>
+                <StateAssemblyTable state="DELAWARE"/>
+            </div>
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Assembly Districts For Alabama</h1>
+                <StateAssemblyTable state="ALABAMA"/>
+            </div>
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Data Summary for Delaware</h1>
+                <StateDataSummary state="DELAWARE"/>
+            </div>
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Data Summary for Alabama</h1>
+                <StateDataSummary state="ALABAMA"/>
+            </div>
         </div>
-  );
+    );
 }
+
 //
 export default App;

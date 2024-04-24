@@ -297,7 +297,7 @@ function Gingles_Graph(props) {
 // TODO legend stroke and fill colors for regressions appears to be swapped
     return (
 
-        <div className="w-100" style={{height: "95%",}}>
+        <div className="w-100" style={{height: "95%", borderStyle:"solid"}}>
             {props.table ? (
                 tableData && (
                     <DataTable

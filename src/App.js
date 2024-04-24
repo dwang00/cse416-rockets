@@ -1,27 +1,24 @@
 import logo from './rocketslogo.png';
-import line from './line.png';
+
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
+import React, { useState, useEffect } from 'react';
 import { Bar, Scatter } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import Chart from 'chart.js/auto';
-import { get_data } from './get_data.js';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
-import * as d3 from 'd3';
-// import GetData from "./get_data";
-import React, { useState, useEffect } from 'react';
 import Gerrymandering_Alabama from './Gerrymandering_Alabama';
 import Gerrymandering_Graph from "./Gerrymandering_Graph";
-import StateTab from './StateTab.js';
-import GraphDesc from './graph_descriptions.js';
 import EcoInf from './EcoInf'
-import StateAssemblyTable from "./StateAssemblyTable";
 import Gingles_Graph from "./Gingles_Graph";
-import StateDataSummary from "./StateDataSummary";
 import SelectState from './SelectState.js';
+import StateTab from './StateTab.js';
 import Navbar from './Navbar.js';
+
+import { get_data } from './get_data.js';
+
 Chart.register(BoxPlotController, BoxAndWiskers);
 
 Chart.register(BoxPlotController, BoxAndWiskers);

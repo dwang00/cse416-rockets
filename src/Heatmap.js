@@ -9,9 +9,6 @@ function HeatMap(props) {
         "al": [32.655, -86.66],
         "de": [39.15,-75.439787]
     }
-
-    const map_locations = {"al":'15%', "de":'55%'}
-
     const default_zoom = {"al":6.8, "de":8.5}
 
     // Define the colors for the tab20 colormap
@@ -103,6 +100,11 @@ function HeatMap(props) {
                             fillColor: getColor(feature),
                             fillOpacity: 1
                         })}
+                        // onEachFeature={(feature, layer) => {
+                        //     feature.on({
+                        //         click: handleClick(feature)
+                        //     })
+                        // }}
                     />}
                 <TileLayer
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"

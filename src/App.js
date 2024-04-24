@@ -5,11 +5,12 @@ import { Bar, Scatter } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import Chart from 'chart.js/auto';
+import { get_data } from './get_data.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
 import * as d3 from 'd3';
-import GetData from "./get_data";
+// import GetData from "./get_data";
 import React, { useState, useEffect } from 'react';
 import Gerrymandering_Alabama from './Gerrymandering_Alabama';
 import Gerrymandering_Graph from "./Gerrymandering_Graph";
@@ -19,11 +20,11 @@ import EcoInf from './EcoInf'
 import StateAssemblyTable from "./StateAssemblyTable";
 import Gingles_Graph from "./Gingles_Graph";
 import StateDataSummary from "./StateDataSummary";
+import SelectState from './SelectState.js';
+import Navbar from './Navbar.js';
 Chart.register(BoxPlotController, BoxAndWiskers);
-//const createArray = (length, callback) => Array.from({ length }, callback);
 
 Chart.register(BoxPlotController, BoxAndWiskers);
-//const createArray = (length, callback) => Array.from({ length }, callback);
 
 function App() {
     const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
@@ -48,13 +49,11 @@ function App() {
     };
 
 
-    //ALABAMA STUFF ********************************************************************
     const [alBarData, setAlBarData]= useState(null);
     useEffect(() => {
-        fetch('http://localhost:8080/get_racedata/byState?state=ALABAMA') // Fetch data for Alabama
+        fetch('http://localhost:8080/get_racedata/byState?state=ALABAMA')
             .then(response => response.json())
             .then(data => {
-                // Set the fetched data to the state
                 setAlBarData([data[0].raceCount.caucasian, data[0].raceCount.africanAmerican]);
             })
             .catch(error => {
@@ -234,23 +233,11 @@ const barOptionsDelaware = {
 };
 
 
-    const [race,setRace] = useState("white");
-    // const raceChange = (event) => {
-    //     setRace(event.target.value);
-    // }
-    
+    const [race, setRace] = useState("white");
+
     const raceChange = (value) => {
         setRace(value);
     }
-    const [currState, setCurrState] = useState('al');
-    function setAl() {
-        setCurrState('al');
-    }
-    function setDe() {
-        setCurrState('de');
-    }
-
-
 
     const [selectedRowsData, setSelectedRowsData] = useState([]);
 
@@ -263,12 +250,12 @@ const barOptionsDelaware = {
     //     console.log(race);
     // };
 
+    const [currState, setCurrState] = useState(null);
+
     const alComponents = [
-        <GetData mode={"density"} race={race} state='al' selectedRows = {selectedRowsData}/>,
         <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
-        // placeholder
         <EcoInf
         data={[
             {
@@ -316,7 +303,7 @@ const barOptionsDelaware = {
     ];
 
     const deComponents = [
-        <GetData mode={"density"} race={race} state='de' selectedRows = {selectedRowsData}/>,
+
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
         <Gingles_Graph state = "DELAWARE" race = "caucasian" demCan = "Lisa Blunt Rochester" repCan = "Lee Murphy"/>,
         <Gerrymandering_Graph state = "DELAWARE" race = "caucasian" chartId="chartDelaware1" style={{display:"inline-block"}}/>,
@@ -367,26 +354,20 @@ const barOptionsDelaware = {
     ]
 
     const navbarHeight = Math.floor(0.1 * window.innerHeight);
+    const [geoJsons,  setGeoJsons] = useState(null);
+    useEffect(() => {
+        const getjsons = async () => {await get_data().then(response => setGeoJsons(response))};
+        getjsons();
+    }, []);
 
     return (
         <div className="App">
-            <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor: "#1e1e1e",}}>
-                <a className="navbar-brand" href="/" height={navbarHeight}
-                   style={{color: "#f00840", fontWeight: "bold",}}>
-                    <img src={logo} width="auto" height={navbarHeight * 0.63} className="d-inline-block" alt="logo"/>
-                    <span className="align-middle">Election Analysis</span>
-                </a>
-                <div className="navbar-nav">
-                    <a className="nav-item nav-link" href="#" onClick={() => setAl()}>Alabama</a>
-                    <a className="nav-item nav-link" href="#" onClick={() => setDe()}>Delaware</a>
-                    <a className="nav-item nav-link" href="#">Side-by-Side</a>
-                </div>
-            </nav>
-            {currState == 'de' && <StateTab components={deComponents} navbarHeight={navbarHeight}/>}
-            {currState == 'al' && <StateTab components={alComponents} navbarHeight={navbarHeight}/>}
-            {/* <GetData mode={"density"} race={race}/> */}
+            <Navbar setCurrState={setCurrState} logo={logo} navbarHeight={navbarHeight}/>
+            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="de"/>}
+            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="al"/>}
+            {!currState && <SelectState navbarHeight={navbarHeight} geoJson={geoJsons} currState={currState} setCurrState={setCurrState}/>}
 
-            <div style={{backgroundColor: "#686464"}}>
+            {/* <div style={{backgroundColor: "#686464"}}>
                 <h1>State Assembly Districts For Delaware</h1>
                 <StateAssemblyTable state="DELAWARE" onSelectRows={handleSelectedRows} selectedRowsData={selectedRowsData} setSelectedRowsData={setSelectedRowsData} />
             </div>
@@ -401,7 +382,7 @@ const barOptionsDelaware = {
             <div style={{backgroundColor: "#686464"}}>
                 <h1>State Data Summary for Alabama</h1>
                 <StateDataSummary state="ALABAMA"/>
-            </div>
+            </div> */}
         </div>
     );
 }

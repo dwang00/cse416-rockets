@@ -8,14 +8,25 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 
 // pass in parameters mode/race.
-function MyComponent(props) {
+export async function get_data() {
 
     // const [geojsonData, setGeojsonData] = useState({'al':null, 'de':null, 'sums':null});
-    const [geojsonAl, setGeoJsonAl] = useState();
-    const [geojsonDe, setGeoJsonDe] = useState();
-    const [geojsonSums, setGeoJsonSums] = useState();
+    // const [geojsonAl, setGeoJsonAl] = useState();
+    // const [geojsonDe, setGeoJsonDe] = useState();
+    // const [geojsonSums, setGeoJsonSums] = useState();
 
     // const [geojsonData, setGeojsonData] = useState();
+
+    try {
+        const responseAl = await fetch('http://localhost:8080/get_geojson/al_geojson');
+        if (!responseAl.ok) {
+            throw new Error("Failed to fetch Al GeoJson");
+        }
+        const geoJsonAl = await responseAl.json();
+    }
+    catch (error) {
+        console.error(error)
+    }
 
     useEffect(() => {
         fetch('http://localhost:8080/get_geojson/al_geojson')
@@ -51,12 +62,14 @@ function MyComponent(props) {
     //     {geojsonSums['sums'] && <GenGraph {...props} my_json={geojsonSums} />}
 
     // </div>)
-    return (<>
-        {geojsonAl && props.state=='al' && <GenState {...props} my_json={geojsonAl} state={props.state}/>}
-        {geojsonDe && props.state=='de' && <GenState {...props} my_json={geojsonDe} state={props.state}/>}
-        {/* {geojsonData['sums'] && <GenGraph {...props} my_json={geojsonData} />} */}
-    </>
+    return (
+        {"de" : geojsonDe, "al" : geojsonAl}
     )
+    // <>
+    //     {geojsonAl && props.state=='al' && <GenState {...props} my_json={geojsonAl} state={props.state}/>}
+    //     {geojsonDe && props.state=='de' && <GenState {...props} my_json={geojsonDe} state={props.state}/>}
+    //     {/* {geojsonData['sums'] && <GenGraph {...props} my_json={geojsonData} />} */}
+    // </>
 }
 
-export default MyComponent;
+// export default MyComponent;

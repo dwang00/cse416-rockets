@@ -238,9 +238,6 @@ const barOptionsDelaware = {
 
     const [selectedRowsData, setSelectedRowsData] = useState([]);
 
-    const handleSelectedRows = (selectedRowData) => {
-        setSelectedRowsData(selectedRowData);
-    };
 
     // const handleButtonClick = (newValue) => {
     //     setRace(newValue);
@@ -360,8 +357,8 @@ const barOptionsDelaware = {
     return (
         <div className="App">
             <Navbar setCurrState={setCurrState} logo={logo} navbarHeight={navbarHeight}/>
-            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="de"/>}
-            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="al"/>}
+            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="de" selectedRowsData = {selectedRowsData} setSelectedRowsData = {setSelectedRowsData}/>}
+            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="al" selectedRowsData = {selectedRowsData} setSelectedRowsData = {setSelectedRowsData}/>}
             {!currState && <SelectState navbarHeight={navbarHeight} geoJson={geoJsons} currState={currState} setCurrState={setCurrState}/>}
 
             {/* <div style={{backgroundColor: "#686464"}}>

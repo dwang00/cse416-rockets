@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, GeoJSON } from 'react-leaflet';
@@ -54,6 +54,45 @@ function MyComponent(props) {
         '#42057f', '#41037e', '#40027e', '#3f007d'
     ]
 
+    const [highlightedDistrictId, setHighlightedDistrictId] = useState(null);
+    function getFeatureIdByDistrict(district, state) {
+        // Assuming the GeoJSON features have a property called 'ID' representing the district number
+        const geojson = JSON.parse(props.my_json[state]);
+        const feature = geojson.features.find(feature => parseInt(feature.properties.DISTRICT) === district);
+        return feature ? feature.id : null;
+    }
+    function highlightSelectedDistrict() {
+        const selectedRows = props.selectedRows;
+        const selectedState = props.state;
+
+        if (!selectedRows || selectedRows.length === 0) {
+            setHighlightedDistrictId(null);
+            return;
+        }
+
+        const highlightedIds = [];
+
+        selectedRows.forEach(row => {
+            if (row.state === selectedState) {
+                const featureId = getFeatureIdByDistrict(row.district, selectedState);
+                if (featureId) {
+                    highlightedIds.push(featureId);
+                }
+            }
+        });
+
+        console.log("Highlighted Districts:", highlightedIds);
+
+        // Set the highlighted districts
+        setHighlightedDistrictId(highlightedIds.length > 0 ? highlightedIds : null);
+    }
+
+
+
+    useEffect(() => {
+        highlightSelectedDistrict();
+    }, [props.selectedRows, props.state]);
+
     function getColor(feature){
         if (props.mode === 'default'){
             return tab20[feature.id%20]
@@ -105,7 +144,7 @@ function MyComponent(props) {
                             // Customize styling for GeoJSON features
                             color: 'black',
                             weight: 0.5,
-                            fillColor: getColor(feature),
+                            fillColor: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : getColor(feature),
                             fillOpacity: 1
                         })}
                     />}

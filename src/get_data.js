@@ -14,6 +14,25 @@ function MyComponent(props) {
     const [geojsonAl, setGeoJsonAl] = useState();
     const [geojsonDe, setGeoJsonDe] = useState();
     const [geojsonSums, setGeoJsonSums] = useState();
+    const [selectedRows, setSelectedRows] = useState();
+    useEffect(() => {
+
+        const uniqueSelectedRowsData = props.selectedRows.filter((row, index, self) =>
+                index === self.findIndex(r => (
+                    r.district === row.district && r.state === row.state
+                ))
+        );
+        const modifiedRows = uniqueSelectedRowsData.map(row => {
+            if (row.state === "ALABAMA") {
+                return { ...row, state: "al" };
+            } else if (row.state === "DELAWARE") {
+                return { ...row, state: "de" };
+            }
+            return row;
+        });
+        setSelectedRows(modifiedRows)
+    }, [props.selectedRows]);
+
 
     // const [geojsonData, setGeojsonData] = useState();
 
@@ -52,8 +71,8 @@ function MyComponent(props) {
 
     // </div>)
     return (<>
-        {geojsonAl && props.state=='al' && <GenState {...props} my_json={geojsonAl} state={props.state}/>}
-        {geojsonDe && props.state=='de' && <GenState {...props} my_json={geojsonDe} state={props.state}/>}
+        {geojsonAl && props.state=='al' && <GenState {...props} my_json={geojsonAl} state={props.state} selectedRows = {selectedRows}/>}
+        {geojsonDe && props.state=='de' && <GenState {...props} my_json={geojsonDe} state={props.state} selectedRows = {selectedRows}/>}
         {/* {geojsonData['sums'] && <GenGraph {...props} my_json={geojsonData} />} */}
     </>
     )

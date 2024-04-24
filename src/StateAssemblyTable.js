@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import "./App.css";
 
-function StateAssemblyTable({state}) {
+function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }) {
 
     const [tableData, setTableData] = useState(null);
     useEffect( () => {
@@ -122,14 +122,31 @@ function StateAssemblyTable({state}) {
             },
         },
     };
+
+    const handleRowsClicked = (selectedRows, state) => {
+        if (!selectedRows || !selectedRows.selectedRows || selectedRows.selectedRows.length === 0) {
+            setSelectedRowsData([]);
+            return;
+        }
+
+        const newlySelectedRowsData = selectedRows.selectedRows.map(row => ({
+            district: row.district,
+            state: row.state
+        }));
+
+        setSelectedRowsData(newlySelectedRowsData);
+        console.log(newlySelectedRowsData)
+    };
+
     return (
         <div>
             <DataTable
                 columns={columns}
                 data={data}
                 pagination
-                selectableRows = {false}
+                selectableRows = {true}
                 customStyles = {customStyles}
+                onSelectedRowsChange = {handleRowsClicked}
             />
         </div>
     );

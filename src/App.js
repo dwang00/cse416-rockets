@@ -252,6 +252,11 @@ const barOptionsDelaware = {
 
 
 
+    const [selectedRowsData, setSelectedRowsData] = useState([]);
+
+    const handleSelectedRows = (selectedRowData) => {
+        setSelectedRowsData(selectedRowData);
+    };
 
     // const handleButtonClick = (newValue) => {
     //     setRace(newValue);
@@ -259,7 +264,7 @@ const barOptionsDelaware = {
     // };
 
     const alComponents = [
-        <GetData mode={"density"} race={race} state='al' />,
+        <GetData mode={"density"} race={race} state='al' selectedRows = {selectedRowsData}/>,
         <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
@@ -311,7 +316,7 @@ const barOptionsDelaware = {
     ];
 
     const deComponents = [
-        <GetData mode={"density"} race={race} state='de' />,
+        <GetData mode={"density"} race={race} state='de' selectedRows = {selectedRowsData}/>,
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
         <Gingles_Graph state = "DELAWARE" race = "caucasian" demCan = "Lisa Blunt Rochester" repCan = "Lee Murphy"/>,
         <Gerrymandering_Graph state = "DELAWARE" race = "caucasian" chartId="chartDelaware1" style={{display:"inline-block"}}/>,
@@ -383,11 +388,11 @@ const barOptionsDelaware = {
 
             <div style={{backgroundColor: "#686464"}}>
                 <h1>State Assembly Districts For Delaware</h1>
-                <StateAssemblyTable state="DELAWARE"/>
+                <StateAssemblyTable state="DELAWARE" onSelectRows={handleSelectedRows} selectedRowsData={selectedRowsData} setSelectedRowsData={setSelectedRowsData} />
             </div>
             <div style={{backgroundColor: "#686464"}}>
                 <h1>State Assembly Districts For Alabama</h1>
-                <StateAssemblyTable state="ALABAMA"/>
+                <StateAssemblyTable state="ALABAMA" onSelectRows={handleSelectedRows} selectedRowsData={selectedRowsData} setSelectedRowsData={setSelectedRowsData} />
             </div>
             <div style={{backgroundColor: "#686464"}}>
                 <h1>State Data Summary for Delaware</h1>

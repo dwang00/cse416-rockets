@@ -5,6 +5,7 @@ import { Bar, Scatter} from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 import { BoxPlotController, BoxAndWiskers } from '@sgratzl/chartjs-chart-boxplot';
 import Chart from 'chart.js/auto';
+import { get_data } from './get_data.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -310,7 +311,7 @@ const barOptionsDelaware = {
     // };
 
     const alComponents = [
-        <GetData mode={"density"} race={race} state='al' />,
+        // <GetData mode={"density"} race={race} state='al' />,
         <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
@@ -362,7 +363,7 @@ const barOptionsDelaware = {
     ];
 
     const deComponents = [
-        <GetData mode={"density"} race={race} state='de' />,
+        // <GetData mode={"density"} race={race} state='de' />,
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsDelaware} data={scatterDataDelaware} style={{display:"inline-block"}}/>,
         <Gerrymandering_Delaware chartId="chartDelaware1" style={{display:"inline-block"}}/>,
@@ -413,6 +414,7 @@ const barOptionsDelaware = {
     ]
 
     const navbarHeight = Math.floor(0.1 * window.innerHeight);
+    const geoJsons = get_data();
 
     return (
         <div className="App">
@@ -427,8 +429,8 @@ const barOptionsDelaware = {
                     <a className="nav-item nav-link" href="#">Side-by-Side</a>
                 </div>
             </nav>
-            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight}/>}
-            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight}/>}
+            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJson={geoJsons["de"]}/>}
+            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJson={geoJsons["al"]}/>}
             {/* <GetData mode={"density"} race={race}/> */}
         </div>
   );

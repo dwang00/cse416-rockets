@@ -36,10 +36,14 @@ def grab():
     # summations['al_white_gt_black'] = al_lower['WHITE'] > al_lower['BLACK']
     # summations['de_white_gt_black'] = de_lower['WHITE'] > de_lower['BLACK']
 
-    al_and_de = [{"al": al_lower.to_json()},
-                 {"de": de_lower.to_json()},
-                 {"sums": json.dumps(summations)}
-        ]
+    #al_lower_strings = {str(key): value for key, value in al_lower.to_dict()}
+    #de_lower_strings = {str(key): value for key, value in de_lower.to_dict().items()}
+    #summations_strings = {str(key): value for key, value in summations.items()}
+    print(type(json.loads(al_lower.to_json())))
+    al_and_de = [json.loads(al_lower.to_json()),
+                 json.loads(de_lower.to_json()),
+                 json.loads(json.dumps(summations))
+                 ]
     # Return GeoJSON data as JSON response
     return al_and_de
 

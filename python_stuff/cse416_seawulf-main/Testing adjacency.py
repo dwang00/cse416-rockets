@@ -15,7 +15,7 @@ from shapely.geometry import shape
 from shapely.strtree import STRtree
 
 if __name__ == '__main__':
-    gdf = gpd.read_file('de_sldl.zip')
+    gdf = gpd.read_file('DE_sldl.zip')
 
     # Assume you have a specific polygon you want to find neighbors for
     target_polygon_id = 1  # Change this to the index of your target polygon

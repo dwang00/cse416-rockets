@@ -28,7 +28,7 @@ def drop_unecessary_columns(file):
 
 
 def get_al_statistics():
-    file_path = 'al precinct shape.zip'
+    file_path = 'AL precinct shape.zip'
     all_stats = pd.read_csv(file_path)
     
     # keep only house data
@@ -42,7 +42,7 @@ def get_al_statistics():
     return stats
 
 """def create_al_file():
-    al_prec = gpd.read_file('al precinct shape.zip')
+    al_prec = gpd.read_file('AL precinct shape.zip')
     # for some reason the shape file only loads in the congress data despite the csv from the same dataset
     #      having everything.......
     # we have manually add in the rows and remove the useless ones.
@@ -56,16 +56,23 @@ def get_al_statistics():
 
     return al_prec"""
 
+
 if __name__ == '__main__':
     # create_al_file()
     # get_al_statistics()
 
-    al = gpd.read_file('al_sldl.zip')
+    """al = gpd.read_file('AL_sldl.zip')
     print(al.columns)
     al.plot(cmap="tab20")
     plt.show()
     
-    al2 = gpd.read_file('al_sldl.zip')
+    al2 = gpd.read_file('AL_sldl.zip')
     print(al2.columns)
     al2.plot(cmap="tab20")
-    plt.show()
+    plt.show()"""
+    de = gpd.read_file('DE_precincts.geojson')
+    #print(de.columns)
+    #de.drop('geometry')
+    group_de = de.groupby("DISTRICT")
+    summed_black_pop = group_de['ETH1_AA'].sum()/group_de['TOTAL_REG'].sum()
+    print(summed_black_pop)

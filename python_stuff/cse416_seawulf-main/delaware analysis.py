@@ -192,18 +192,18 @@ def de_precinct_data_from_block():
 
 
 if __name__ == '__main__':
-    #blocks = create_de_file()
+    blocks = create_de_file()
     #get_de_by_precinct_csv()
-    #de_precinct_data_from_block()
+    de_precinct_data_from_block()
     # create_al_file()
 
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["cse416-rockets"]
-    collection = db["stateSummary"]
+    #client = pymongo.MongoClient("mongodb://localhost:27017/")
+    #db = client["cse416-rockets"]
+    #collection = db["stateSummary"]
 
-    with open('DE_precincts.geojson', 'r') as f:
-        geojson_data = json.load(f)
+    #with open('DE_precincts.geojson', 'r') as f:
+    #    geojson_data = json.load(f)
 
-    collection.insert_one(geojson_data)
+    #collection.insert_one(geojson_data)
 
     print("done")

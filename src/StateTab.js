@@ -1,30 +1,34 @@
 import React from "react";
-import GetData from "./get_data";
 import Slideshow from './Slideshow.js';
 import 'bootstrap/dist/css/bootstrap.css';
-import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import Heatmap from "./Heatmap.js"
+import StateAssemblyTable from "./StateAssemblyTable.js";
+import StateDataSummary from "./StateDataSummary.js";
 
 
-function StateTab({components, navbarHeight, geoJson}) {
+function StateTab({components, navbarHeight, geoJsons, state}) {
     const height = window.innerHeight - navbarHeight;
+
+    const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
+    const tables = [
+        <StateAssemblyTable state={fullName[state]}/>, 
+        <StateDataSummary state={fullName[state]}/>
+    ]
+
     return (
-        <div className="w-100 d-flex justify-content-center" style={{height: `${height}px`}}>
-            {/* <Slideshow components={components} /> */}
-            <MapContainer center={[34.793555, -83.440726]} zoom={5.5} zoomSnap={0.5} minZoom={4.5} maxZoom={7} zoomDelta={0.5}
-                maxBounds={[
-                    [50.88407, -129.23004],
-                    [22.51666, -62.44975]
-                ]}
-                style={{
-                        height: '100%',
-                        width: '100%',
-                        backgroundColor: '#e6e6e6',
-                    }}>
-                <TileLayer
-                    url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-                />
-            </MapContainer>
+        <div className="w-100 d-flex" style={{height: `${height}px`}}>
+            <div className="w-50 d-flex justify-content-left">
+                {geoJsons && <Heatmap race='white' state={state} my_json={geoJsons[state]} mode='density'/>}
+            </div>
+            <div>
+                <div>
+                    {/* <Slideshow components={tables}/> */}
+                </div>
+                <div>
+                {/* <Slideshow components={components}/> */}
+                </div>
+            </div>
         </div>
     )
 };

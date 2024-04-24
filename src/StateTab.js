@@ -20,8 +20,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
     //console.log(selectedRowsData);
     //console.log("IM IN STATE TAB 2")
 
-    const [selectedGinglesRace, setSelectedGinglesRace] = useState("caucasian");
-    const [selectedGinglesTable, setSelectedGinglesTable] = useState("")
+    const [selectedGinglesRace, setSelectedGinglesRace] = useState("Caucasian");
+    const [selectedGinglesOption, setSelectedGinglesOption] = useState("scatter")
 
     const [selectedGerrymanderingRace, setSelectedGerrymanderingRace] = useState("black");
     const [selectedGerrymanderingEnsemble, setSelectedGerrymanderingEnsemble] = useState("250")
@@ -43,9 +43,13 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
     const handleGerrymanderingPointsChange2 = (option) => {
         setSelectedGerrymanderingPoints2(option)
     };
-    const handleGinglesOptionChange = (option) => {
+    const handleGinglesRaceChange = (option) => {
         console.log(option);
         setSelectedGinglesRace(option);
+    };
+    const handleGinglesOptionChange = (option) => {
+        console.log(option);
+        setSelectedGinglesOption(option);
     };
     const handleGerrymanderingRaceChange = (option) => {
         setSelectedGerrymanderingRace(option);
@@ -93,18 +97,19 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                     <div className="w-100 h-100" style={{borderStyle: 'solid'}}>
                         scatter and gingles
                         <select value={selectedGinglesRace}
-                                onChange={(e) => handleGinglesOptionChange(e.target.value)}>
-                            <option value="caucasian">Caucasian</option>
-                            <option value="african american">African American</option>
+                                onChange={(e) => handleGinglesRaceChange(e.target.value)}>
+                            <option value="Caucasian">Caucasian</option>
+                            <option value="African American">African American</option>
 
                         </select>
-                        <button onClick={() => setSelectedGinglesTable(prevState => !prevState)}>
-                            {selectedGinglesTable ? "Hide Table" : "Show Table"}
-                        </button>
-                        {selectedGinglesRace === "caucasian" && <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
-                                       table={selectedGinglesTable}/>}
-                        {selectedGinglesRace === "african american" && <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
-                                        table={selectedGinglesTable}/>}
+                        <select value = {selectedGinglesOption} onChange = {(e) => handleGinglesOptionChange(e.target.value)}>
+
+                            <option value="scatter">Gingles 2/3 Analysis</option>
+                            <option value = "table">Precinct by Precinct view</option>
+                            <option value = "curve">Vote Share vs Seat Share</option>
+                        </select>
+                        <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
+                                       view={selectedGinglesOption}/>
                     </div>
                 )}
                 {currTab == "districts" &&
@@ -324,7 +329,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
             {/* </div> */}
             <div className="justify-content-right d-flex flex-column w-100 h-100" >
                 {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle:"solid"}}>
-                    ecological inference
+                    <div className= "fw-bold" style={{height:"5%", fontSize: "21px"}}>Ecological Inference</div>
+                    <div style={{height: "5%"}}>
                     <select value={selectedEcoInfOption} onChange={(e) => handleEcoInfOptionChange(e.target.value)}>
                         <option value="Presidential">Presidential</option>
                         {fullName[currState] === "ALABAMA" ? (
@@ -333,7 +339,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                             <option value="RepInCongress">Representative in Congress</option>
                         )}
                     </select>
-                    <div className="w-100" style={{height:"96%"}}>
+                    </div>
+                    <div className="w-100" style={{height:"90%"}}>
                         <EcoInf state={fullName[currState]}
                                 election= {selectedEcoInfOption}
                                 width={window.innerWidth * 0.8}

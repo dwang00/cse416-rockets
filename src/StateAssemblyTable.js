@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import "./App.css";
 
-function StateAssemblyTable({state}) {
+function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }) {
 
     const [tableData, setTableData] = useState(null);
     useEffect( () => {
@@ -28,7 +28,7 @@ function StateAssemblyTable({state}) {
             id: 'img',
             cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />,
             style: {
-                background: '#686464',
+                background: 'white',
             },
         },
         {
@@ -37,7 +37,7 @@ function StateAssemblyTable({state}) {
             id: 'name',
             sortable: true,
             style: {
-                background: '#686464',
+                background: 'white',
             },
         },
         {
@@ -46,7 +46,7 @@ function StateAssemblyTable({state}) {
             id: 'district',
             sortable: true,
             style: {
-                background: '#686464',
+                background: 'white',
             },
         },
         {
@@ -55,7 +55,7 @@ function StateAssemblyTable({state}) {
             id: 'party',
             sortable: true,
             style: {
-                background: '#686464',
+                background: 'white',
             },
         },
         {
@@ -64,7 +64,7 @@ function StateAssemblyTable({state}) {
             id: 'races',
             sortable: true,
             style: {
-                background: '#686464',
+                background: 'white',
             },
         },
         {
@@ -73,23 +73,23 @@ function StateAssemblyTable({state}) {
             id: 'margin',
             sortable: true,
             style: {
-                background: '#686464',
+                background: 'white',
             },
         },
     ];
     const customStyles = {
         pagination: {
             style: {
-                backgroundColor: '#333', // Change the background color of the pagination controls
+                backgroundColor: '#fff', // Change the background color of the pagination controls
                 color: 'black', // Change the text color of the pagination controls
                 padding: '10px', // Add padding to the pagination controls
-                borderRadius: '5px', // Add border radius to the pagination controls
+                borderRadius: '5px', // Add border radius to the pagination control
             },
         },
         table: {
             style: {
-                backgroundColor: '#333',
-                color: '#fff',
+                backgroundColor: '#fff',
+                color: 'black',
                 padding: '20px',
                 borderRadius: '5px',
             },
@@ -122,14 +122,30 @@ function StateAssemblyTable({state}) {
             },
         },
     };
+
+    const handleRowsClicked = (selectedRows, state) => {
+        if (!selectedRows || !selectedRows.selectedRows || selectedRows.selectedRows.length === 0) {
+            setSelectedRowsData([]);
+            return;
+        }
+
+        const newlySelectedRowsData = selectedRows.selectedRows.map(row => ({
+            district: row.district,
+            state: row.state
+        }));
+
+        setSelectedRowsData(newlySelectedRowsData);
+        console.log(newlySelectedRowsData)
+    };
+
     return (
-        <div>
+        <div className = "w-100" >
             <DataTable
                 columns={columns}
                 data={data}
                 pagination
-                selectableRows = {false}
                 customStyles = {customStyles}
+                onSelectedRowsChange = {handleRowsClicked}
             />
         </div>
     );

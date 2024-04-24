@@ -29,31 +29,10 @@
   padding: 1vmin;
 }
 
-/* .App-header {
-  background-color: white;
-  min-height: 15vh;
-  display: flex;
-  flex-direction: row;
-
-  justify-content: space-between;
-  font-size: calc(10px + 2vmin);
-  color: black;
-  border-bottom: solid;
-} */
-
-/* .StatesContainer {
-  min-height: 85vh;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: row;
-} */
-
 .map_container {
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   background-color: #333333;
-  /* border-style: solid; */
   width: 33%;
   height: 100%;
 }
@@ -69,15 +48,9 @@
   height: 10vmin;
 }
 
-/* .maps {
-  display: flex;
-  justify-content: space-between;
-} */
-
 .map_instructions {
   color: #f00840;
   background-color: #e6e6e6;
-  /* border-style: solid; */
 }
 
 .State{
@@ -156,9 +129,6 @@
 }
 
 .toggle_container {
-  /* justify-content: space-evenly;
-  display: flex;
-  width: 20%; */
   background-color: #e6e6e6;
 }
 
@@ -197,32 +167,32 @@
   display: flex;
 }
 .react-data-table-component .data-table-title {
-  background-color: #333; /* Change background color */
-  color: white; /* Change text color */
-  padding: 10px; /* Add padding */
-  border-radius: 5px; /* Add border radius */
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 [data-column-id="margin"].rdt_TableCol {
-  background-color: #686464;
+  background-color: white;
   width: 80%;
 }
 
 [data-column-id="races"].rdt_TableCol {
-  background-color: #686464;
+  background-color: white;
 
 }
 [data-column-id="party"].rdt_TableCol {
-  background-color: #686464;
+  background-color: white;
 }
 
 [data-column-id="district"].rdt_TableCol {
-  background-color: #686464;
+  background-color: white;
 }
 [data-column-id="name"].rdt_TableCol {
-  background-color: #686464;
+  background-color: white;
 }
 
 [data-column-id="img"].rdt_TableCol {
-  background-color: #686464;
+  background-color: white;
 }

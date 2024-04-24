@@ -1,20 +1,17 @@
-import React from 'react';
+
+import React, {useState, useEffect} from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, GeoJSON } from 'react-leaflet';
+import { MapContainer, GeoJSON, TileLayer } from 'react-leaflet';
 import 'bootstrap/dist/css/bootstrap.css';
 
-// pass in parameters mode/race.
-function MyComponent(props) {
+function HeatMap(props) {
 
-    const center_locations = {"al": [32.655, -86.66],
-        "de": [39.15,-75.439787]}
-
-    const map_locations = {"al":'15%', "de":'55%'}
-
+    const center_locations = {
+        "al": [32.655, -86.66],
+        "de": [39.15,-75.439787]
+    }
     const default_zoom = {"al":6.8, "de":8.5}
-
-    const names = {"al":"Alabama", "de":"Delaware"}
 
     // Define the colors for the tab20 colormap
     const tab20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
@@ -54,6 +51,45 @@ function MyComponent(props) {
         '#42057f', '#41037e', '#40027e', '#3f007d'
     ]
 
+    const [highlightedDistrictId, setHighlightedDistrictId] = useState(null);
+    function getFeatureIdByDistrict(district, state) {
+        // Assuming the GeoJSON features have a property called 'ID' representing the district number
+        const geojson = JSON.parse(props.my_json[state]);
+        const feature = geojson.features.find(feature => parseInt(feature.properties.DISTRICT) === district);
+        return feature ? feature.id : null;
+    }
+    function highlightSelectedDistrict() {
+        const selectedRows = props.selectedRows;
+        const selectedState = props.state;
+
+        if (!selectedRows || selectedRows.length === 0) {
+            setHighlightedDistrictId(null);
+            return;
+        }
+
+        const highlightedIds = [];
+
+        selectedRows.forEach(row => {
+            if (row.state === selectedState) {
+                const featureId = getFeatureIdByDistrict(row.district, selectedState);
+                if (featureId) {
+                    highlightedIds.push(featureId);
+                }
+            }
+        });
+
+        console.log("Highlighted Districts:", highlightedIds);
+
+        // Set the highlighted districts
+        setHighlightedDistrictId(highlightedIds.length > 0 ? highlightedIds : null);
+    }
+
+
+
+    useEffect(() => {
+        highlightSelectedDistrict();
+    }, [props.selectedRows, props.state]);
+
     function getColor(feature){
         if (props.mode === 'default'){
             return tab20[feature.id%20]
@@ -69,10 +105,9 @@ function MyComponent(props) {
         }
     }
 
-    // max zoom can be set to a larger value. In this case, some value is necessary for dragging
     return (
         <div className="d-flex justify-content-center" style={{height: '100%', width: '100%', color: "#f00840", fontWeight: "bold"}}>
-            <div className="d-block justify-content-center">
+            {/* <div className="d-block justify-content-center">
                 <div>Legend</div>
                 <div className="d-flex">
                     <div style={{height: "150px", width: "35px"}}>
@@ -81,37 +116,42 @@ function MyComponent(props) {
                         <div className="align-self-end" style={{marginTop: "50px"}}>0</div>
                     </div>
                     <div className="legend" style={{height: "150px", width: "30px"}}></div>
-            </div>
-            </div>
+                </div>
+            </div> */}
             <MapContainer center={center_locations[props.state]}
                 zoom={default_zoom[props.state]}
                 dragging={true}
                 minZoom={default_zoom[props.state]}
                 maxZoom={13}
-                zoomControl={false}
+                zoomControl={true}
                 zoomSnap={.1}
                 attributionControl={false}
                 style={{
                     height: '100%',
                     width: '100%',
                     backgroundColor: '#e6e6e6',
-                    // borderStyle: 'solid',
                 }}
                 className='align-self-center'>
-                {(props.my_json)[props.state] &&
+                {props.my_json &&
                     <GeoJSON
-                        data={JSON.parse((props.my_json)[props.state])}
+                        data={JSON.parse(props.my_json)}
                         style={feature => ({
-                            // Customize styling for GeoJSON features
                             color: 'black',
                             weight: 0.5,
-                            fillColor: getColor(feature),
+                            fillColor: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : getColor(feature),
                             fillOpacity: 1
                         })}
+                        // onEachFeature={(feature, layer) => {
+                        //     feature.on({
+                        //         click: handleClick(feature)
+                        //     })
+                        // }}
                     />}
+                <TileLayer
+                    url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+                />
             </MapContainer>
         </div>
     );
 }
-{/* purplesColors[Math.floor(purplesColors.length*.5)]  */}
-export default MyComponent;
+export default HeatMap;

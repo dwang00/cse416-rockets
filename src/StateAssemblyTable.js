@@ -5,6 +5,8 @@ import "./App.css";
 function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }) {
 
     const [tableData, setTableData] = useState(null);
+    //const [selectedRows, setSelectedRows] = useState([]);
+
     useEffect( () => {
         fetch(`http://localhost:8080/get_members/membersByState?state=${state}`)
             .then(response => response.json())
@@ -14,7 +16,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [state]);
     if (!tableData) {
         return <div>Loading...</div>;
     }
@@ -123,19 +125,20 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
         },
     };
 
-    const handleRowsClicked = (selectedRows, state) => {
-        if (!selectedRows || !selectedRows.selectedRows || selectedRows.selectedRows.length === 0) {
-            setSelectedRowsData([]);
-            return;
-        }
+    const handleRowClicked = (row) => {
+        setSelectedRowsData(prevSelectedRowsData => {
+            const selectedIndex = prevSelectedRowsData.findIndex(selectedRow => selectedRow === row);
+            let newSelectedRows = [];
 
-        const newlySelectedRowsData = selectedRows.selectedRows.map(row => ({
-            district: row.district,
-            state: row.state
-        }));
-
-        setSelectedRowsData(newlySelectedRowsData);
-        console.log(newlySelectedRowsData)
+            if (selectedIndex === -1) {
+                // Row is not yet selected, add it to selectedRows
+                newSelectedRows = [...prevSelectedRowsData, row];
+            } else {
+                // Row is already selected, remove it from selectedRows
+                newSelectedRows = [...prevSelectedRowsData.slice(0, selectedIndex), ...prevSelectedRowsData.slice(selectedIndex + 1)];
+            }
+            return newSelectedRows;
+        });
     };
 
     return (
@@ -145,7 +148,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
                 data={data}
                 pagination
                 customStyles = {customStyles}
-                onSelectedRowsChange = {handleRowsClicked}
+                onRowClicked={handleRowClicked}
             />
         </div>
     );

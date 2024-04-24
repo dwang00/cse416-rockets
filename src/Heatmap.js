@@ -6,6 +6,27 @@ import { MapContainer, GeoJSON, TileLayer } from 'react-leaflet';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function HeatMap(props) {
+    const [selectedRows, setSelectedRows] = useState([]);
+
+    useEffect(() => {
+        const uniqueSelectedRowsData = props.selectedRows.filter((row, index, self) =>
+                index === self.findIndex(r => (
+                    r.district === row.district && r.state === row.state
+                ))
+        );
+
+        // Modify the state property for each row
+        const modifiedRows = uniqueSelectedRowsData.map(row => {
+            if (row.state === "ALABAMA") {
+                return { ...row, state: "al" };
+            } else if (row.state === "DELAWARE") {
+                return { ...row, state: "de" };
+            }
+            return row;
+        });
+
+        setSelectedRows(modifiedRows);
+    }, [props.selectedRows]);
 
     const center_locations = {
         "al": [32.655, -86.66],
@@ -54,22 +75,24 @@ function HeatMap(props) {
     const [highlightedDistrictId, setHighlightedDistrictId] = useState(null);
     function getFeatureIdByDistrict(district, state) {
         // Assuming the GeoJSON features have a property called 'ID' representing the district number
-        const geojson = JSON.parse(props.my_json[state]);
-        const feature = geojson.features.find(feature => parseInt(feature.properties.DISTRICT) === district);
+        const geojson = JSON.parse(props.my_json);
+        const feature = geojson.features.find(feature => {
+            return parseInt(feature.properties.DISTRICT) === district;
+        });
         return feature ? feature.id : null;
     }
     function highlightSelectedDistrict() {
-        const selectedRows = props.selectedRows;
+        const selectedRowsData = selectedRows;
         const selectedState = props.state;
 
-        if (!selectedRows || selectedRows.length === 0) {
+        if (!selectedRowsData || selectedRows.length === 0) {
             setHighlightedDistrictId(null);
             return;
         }
 
         const highlightedIds = [];
-
-        selectedRows.forEach(row => {
+        console.log(selectedRowsData)
+        selectedRowsData.forEach(row => {
             if (row.state === selectedState) {
                 const featureId = getFeatureIdByDistrict(row.district, selectedState);
                 if (featureId) {
@@ -81,7 +104,9 @@ function HeatMap(props) {
         console.log("Highlighted Districts:", highlightedIds);
 
         // Set the highlighted districts
-        setHighlightedDistrictId(highlightedIds.length > 0 ? highlightedIds : null);
+        setHighlightedDistrictId(prevHighlightedDistrictId => {
+            return highlightedIds.length > 0 ? highlightedIds : null;
+        });
     }
 
 

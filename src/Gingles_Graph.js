@@ -24,6 +24,7 @@ function Gingles_Graph(props) {
                     .then(response => response.json())
                     .then(data => {
                         if(state === "DELAWARE" ) {
+                            console.log("WHY WHY WHY")
                             setDemCan("Lisa Blunt Rochester")
                             setRepCan("Lee Murphy")
                             if(race==='caucasian') {
@@ -60,10 +61,14 @@ function Gingles_Graph(props) {
                         console.error('Error fetching data:', error);
                     })
         }
+        fetchGinglesData(props.state, props.race)
         function fetchTabularGingles(state) {
             fetch(`http://localhost:8080/precinctsByState?state=${state}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log("yOOOOOOOOOOOOOOO")
+                    console.log('DO I GET HERE')
+                    console.log(data)
                     if(state === "DELAWARE" ) {
                         setTableData(data)
                     }
@@ -76,12 +81,10 @@ function Gingles_Graph(props) {
                 })
 
         }
-        fetchGinglesData(props.state, props.race)
-        if(props.table === "true") {
+        if(props.table === true) {
             fetchTabularGingles(props.state)
         }
-
-    }, [props.state, props.race])
+    }, [props.state, props.race, props.table])
     useEffect(() => {
         if(scatterDataDem && scatterDataRep && demCoefficients && repCoefficients) {
             const scatterDataCopy = { ...scatterData}
@@ -197,7 +200,7 @@ function Gingles_Graph(props) {
             name: 'Total Population',
             selector: 'POPULATION',
             id: 'total_population',
-            cell: row => numberWithCommas(row.POPULATION), // Apply commas to the number
+            cell: row => numberWithCommas(row.totalPop), // Apply commas to the number
             style: {
                 background: 'white',
                 textAlign: 'right',
@@ -208,7 +211,7 @@ function Gingles_Graph(props) {
             selector: 'ETH1_AA',
             id: 'minority_population',
             sortable: true,
-            cell: row => numberWithCommas(row.ETH1_AA), // Apply commas to the number
+            cell: row => numberWithCommas(row.minorityPop), // Apply commas to the number
             style: {
                 background: 'white',
                 textAlign: 'right',
@@ -219,7 +222,7 @@ function Gingles_Graph(props) {
             selector: 'PARTY_REP',
             id: 'republican_votes',
             sortable: true,
-            cell: row => numberWithCommas(row.PARTY_REP), // Apply commas to the number
+            cell: row => numberWithCommas(row.repubVotes), // Apply commas to the number
             style: {
                 background: 'white',
                 textAlign: 'right',
@@ -230,7 +233,7 @@ function Gingles_Graph(props) {
             selector: 'PARTY_DEM',
             id: 'democratic_votes',
             sortable: true,
-            cell: row => numberWithCommas(row.PARTY_DEM), // Apply commas to the number
+            cell: row => numberWithCommas(row.demoVotes), // Apply commas to the number
             style: {
                 background: 'white',
                 textAlign: 'right',
@@ -288,9 +291,9 @@ function Gingles_Graph(props) {
 // TODO legend stroke and fill colors for regressions appears to be swapped
     return (
 
-        <div className="" style={{height: "98%"}}>
-            <Scatter options={scatterOptions} data={scatterData} style={{display: "inline-block"}}/>
-            {props.table==="true" && tableData (<DataTable
+        <div className="w-100">
+            {/*<Scatter options={scatterOptions} data={scatterData} style={{display: "inline-block"}}/>*/}
+            {props.table===true && tableData && (<DataTable
                 columns={columns}
                 data={tableData}
                 pagination

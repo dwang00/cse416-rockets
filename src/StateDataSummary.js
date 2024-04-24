@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import {flatten} from "mathjs";
 
 const customStyles = {
     pagination: {
@@ -63,17 +64,6 @@ const attributeLabels = {
     stateRepsRaceDistribution: 'State Representatives By Race'
 };
 
-const formatValue = (value) => {
-    if (typeof value === 'object') {
-        return Object.entries(value).map(([key, val]) => (
-            `${key.charAt(0).toUpperCase()}${key.slice(1)}: ${val}`
-        )).join(", ");
-    } else {
-
-        return String(value).charAt(0).toUpperCase() + String(value).slice(1);
-    }
-};
-
 
 function StateDataSummary({ state }) {
     const [tableData, setTableData] = useState(null);
@@ -82,6 +72,7 @@ function StateDataSummary({ state }) {
             .then((response) => response.json())
             .then((data) => {
                 setTableData(data);
+                console.log(data)
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -91,36 +82,114 @@ function StateDataSummary({ state }) {
     if (!tableData) {
         return <div>Loading...</div>;
     }
+    const flattenObject = (obj, prefix = '') => {
+        return Object.keys(obj).reduce((acc, key) => {
+            const prefixedKey = prefix ? `${prefix}.${key}` : key;
+            if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+                return { ...acc, ...flattenObject(obj[key], prefixedKey) };
+            } else {
+                const value = obj[key];
+                // Convert the value to its corresponding type
+                const convertedValue = typeof value === 'number' ? Number(value) : String(value);
+                return { ...acc, [prefixedKey]: convertedValue };
+            }
+        }, {});
+    };
 
-    const transposedData = Object.keys(tableData[0]).map((key) => ({
-        attribute: key,
-        value: formatValue(tableData[0][key]),
+    function transformData(data) {
+        if (typeof data !== 'object' || Array.isArray(data)) {
+            console.error("Data is not an object.");
+            return [];
+        }
+
+        const transformedData = [];
+
+        for (const key in data) {
+            let attributeName = key
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/^./, function(str){ return str.toUpperCase(); })
+                .replace(/([A-Z][a-z])/g, '$1')
+                .replace(/\./g, ' - ')
+                .replace(' ', ' ');
+
+            attributeName = attributeName.charAt(0).toUpperCase() + attributeName.slice(1);
+
+            transformedData.push({
+                attribute: attributeName,
+                value: data[key].toString()
+            });
+        }
+
+        return transformedData;
+    }
+
+
+    const newData = flattenObject(tableData[0]);
+
+    const finalData = transformData(newData)
+
+    const transposedData = finalData.map(item => ({
+        attribute: item.attribute,
+        value: item.value
     }));
+    const transposedRows = transposedData.map(item => ({
+        attribute: item.attribute,
+        value: item.value // Assign the value object directly
+    }));
+    const CustomCell = ({ value }) => {
+        return (
+            <div style={{ textAlign: 'right' }}>
+                {value}
+            </div>
+        );
+    };
 
+    const uniqueKeys = Array.from(new Set(transposedRows.flatMap(row => Object.keys(row))));
     const columns = [
         {
             name: 'Attribute',
             selector: 'attribute',
-            cell: row => attributeLabels[row.attribute]
-        },
-        {
-            name: 'Value',
-            selector: 'value',
-            cell: row => {
-                const value = row.value;
-                if (typeof value === 'object') {
-                    return Object.entries(value).map(([key, val]) => (
-                        <div key={key}>{key}: {val}</div>
-                    ));
-                } else {
-                    return value;
-                }
+            sortable: true,
+            wrap: true,
+            style: {
+                textAlign: 'left'
             }
-        }
-    ];
-    //removing id row and state row
-    const slicedData = transposedData.slice(2);
+        },
+        ...uniqueKeys.map(key => ({
+            name: key,
+            selector: key,
+            sortable: true,
+            wrap: true,
+            width: '200px',
+            style: {
+                textAlign: 'right',
+            }
+        }))
+    ].filter(column => column.selector !== 'attribute'); // Remove the second occurrence of 'attribute'
 
+    columns.splice(0, 0, {  // Add 'attribute' column at index 1
+        name: 'attribute',
+        selector: 'attribute',
+        sortable: true,
+        wrap: true,
+        width: '200px',
+        style: {
+            textAlign: "left"
+        }
+    });
+    // Construct data
+    const data = transposedRows.map((row, index) => {
+        const rowData = { id: index };
+        uniqueKeys.forEach(key => {
+            if (row[key] !== undefined) {
+                rowData[key] = Array.isArray(row[key]) ? row[key].join('') : row[key];
+            }
+        });
+        return rowData;
+    });
+
+    //removing id row and state row
+    const slicedData = data.slice(2);
     return (
         <div className="position-absolute top-0 end-0" style={{ maxHeight:'100%', maxWidth: '100%', margin: '0 auto', zIndex: '1000', position: "absolute", right:"0"}}>
             <DataTable

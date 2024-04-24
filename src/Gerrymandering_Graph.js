@@ -2,14 +2,21 @@ import React, { useEffect, useState } from 'react';
 import ApexCharts from 'apexcharts';
 import './App.css'
 
-function Gerrymandering_Graph({ state, race, chartId, typeOfBox, typeOfPoint }) {
+function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble}) {
     const [data, setData] = useState(null);
     useEffect(() => {
         fetch(`http://localhost:8080/boxPlotByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
-                setData(data)
-                console.log(data)
+                if(typeOfBox === "democratic" || typeOfBox === "republican")
+                {
+                    if(ensemble === 250) {
+                        setData(data[0])
+                    }
+                    else if (ensemble === 5000) {
+                        setData(data[1])
+                    }
+                }
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [state]);
@@ -76,7 +83,7 @@ function Gerrymandering_Graph({ state, race, chartId, typeOfBox, typeOfPoint }) 
             },
             yaxis: {
                 title: {
-                    text: `% ${race}`,
+                    text: `% ${typeOfBox}`,
                     style: {
                         color: "#f00840"
                     }

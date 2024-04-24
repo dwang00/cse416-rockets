@@ -18,7 +18,7 @@ import GraphDesc from './graph_descriptions.js';
 import EcoInf from './EcoInf'
 import StateAssemblyTable from "./StateAssemblyTable";
 import Gingles_Graph from "./Gingles_Graph";
-
+import StateDataSummary from "./StateDataSummary";
 Chart.register(BoxPlotController, BoxAndWiskers);
 //const createArray = (length, callback) => Array.from({ length }, callback);
 
@@ -366,7 +366,8 @@ const barOptionsDelaware = {
     return (
         <div className="App">
             <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor: "#1e1e1e",}}>
-                <a className="navbar-brand" href="/" height={navbarHeight} style={{color: "#f00840", fontWeight: "bold",}}>
+                <a className="navbar-brand" href="/" height={navbarHeight}
+                   style={{color: "#f00840", fontWeight: "bold",}}>
                     <img src={logo} width="auto" height={navbarHeight * 0.63} className="d-inline-block" alt="logo"/>
                     <span className="align-middle">Election Analysis</span>
                 </a>
@@ -376,19 +377,26 @@ const barOptionsDelaware = {
                     <a className="nav-item nav-link" href="#">Side-by-Side</a>
                 </div>
             </nav>
-            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight}/>}
-            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight}/>}
+            {currState == 'de' && <StateTab components={deComponents} navbarHeight={navbarHeight}/>}
+            {currState == 'al' && <StateTab components={alComponents} navbarHeight={navbarHeight}/>}
             {/* <GetData mode={"density"} race={race}/> */}
 
             <div style={{backgroundColor: "#686464"}}>
                 <h1>State Assembly Districts For Delaware</h1>
-                <StateAssemblyTable state = "DELAWARE"/>
+                <StateAssemblyTable state="DELAWARE"/>
             </div>
             <div style={{backgroundColor: "#686464"}}>
                 <h1>State Assembly Districts For Alabama</h1>
-                <StateAssemblyTable state = "ALABAMA"/>
+                <StateAssemblyTable state="ALABAMA"/>
             </div>
-
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Data Summary for Delaware</h1>
+                <StateDataSummary state="DELAWARE"/>
+            </div>
+            <div style={{backgroundColor: "#686464"}}>
+                <h1>State Data Summary for Alabama</h1>
+                <StateDataSummary state="ALABAMA"/>
+            </div>
         </div>
     );
 }

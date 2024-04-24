@@ -5,9 +5,11 @@ import 'leaflet/dist/leaflet.css';
 
 function SelectState({navbarHeight, geoJson, currState, setCurrState}) {
     const height = window.innerHeight - navbarHeight;
+    
     const handleClick = (state) => () => {
         setCurrState(state);
     };
+
     return (
         <div className="w-100 d-flex justify-content-center" style={{height: `${height}px`}}>
             {!currState && 

@@ -94,7 +94,7 @@ function MyComponent(props) {
                 style={{
                     height: '100%',
                     width: '100%',
-                    backgroundColor: '#666666',
+                    backgroundColor: '#e6e6e6',
                     // borderStyle: 'solid',
                 }}
                 className='align-self-center'>

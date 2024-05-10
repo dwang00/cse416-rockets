@@ -352,7 +352,7 @@ const barOptionsDelaware = {
         getjsons();
     }, []);
 
-    const [currTab, setCurrTab] = useState("home");
+    const [currTab, setCurrTab] = useState("summary");
 
     return (
         <div className="App">

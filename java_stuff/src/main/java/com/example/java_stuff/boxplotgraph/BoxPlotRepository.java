@@ -7,4 +7,5 @@ import java.util.List;
 @Repository
 public interface BoxPlotRepository extends MongoRepository<BoxPlot, String>{
     List<BoxPlot> findAll();
+    List<BoxPlot> findByState(String state);
 }

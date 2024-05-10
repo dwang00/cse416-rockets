@@ -26,16 +26,8 @@ public class BoxPlotService {
     }
 
     public List<BoxPlot> getBoxPlotByState(String state) {
-        if(allBoxPlotData == null) {
-            allBoxPlotData = boxPlotRepository.findAll();
-        }
-        List<BoxPlot> plotsInState = new ArrayList<>();
-
-        for(BoxPlot plot : allBoxPlotData) {
-            if(plot.getState().toString().equals(state)) {
-                plotsInState.add(plot);
-            }
-        }
+        List<BoxPlot> plotsInState;
+        plotsInState = boxPlotRepository.findByState(state);
         return plotsInState;
     }
 }

@@ -352,11 +352,13 @@ const barOptionsDelaware = {
         getjsons();
     }, []);
 
+    const [currTab, setCurrTab] = useState("home");
+
     return (
         <div className="App">
-            <Navbar setCurrState={setCurrState} logo={logo} navbarHeight={navbarHeight}/>
-            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="de" />}
-            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} state="al" />}
+            <Navbar setCurrState={setCurrState} logo={logo} navbarHeight={navbarHeight} currTab={currTab} setCurrTab={setCurrTab}/>
+            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} currState={currState} setCurrState={setCurrState} currTab={currTab}/>}
+            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} currState={currState} setCurrState={setCurrState} currTab={currTab}/>}
             {!currState && <SelectState navbarHeight={navbarHeight} geoJson={geoJsons} currState={currState} setCurrState={setCurrState}/>}
 
             {/* <div style={{backgroundColor: "#686464"}}>

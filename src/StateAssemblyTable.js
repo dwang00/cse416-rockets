@@ -82,7 +82,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
     const customStyles = {
         pagination: {
             style: {
-                backgroundColor: '#fff', // Change the background color of the pagination controls
+                backgroundColor: '#e6e6e6', // Change the background color of the pagination controls
                 color: 'black', // Change the text color of the pagination controls
                 padding: '10px', // Add padding to the pagination controls
                 borderRadius: '5px', // Add border radius to the pagination control
@@ -90,7 +90,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
         },
         table: {
             style: {
-                backgroundColor: '#fff',
+                backgroundColor: '#e6e6e6',
                 color: 'black',
                 padding: '20px',
                 borderRadius: '5px',
@@ -98,7 +98,9 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
         },
         header: {
             style: {
-                minHeight: '56px',
+                minHeight: '10%',
+                maxHeight: '10%',
+                backgroundColor: 'e6e6e6',
             },
         },
         headRow: {
@@ -148,6 +150,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
                 data={data}
                 pagination
                 customStyles = {customStyles}
+                title={"State Representatives"}
                 onRowClicked={handleRowClicked}
             />
         </div>

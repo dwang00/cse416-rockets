@@ -13,7 +13,9 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
     const [selectedRowsData, setSelectedRowsData] = useState([]);
     console.log(currTab);
-
+    //console.log("IM IN STATE TAB 1")
+    //console.log(selectedRowsData);
+    //console.log("IM IN STATE TAB 2")
     return (
         <div className="w-100 d-flex " style={{height: `${height}px`, }}>
             <div className="w-50">

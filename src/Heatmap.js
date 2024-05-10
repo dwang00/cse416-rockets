@@ -10,7 +10,9 @@ function HeatMap(props) {
     const [selectedRows, setSelectedRows] = useState([]);
 
     const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
-
+    console.log("IM IN HEATMAP.JS 1")
+    console.log(selectedRows)
+    console.log("IM IN HEATMAP.JS 2")
     useEffect(() => {
         const uniqueSelectedRowsData = props.selectedRows.filter((row, index, self) =>
                 index === self.findIndex(r => (
@@ -116,7 +118,7 @@ function HeatMap(props) {
 
     useEffect(() => {
         highlightSelectedDistrict();
-    }, [props.selectedRows, props.state]);
+    }, [selectedRows, props.state]);
 
     const [isDensity, setIsDensity] = useState(false);
     const [race, setRace] = useState("white")
@@ -213,9 +215,9 @@ function HeatMap(props) {
                     <GeoJSON
                         data={JSON.parse(props.my_json)}
                         style={feature => ({
-                            color: 'black',
-                            weight: 0.5,
-                            fillColor: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : getColor(feature),
+                            color: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : 'black',
+                            weight: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 3 : .5, // Conditional border thickness
+                            fillColor: getColor(feature),
                             fillOpacity: 1
                         })}
                         // onEachFeature={(feature, layer) => {

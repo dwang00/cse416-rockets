@@ -5,7 +5,6 @@ import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import StateAssemblyTable from "./StateAssemblyTable.js";
 import StateDataSummary from "./StateDataSummary.js";
-import DistrictMap from "./DistrictMap.js";
 import HeatMap from "./Heatmap.js";
 
 function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {

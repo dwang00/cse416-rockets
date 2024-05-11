@@ -20,9 +20,10 @@ function Gerrymandering_Graph({ state, race, chartId }) {
             x: item.districtNum.toString(),
             y: [item.min, item.lower, item.med, item.upper, item.max]
         }));
+
         const scatterData = data.map(item => ({
             x: item.districtNum.toString(),
-            y: item.med + (Math.random() * .01 - Math.random() * .01)
+            y: item.enacted
         }));
 
         const options = {
@@ -72,6 +73,7 @@ function Gerrymandering_Graph({ state, race, chartId }) {
                 },
                 labels: {
                     formatter: function (value) {
+                        if(value !== undefined)
                         return value.toFixed(2);
                     },
                     style: {

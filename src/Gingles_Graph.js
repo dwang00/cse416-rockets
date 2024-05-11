@@ -84,12 +84,12 @@ function Gingles_Graph(props) {
             const scatterDem = {
                 label: props.demCan,
                 data: scatterDataDem,
-                backgroundColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, .5)',
             }
             const scatterRep = {
                 label: props.repCan,
                 data: scatterDataRep,
-                backgroundColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, .5)',
             }
             scatterDataCopy.datasets.push(scatterDem);
             scatterDataCopy.datasets.push(scatterRep);

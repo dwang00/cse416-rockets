@@ -1,17 +1,42 @@
-
 import React, {useState, useEffect} from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, GeoJSON, TileLayer } from 'react-leaflet';
 import 'bootstrap/dist/css/bootstrap.css';
+import StateDataSummary from './StateDataSummary';
 
 function HeatMap(props) {
+    const [selectedRows, setSelectedRows] = useState([]);
+
+    const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
+    console.log("IM IN HEATMAP.JS 1")
+    console.log(selectedRows)
+    console.log("IM IN HEATMAP.JS 2")
+    useEffect(() => {
+        const uniqueSelectedRowsData = props.selectedRows.filter((row, index, self) =>
+                index === self.findIndex(r => (
+                    r.district === row.district && r.state === row.state
+                ))
+        );
+
+        // Modify the state property for each row
+        const modifiedRows = uniqueSelectedRowsData.map(row => {
+            if (row.state === "ALABAMA") {
+                return { ...row, state: "al" };
+            } else if (row.state === "DELAWARE") {
+                return { ...row, state: "de" };
+            }
+            return row;
+        });
+
+        setSelectedRows(modifiedRows);
+    }, [props.selectedRows]);
 
     const center_locations = {
         "al": [32.655, -86.66],
         "de": [39.15,-75.439787]
     }
-    const default_zoom = {"al":6.8, "de":8.5}
+    const default_zoom = {"al":6.5, "de":8.5}
 
     // Define the colors for the tab20 colormap
     const tab20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c',
@@ -54,22 +79,24 @@ function HeatMap(props) {
     const [highlightedDistrictId, setHighlightedDistrictId] = useState(null);
     function getFeatureIdByDistrict(district, state) {
         // Assuming the GeoJSON features have a property called 'ID' representing the district number
-        const geojson = JSON.parse(props.my_json[state]);
-        const feature = geojson.features.find(feature => parseInt(feature.properties.DISTRICT) === district);
+        const geojson = JSON.parse(props.my_json);
+        const feature = geojson.features.find(feature => {
+            return parseInt(feature.properties.DISTRICT) === district;
+        });
         return feature ? feature.id : null;
     }
     function highlightSelectedDistrict() {
-        const selectedRows = props.selectedRows;
+        const selectedRowsData = selectedRows;
         const selectedState = props.state;
 
-        if (!selectedRows || selectedRows.length === 0) {
+        if (!selectedRowsData || selectedRows.length === 0) {
             setHighlightedDistrictId(null);
             return;
         }
 
         const highlightedIds = [];
-
-        selectedRows.forEach(row => {
+        console.log(selectedRowsData)
+        selectedRowsData.forEach(row => {
             if (row.state === selectedState) {
                 const featureId = getFeatureIdByDistrict(row.district, selectedState);
                 if (featureId) {
@@ -81,43 +108,93 @@ function HeatMap(props) {
         console.log("Highlighted Districts:", highlightedIds);
 
         // Set the highlighted districts
-        setHighlightedDistrictId(highlightedIds.length > 0 ? highlightedIds : null);
+        setHighlightedDistrictId(prevHighlightedDistrictId => {
+            return highlightedIds.length > 0 ? highlightedIds : null;
+        });
     }
 
 
 
     useEffect(() => {
         highlightSelectedDistrict();
-    }, [props.selectedRows, props.state]);
+    }, [selectedRows, props.state]);
+
+    const [isDensity, setIsDensity] = useState(false);
+    const [race, setRace] = useState("white")
 
     function getColor(feature){
-        if (props.mode === 'default'){
+        if (!isDensity){
             return tab20[feature.id%20]
         }
 
-        if (props.race === 'white'){
+        if (race === 'white'){
             return purplesColors[Math.floor(feature.properties.white_density * purplesColors.length)]
         }
-        else if(props.race === 'black'){
+        else if(race === 'black'){
             return purplesColors[Math.floor(feature.properties.black_density * purplesColors.length)]
         }else{
             return purplesColors[Math.floor(feature.properties.area_density * purplesColors.length)]
         }
     }
 
+    const toggleMode = () => {
+        setIsDensity(!isDensity);
+    };
+
+    const toggleRace = (event) => {
+        setRace(event.target.value);
+    };
+
     return (
-        <div className="d-flex justify-content-center" style={{height: '100%', width: '100%', color: "#f00840", fontWeight: "bold"}}>
-            {/* <div className="d-block justify-content-center">
-                <div>Legend</div>
-                <div className="d-flex">
-                    <div style={{height: "150px", width: "35px"}}>
-                        <div className="align-items-start">100</div>
-                        <div className="align-items-center" style={{marginTop: "40px"}}>50</div>
-                        <div className="align-self-end" style={{marginTop: "50px"}}>0</div>
-                    </div>
-                    <div className="legend" style={{height: "150px", width: "30px"}}></div>
+        <div className="position-relative w-100 h-100" >
+            <div className="position-absolute bottom-0 end-0" 
+                style={{position: "absolute", bottom: "0", right:"0", zIndex: "1000", 
+                backgroundColor: "#fff",
+                padding: "5px",
+                borderStyle: "solid",
+                borderColor: "#000",
+                color: "#f00840", 
+                fontWeight: "bold"
+                }}>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={toggleMode}/>
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Display heatmap</label>
                 </div>
-            </div> */}
+                {/* {isDensity && 
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="both" onClick={toggleRace}/>
+                    <label class="form-check-label" for="exampleRadios3">
+                        Population
+                    </label>
+                </div>} */}
+                {isDensity && 
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="white" onClick={toggleRace}/>
+                    <label class="form-check-label" for="exampleRadios1">
+                        Caucasian
+                    </label>
+                </div>}
+                {isDensity &&
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="black" onClick={toggleRace}/>
+                    <label class="form-check-label" for="exampleRadios2">
+                        African American
+                    </label>
+                </div>}
+            </div>
+                {isDensity &&
+                <div className="position-absolute bottom-0 justify-content-center" 
+                    style={{zIndex:"1000", backgroundColor:"#fff", padding: "3px", borderStyle:"solid"}}>
+                    <div>Legend</div>
+                    <div className="d-flex">
+                        <div style={{height: "150px", width: "45px"}}>
+                            <div className="align-items-start">100%</div>
+                            <div className="align-items-center" style={{marginTop: "40px"}}>50%</div>
+                            <div className="align-self-end" style={{marginTop: "50px"}}>0%</div>
+                        </div>
+                        <div className="legend" style={{height: "150px", width: "30px"}}></div>
+                    </div>
+                </div>}
             <MapContainer center={center_locations[props.state]}
                 zoom={default_zoom[props.state]}
                 dragging={true}
@@ -132,13 +209,14 @@ function HeatMap(props) {
                     backgroundColor: '#e6e6e6',
                 }}
                 className='align-self-center'>
+
                 {props.my_json &&
                     <GeoJSON
                         data={JSON.parse(props.my_json)}
                         style={feature => ({
-                            color: 'black',
-                            weight: 0.5,
-                            fillColor: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : getColor(feature),
+                            color: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : 'black',
+                            weight: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 3 : .5, // Conditional border thickness
+                            fillColor: getColor(feature),
                             fillOpacity: 1
                         })}
                         // onEachFeature={(feature, layer) => {
@@ -147,9 +225,11 @@ function HeatMap(props) {
                         //     })
                         // }}
                     />}
+
                 <TileLayer
                     url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
                 />
+
             </MapContainer>
         </div>
     );

@@ -7,15 +7,16 @@ const customStyles = {
             backgroundColor: '#333',
             color: 'black',
             padding: '10px',
-            borderRadius: '5px',
+            // borderRadius: '5px',
         },
     },
     table: {
         style: {
             backgroundColor: '#333',
             color: '#fff',
-            padding: '20px',
-            borderRadius: '5px',
+            padding: '3px',
+            // borderRadius: '3px',
+            height: "100%",
         },
     },
     header: {
@@ -44,6 +45,12 @@ const customStyles = {
             },
         },
     },
+    rows: {
+        style: {
+            fontSize: "12px",
+            width: "100%",
+        }
+    }
 };
 const attributeLabels = {
     id: 'ID',
@@ -115,13 +122,14 @@ function StateDataSummary({ state }) {
     const slicedData = transposedData.slice(2);
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div className="position-absolute top-0 end-0" style={{ maxHeight:'100%', maxWidth: '100%', margin: '0 auto', zIndex: '1000', position: "absolute", right:"0"}}>
             <DataTable
                 columns={columns}
                 data={slicedData}
                 customStyles={customStyles}
                 selectableRows={false}
                 noHeader = {true}
+                dense
             />
         </div>
     );

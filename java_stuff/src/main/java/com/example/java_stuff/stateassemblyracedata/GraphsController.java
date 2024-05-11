@@ -2,6 +2,7 @@ package com.example.java_stuff.stateassemblyracedata;
 
 import com.example.java_stuff.gingles.*;
 import com.example.java_stuff.boxplotgraph.*;
+import com.example.java_stuff.precinctdata.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,17 @@ public class GraphsController {
     private final GinglesService ginglesService;
     private final BoxPlotService boxPlotService;
 
+    private final PrecinctService precinctService;
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GraphsController(StateAssemblyRaceDataService stateAssemblyRaceService,
-                            GinglesService ginglesService, BoxPlotService boxPlotService) {
+                            GinglesService ginglesService, BoxPlotService boxPlotService,
+                            PrecinctService precinctService) {
         this.stateAssemblyRaceService = stateAssemblyRaceService;
         this.ginglesService = ginglesService;
         this.boxPlotService = boxPlotService;
+        this.precinctService = precinctService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -51,7 +56,13 @@ public class GraphsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("boxPlotByState")
-    public List<BoxPlot> getBoxPlotByState(@RequestParam("state") String state) {
+    public BoxPlot getBoxPlotByState(@RequestParam("state") String state) {
         return boxPlotService.getBoxPlotByState(state);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("precinctsByState")
+    public List<Precinct> getPrecinctsByState(@RequestParam("state") String state) {
+        return precinctService.getPrecinctsByState(state);
     }
 }

@@ -9,4 +9,5 @@ import java.util.List;
 public interface EcoInfRepository extends MongoRepository<EcoInfData, String>{
     List<EcoInfData> findAll();
     List<EcoInfData> findByElection(String election);
+    List<EcoInfData> findByState(String state);
 }

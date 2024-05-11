@@ -3,7 +3,26 @@ from bs4 import BeautifulSoup
 import csv
 import json
 
-with open('de2020presidentialhtml.txt', 'r') as file:
+def remove_columns(input_file, output_file, columns_to_remove):
+    with open(input_file, 'r') as csv_input, open(output_file, 'w', newline='') as csv_output:
+        reader = csv.reader(csv_input)
+        writer = csv.writer(csv_output)
+
+        for row in reader:
+            # Create a new row without the specified columns
+            new_row = [row[i] for i in range(len(row)) if i not in columns_to_remove]
+            writer.writerow(new_row)
+
+
+# Example usage:
+input_file = 'input.csv'
+output_file = 'output.csv'
+columns_to_remove = [1, 3]  # List of column indices to remove
+remove_columns(input_file, output_file, columns_to_remove)
+
+'''
+
+with open('delaware_website_html.txt', 'r') as file:
     html_content = file.read()
 
 soup = BeautifulSoup(html_content, 'html.parser')
@@ -13,7 +32,7 @@ results = []
 
 # Find all election district divisions
 districts = soup.find_all('h4', class_='electiondistrict-title')
-tables = soup.find_all('table', class_='table table-sm PresidentandVicePresident')
+tables = soup.find_all('table', class_='table table-sm RepresentativeinCongress')
 
 
 for district, table in zip(districts, tables):
@@ -54,7 +73,7 @@ merged_data.to_csv('DE_precincts_updated2.csv', index=False)
 print(df)
 
 print(len(tables))
-
+'''
 '''with open('DE_precincts_updated.csv', 'r', newline='') as csvfile:
     reader = csv.reader(csvfile)
     data = list(reader)

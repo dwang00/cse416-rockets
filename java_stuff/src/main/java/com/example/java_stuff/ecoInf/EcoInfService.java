@@ -19,4 +19,7 @@ public class EcoInfService {
     public List<EcoInfData> getByElection(String election) {
         return ecoInfRepository.findByElection(election);
     }
+    public List<EcoInfData> getByState(String state) {
+        return ecoInfRepository.findByState(state);
+    }
 }

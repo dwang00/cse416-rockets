@@ -22,4 +22,8 @@ public class EcoInfService {
     public List<EcoInfData> getByState(String state) {
         return ecoInfRepository.findByState(state);
     }
+
+    public List<EcoInfData> getByStateAndElection(String state, String election) {
+        return ecoInfRepository.findByStateAndElection(state, election);
+    }
 }

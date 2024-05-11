@@ -18,7 +18,7 @@ public class BoxPlotService {
         this.boxPlotRepository = boxPlotRepository;
     }
 
-    public List<BoxPlot> getAllBoxPlotData() {
+    /*public List<BoxPlot> getAllBoxPlotData() {
         if(allBoxPlotData == null) {
             allBoxPlotData = boxPlotRepository.findAll();
         }
@@ -27,6 +27,12 @@ public class BoxPlotService {
 
     public List<BoxPlot> getBoxPlotByState(String state) {
         List<BoxPlot> plotsInState;
+        plotsInState = boxPlotRepository.findByState(state);
+        return plotsInState;
+    }*/
+
+    public BoxPlot getBoxPlotByState(String state) {
+        BoxPlot plotsInState;
         plotsInState = boxPlotRepository.findByState(state);
         return plotsInState;
     }

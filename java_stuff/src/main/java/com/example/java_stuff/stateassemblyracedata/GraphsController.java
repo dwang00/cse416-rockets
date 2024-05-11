@@ -51,7 +51,7 @@ public class GraphsController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("boxPlotByState")
-    public List<BoxPlot> getBoxPlotByState(@RequestParam("state") String state) {
+    public BoxPlot getBoxPlotByState(@RequestParam("state") String state) {
         return boxPlotService.getBoxPlotByState(state);
     }
 }

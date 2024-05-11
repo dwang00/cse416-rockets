@@ -7,37 +7,35 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document("boxPlotData")
 public class BoxPlot {
-
     @Id
     private String id;
-    @Field("min")
-    private double min;
-    @Field("lower")
-    private double lower;
-    @Field("med")
-    private double med;
-    @Field("upper")
-    private double upper;
-    @Field("max")
-    private double max;
-    @Field("districtNum")
-    private int districtNum;
+
     @Field("state")
     private State state;
-    @Field("enacted")
-    private double enacted;
 
-    public BoxPlot(String id, double min, double lower, double med, double upper, double max, int districtNum,
-                   State state, double enacted) {
+    @Field("points")
+    private Object points;
+
+    @Field("black")
+    private Object black;
+
+    @Field("white")
+    private Object white;
+
+    @Field("democratic")
+    private Object democratic;
+
+    @Field("republican")
+    private Object republican;
+
+    public BoxPlot(String id, State state, Object points, Object black, Object white, Object democratic, Object republican) {
         this.id = id;
-        this.min = min;
-        this.lower = lower;
-        this.med = med;
-        this.upper = upper;
-        this.max = max;
-        this.districtNum = districtNum;
         this.state = state;
-        this.enacted = enacted;
+        this.points = points;
+        this.black = black;
+        this.white = white;
+        this.democratic = democratic;
+        this.republican = republican;
     }
 
     public String getId() {
@@ -48,54 +46,6 @@ public class BoxPlot {
         this.id = id;
     }
 
-    public double getMin() {
-        return min;
-    }
-
-    public void setMin(double min) {
-        this.min = min;
-    }
-
-    public double getLower() {
-        return lower;
-    }
-
-    public void setLower(double lower) {
-        this.lower = lower;
-    }
-
-    public double getMed() {
-        return med;
-    }
-
-    public void setMed(double med) {
-        this.med = med;
-    }
-
-    public double getUpper() {
-        return upper;
-    }
-
-    public void setUpper(double upper) {
-        this.upper = upper;
-    }
-
-    public double getMax() {
-        return max;
-    }
-
-    public void setMax(double max) {
-        this.max = max;
-    }
-
-    public int getDistrictNum() {
-        return districtNum;
-    }
-
-    public void setDistrictNum(int districtNum) {
-        this.districtNum = districtNum;
-    }
-
     public State getState() {
         return state;
     }
@@ -104,11 +54,43 @@ public class BoxPlot {
         this.state = state;
     }
 
-    public double getEnacted() {
-        return enacted;
+    public Object getPoints() {
+        return points;
     }
 
-    public void setEnacted(double enacted) {
-        this.enacted = enacted;
+    public void setPoints(Object points) {
+        this.points = points;
+    }
+
+    public Object getBlack() {
+        return black;
+    }
+
+    public void setBlack(Object black) {
+        this.black = black;
+    }
+
+    public Object getWhite() {
+        return white;
+    }
+
+    public void setWhite(Object white) {
+        this.white = white;
+    }
+
+    public Object getDemocratic() {
+        return democratic;
+    }
+
+    public void setDemocratic(Object democratic) {
+        this.democratic = democratic;
+    }
+
+    public Object getRepublican() {
+        return republican;
+    }
+
+    public void setRepublican(Object republican) {
+        this.republican = republican;
     }
 }

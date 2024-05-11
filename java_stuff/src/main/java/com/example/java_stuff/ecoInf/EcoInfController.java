@@ -20,4 +20,10 @@ public class EcoInfController {
     public List<EcoInfData> getByElection(@RequestParam String election) {
         return ecoInfService.getByElection(election);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("byState")
+    public List<EcoInfData> getByState(@RequestParam String state) {
+        return ecoInfService.getByState(state);
+    }
 }

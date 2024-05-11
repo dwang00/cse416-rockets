@@ -10,8 +10,23 @@ import random
 
 random.seed(42)
 
-import pymongo
-import json
+
+def write_as_geojson(file_to_write, file_name):
+    # change coordinate system
+    file_to_write['geometry'] = file_to_write.geometry.to_crs("epsg:3857")
+
+    geojson_data = file_to_write.to_json()
+    output_file_path = f"{file_name}.geojson"
+    with open(output_file_path, 'w') as file:
+        file.write(geojson_data)
+    return file_to_write
+
+
+def drop_unecessary_columns(file):
+    cols_to_drop = ["UR20", "FUNCSTAT20", "AGE_18_19", "AGE_20_24", "AGE_25_29", "AGE_30_34", "AGE_35_44", "AGE_45_54",
+                    "AGE_55_64", "AGE_65_74", "AGE_75_84", "AGE_85OVER"]
+    file.drop(columns=cols_to_drop, inplace=True)
+
 
 def add_districts(census_block, district, debug=False):
     cen = census_block['geometry']
@@ -43,80 +58,17 @@ def add_districts(census_block, district, debug=False):
     census_block['DISTRICT'] = districts
 
 
-def drop_unecessary_columns(file):
-    cols_to_drop = ["UR20", "FUNCSTAT20", "AGE_18_19", "AGE_20_24", "AGE_25_29", "AGE_30_34", "AGE_35_44", "AGE_45_54",
-                    "AGE_55_64", "AGE_65_74", "AGE_75_84", "AGE_85OVER"]
-    file.drop(columns=cols_to_drop, inplace=True)
-
-
-def write_as_geojson(file_to_write, file_name):
-    # change coordinate system
-    file_to_write['geometry'] = file_to_write.geometry.to_crs("epsg:3857")
-    
-
-    geojson_data = file_to_write.to_json()
-    output_file_path = f"{file_name}.geojson"
-    with open(output_file_path, 'w') as file:
-        file.write(geojson_data)
-    return file_to_write
-
-
-def create_al_file(debug=False):
-    al_block = gpd.read_file('al census shape.zip')
-    al_block.drop(columns=['UACE20'], inplace=True)  # data in UACE20 has yet to be assigned as of 2024
-
-    file_path = 'AL_l2_2022stats_2020block.zip'
-    block_stats = census_block_stats(file_path)
-    block_stats = block_stats.iloc[61:]
-    block_stats = block_stats.iloc[:-4] # no assignments
-
-    de_block = pd.merge(al_block, block_stats, on="GEOID20")
-
-    de_district = gpd.read_file('al_sldl.zip')
-
-    # preprocessing
-    add_districts(de_block, de_district, False)
-    drop_unecessary_columns(de_block)
-
-    created_file = write_as_geojson(de_block, 'AL_census')
-
-    if debug:
-        de_block.plot(column="DISTRICT", cmap="tab20")
-        de_district.plot(cmap="tab20")
-        plt.show()
-
-    return created_file
-
-
-def create_de_file(debug=False):
-    de_block = gpd.read_file('de census shape.zip')
-    de_block.drop(columns=['UACE20'], inplace=True)  # data in UACE20 has yet to be assigned as of 2024
-
-    file_path = 'DE_2022stats.csv'
-    block_stats = census_block_stats(file_path)
-    block_stats = block_stats.iloc[:-3]  # last 3 rows are administrative errors (no census block,
-
-    de_block = pd.merge(de_block, block_stats, on="GEOID20")
-
-    de_district = gpd.read_file('de_sldl.zip')
-
-    # preprocessing
-    add_districts(de_block, de_district, False)
-    drop_unecessary_columns(de_block)
-
-    created_file = write_as_geojson(de_block, 'DE_census')
-
-    if debug:
-        de_block.plot(column="DISTRICT", cmap="tab20")
-        de_district.plot(cmap="tab20")
-        plt.show()
-
-    return created_file
-
-
 def census_block_stats(file_path):
     primary = list(range(31))
     # read only first 31 rows
+    """
+    primary = ['geoid20','total_reg','age_18_19','age_20_24','age_25_29',
+                'age_30_34','age_35_44','age_45_54','age_55_64','age_65_74',
+                'age_75_84','age_85over','voters_gender_m','voters_gender_f',
+                'voters_gender_unknown','party_rep','party_dem','eth1_eur',
+                'eth1_hisp','eth1_aa','eth1_esa','eth1_oth','eth1_unk']
+    """
+    # Not completed, read specific columns by name (necessary for alabama)
     census_block_stats = pd.read_csv(file_path, usecols=primary, dtype={"geoid20": "string"})
 
     census_block_stats.columns = census_block_stats.columns.map(str.upper)
@@ -128,7 +80,7 @@ def census_block_stats(file_path):
     # drop columns that were merged
     cols_to_drop = list(census_block_stats.columns[17:25])  # parties that are not republican or democratic
     census_block_stats.drop(columns=cols_to_drop, inplace=True)
-    
+
     return census_block_stats
 
 
@@ -138,9 +90,58 @@ def census_block_party_percents(df):
     df['PARTY_REP_PER'] = df['PARTY_REP'] / ttl
 
 
+def precinct_data_from_block(file):
+    prec = gpd.read_file(f'{file} precinct shape.zip')
+    blocks = gpd.read_file(f'{file}_census.geojson')
+    prec['geometry'] = prec.geometry.to_crs("epsg:3857")
+    variables = ["TOTAL_REG", "ETH1_EUR", "ETH1_HISP", "ETH1_AA", "ETH1_ESA", "ETH1_UNK",
+                 "VOTERS_GENDER_M", "VOTERS_GENDER_F", "VOTERS_GENDER_UNKNOWN",
+                 "PARTY_DEM", "PARTY_REP", "PARTY_OTHER"]
+    blocks_to_precincts_assignment = maup.assign(blocks, prec)
+    prec[variables] = blocks[variables].groupby(blocks_to_precincts_assignment).sum()
+    write_as_geojson(prec, "DE_precincts")
+
+
+def create_file(state, debug=False):
+    """
+    :param state: Either "AL" or "DE" for which state you would like to use
+    :param debug: True or False
+    :return: Geojson written
+    """
+    block = gpd.read_file(f'{state} census shape.zip')
+    block.drop(columns=['UACE20'], inplace=True)  # data in UACE20 has yet to be assigned as of 2024
+
+    file_path = f'{state}_2022stats.zip'
+    block_stats = census_block_stats(file_path)
+    
+    # only state specific calculations
+    if state == 'AL':
+        block_stats = block_stats.iloc[61:]
+        block_stats = block_stats.iloc[:-4]  # no assignments
+    elif state == 'DE':
+        block_stats = block_stats.iloc[:-3]
+
+    block = pd.merge(block, block_stats, on="GEOID20")
+
+    district = gpd.read_file(f'{state}_sldl.zip')
+
+    # preprocessing
+    add_districts(block, district, False)
+    drop_unecessary_columns(block)
+
+    created_file = write_as_geojson(block, f'{state}_census')
+
+    if debug:
+        block.plot(column="DISTRICT", cmap="tab20")
+        district.plot(cmap="tab20")
+        plt.show()
+
+    return created_file
+
+
 def get_de_by_precinct_csv():
     import requests
-    #from bs4 import BeautifulSoup
+    from bs4 import BeautifulSoup
     import csv
 
     # Read the HTML content from the text file
@@ -155,7 +156,7 @@ def get_de_by_precinct_csv():
         return
 
     # Create a CSV file and write the table data into it
-    with open('de_precincts.csv', 'w', newline='') as csvfile:
+    with open('DE_precincts.csv', 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         column_names = ['PRECINCT', 'CANDIDATE', 'PARTY', 'VOTES', 'PERCENTAGE']
         desired_columns = [0, 1, 5, 6]
@@ -167,43 +168,23 @@ def get_de_by_precinct_csv():
             rows = data.find_all('tr')
             precinct = data.find_previous_sibling('h4').get_text(strip=True)
 
-            for row in rows[1:]: # skip first row, its headers
+            for row in rows[1:]:  # skip first row, its headers
                 row_data = [cell.get_text(strip=True) for cell in row.find_all('td')]
                 filtered_row_data = [row_data[i] for i in desired_columns]
                 data = [precinct] + filtered_row_data
                 csv_writer.writerow(data)
 
-            if not i%50:
+            if not i % 50:
                 print(f'iteration: {i}')
-    
+
     print("Done writing")
 
 
-def de_precinct_data_from_block():
-    de_prec = gpd.read_file('de precinct shape.zip')
-    de_blocks = gpd.read_file('DE_census.geojson')
-    de_prec['geometry'] = de_prec.geometry.to_crs("epsg:3857")
-    variables = ["TOTAL_REG", "ETH1_EUR", "ETH1_HISP", "ETH1_AA", "ETH1_ESA", "ETH1_UNK",
-                 "VOTERS_GENDER_M", "VOTERS_GENDER_F", "VOTERS_GENDER_UNKNOWN", 
-                 "PARTY_DEM", "PARTY_REP", "PARTY_OTHER"]
-    blocks_to_precincts_assignment = maup.assign(de_blocks, de_prec)
-    de_prec[variables] = de_blocks[variables].groupby(blocks_to_precincts_assignment).sum()
-    write_as_geojson(de_prec, "DE_precincts")
-
-
 if __name__ == '__main__':
-    #blocks = create_de_file()
-    #get_de_by_precinct_csv()
-    #de_precinct_data_from_block()
-    # create_al_file()
-
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["cse416-rockets"]
-    collection = db["stateSummary"]
-
-    with open('DE_precincts.geojson', 'r') as f:
-        geojson_data = json.load(f)
-
-    collection.insert_one(geojson_data)
+    # get_de_by_precinct_csv()
+    blocks = create_file("DE")
+    precinct_data_from_block("DE")
+    #blocks = create_file("AL")
+    #precinct_data_from_block("AL")
 
     print("done")

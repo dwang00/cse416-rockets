@@ -24,8 +24,11 @@ public class BoxPlot {
     private int districtNum;
     @Field("state")
     private State state;
+    @Field("enacted")
+    private double enacted;
 
-    public BoxPlot(String id, double min, double lower, double med, double upper, double max, int districtNum, State state) {
+    public BoxPlot(String id, double min, double lower, double med, double upper, double max, int districtNum,
+                   State state, double enacted) {
         this.id = id;
         this.min = min;
         this.lower = lower;
@@ -34,6 +37,7 @@ public class BoxPlot {
         this.max = max;
         this.districtNum = districtNum;
         this.state = state;
+        this.enacted = enacted;
     }
 
     public String getId() {
@@ -98,5 +102,13 @@ public class BoxPlot {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public double getEnacted() {
+        return enacted;
+    }
+
+    public void setEnacted(double enacted) {
+        this.enacted = enacted;
     }
 }

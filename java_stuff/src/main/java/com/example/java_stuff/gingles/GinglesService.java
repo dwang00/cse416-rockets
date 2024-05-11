@@ -26,15 +26,9 @@ public class GinglesService {
     }
 
     public List<GinglesData> getGinglesByState(String state) {
-        if(allGinglesData == null) {
-            allGinglesData = ginglesRepository.findAll();
-        }
-        List<GinglesData> stateData = new ArrayList<>();
+        List<GinglesData> stateData;
 
-        for(GinglesData data : allGinglesData) {
-            if(data.getState().toString().equals(state))
-                stateData.add(data);
-        }
+        stateData = ginglesRepository.findByState(state);
         return stateData;
     }
 }

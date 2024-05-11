@@ -6,7 +6,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 import StateAssemblyTable from "./StateAssemblyTable.js";
 import StateDataSummary from "./StateDataSummary.js";
 import HeatMap from "./Heatmap.js";
-
+import EcoInf from "./EcoInf";
 function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const height = window.innerHeight - navbarHeight;
 
@@ -27,7 +27,15 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 {currTab == "plans" && <div className="w-100 h-100">generated plans w/ dropdown to select plan and button to toggle comparison</div>}
             </div>
             <div className="w-50 justify-content-right vstack">
-                {currTab == "analysis" && <div className="w-100 h-100">ecological inference</div>}
+                {currTab == "analysis" && (<div className="w-100 h-100">
+                    ecological inference
+                    <div>
+                        <EcoInf state = "DELAWARE"
+                                election = "Presidential"
+                                width={window.innerWidth * 0.8}
+                                height={window.innerHeight * 0.8}/>
+                    </div>
+                </div>)}
                 <div className="w-100 h-50 d-flex">
                     {/* <StateAssemblyTable state={fullName[currState]} setSelectedRowsData={setSelectedRowsData} selectedRowsData={selectedRowsData}/> */}
                     {/* <StateDataSummary state={fullName[state]}/> */}

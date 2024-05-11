@@ -300,49 +300,12 @@ const barOptionsDelaware = {
         <Gingles_Graph state = "DELAWARE" race = "caucasian" demCan = "Lisa Blunt Rochester" repCan = "Lee Murphy"/>,
         <Gerrymandering_Graph state = "DELAWARE" race = "caucasian" chartId="chartDelaware1" style={{display:"inline-block"}}/>,
         <EcoInf
-            data={[
-                {
-                    color: "steelblue",
-                    values: [
-                        { x: 0.0, value: 0.05 },
-                        { x: 0.1, value: 0.05 },
-                        { x: 0.2, value: 0.04 },
-                        { x: 0.3, value: 0.03 },
-                        { x: 0.4, value: 0.04 },
-                        { x: 0.44, value: 0.04 },
-                        { x: 0.5, value: 0.9 },
-                        { x: 0.52, value: 0.04 },
-                        { x: 0.53, value: 0.04 },
-                        { x: 0.6, value: 0.04 },
-                        { x: 0.7, value: 0.03 },
-                        { x: 0.8, value: 0.04 },
-                        { x: 0.9, value: 0.07 },
-                        { x: 1.0, value: 0.04 }
-                    ]
-                },
-                {
-                    color: "green",
-                    values: [
-                        { x: 0.0, value: 0.05 },
-                        { x: 0.1, value: 0.05 },
-                        { x: 0.2, value: 0.4 },
-                        { x: 0.3, value: 0.03 },
-                        { x: 0.4, value: 0.04 },
-                        { x: 0.44, value: 0.04 },
-                        { x: 0.5, value: 0.03 },
-                        { x: 0.52, value: 0.04 },
-                        { x: 0.53, value: 0.04 },
-                        { x: 0.6, value: 0.04 },
-                        { x: 0.7, value: 0.03 },
-                        { x: 0.8, value: 0.04 },
-                        { x: 0.9, value: 0.07 },
-                        { x: 1.0, value: 0.04 }
-                    ]
-                },
-            ]}
+            state = "DELAWARE"
+            election = "Presidential"
             width={window.innerWidth * 0.8}
             height={window.innerHeight * 0.8}
-        />
+        />,
+        {/* must decide what election we are doing for ecological inference, like between Presidential or RepInCongress */}
     ]
 
     const navbarHeight = Math.floor(0.1 * window.innerHeight);

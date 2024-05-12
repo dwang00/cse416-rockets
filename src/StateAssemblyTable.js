@@ -49,6 +49,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
             sortable: true,
             style: {
                 background: 'white',
+                textAlign: 'right',
             },
         },
         {
@@ -76,6 +77,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
             sortable: true,
             style: {
                 background: 'white',
+                textAlign: 'right',
             },
         },
     ];

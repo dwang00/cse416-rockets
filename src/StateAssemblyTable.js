@@ -28,7 +28,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             name: 'Image',
             selector: 'img',
             id: 'img',
-            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} data-tag="allowRowEvents"/>,
+            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: "100%", borderRadius: '50%', backgroundColor: "white" }} data-tag="allowRowEvents"/>,
             style: {
                 background: 'white',
             },

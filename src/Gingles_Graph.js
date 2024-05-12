@@ -285,10 +285,10 @@ function Gingles_Graph(props) {
             },
         },
     };
-
+// TODO legend stroke and fill colors for regressions appears to be swapped
     return (
 
-        <div className="w-100">
+        <div className="" style={{height: "98%"}}>
             <Scatter options={scatterOptions} data={scatterData} style={{display: "inline-block"}}/>
             {props.table==="true" && tableData (<DataTable
                 columns={columns}

@@ -75,14 +75,14 @@ const barOptionsAlabama = {
             indexAxis: 'Ethnicity',
             labels: ['Caucasian', 'African American'],
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
         y: {
             indexAxis: 'Number of Representatives',
             beginAtZero: true,
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
     },
@@ -93,7 +93,7 @@ const barOptionsAlabama = {
           font: {
               size: 20
           },
-          color: "#f00840"
+        //   color: "#f00840"
         },
         plugins: {
             title: {
@@ -133,10 +133,10 @@ const barOptionsAlabama = {
                 title: {
                     display: true,
                     text: 'Percent African American',
-                    color: "#f00840"
+                    // color: "#f00840"
                 },
                 ticks: {
-                    color: "#f00840"
+                    // color: "#f00840"
                 }
             },
             y: {
@@ -144,11 +144,11 @@ const barOptionsAlabama = {
                 title: {
                     display: true,
                     text: 'Vote Share',
-                    color: "#f00840"
+                    // color: "#f00840"
                 },
                 ticks: {
                     stepSize: 20,
-                    color: "#f00840"
+                    // color: "#f00840"
                 },
             },
         },
@@ -159,11 +159,11 @@ const barOptionsAlabama = {
                 font: {
                     size: 20
                 },
-                color: "#f00840"
+                // color: "#f00840"
             },
             legend: {
                 labels: {
-                    color: "#f00840"
+                    // color: "#f00840"
                 }
             }
         }
@@ -203,14 +203,14 @@ const barOptionsDelaware = {
             indexAxis: 'Ethnicity',
             labels: ['Caucasian', 'African American', 'Asian'],
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
         y: {
             indexAxis: 'Number of Representatives',
             beginAtZero: true,
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
     },
@@ -221,7 +221,7 @@ const barOptionsDelaware = {
             font: {
                 size: 20
             },
-            color: "#f00840"
+            // color: "#f00840"
         },
         legend: {
             display: false

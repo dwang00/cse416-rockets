@@ -19,20 +19,21 @@ public class StateAssemblyController {
     public List<StateAssembly> getAllMembers() {
         return stateAssemblyService.getAllMembers();
     }
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/membersByRaces")
-    public List<StateAssembly> getMembersByRaces(@RequestParam List<String> races) {
-        return stateAssemblyService.getMembersByRaces(races);
-    }
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/membersByParty")
-    public List<StateAssembly> getMembersByParty(@RequestParam String party) {
-        return stateAssemblyService.getMembersByParty(party);
-    }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/membersByState")
     public List<StateAssembly> getMembersByState(@RequestParam String state) {
         return stateAssemblyService.getMembersByState(state);
+    }
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/membersByStateAndParty")
+    public List<StateAssembly> getMembersByStateAndParty(@RequestParam String state, @RequestParam String party) {
+        return stateAssemblyService.getMembersByStateAndParty(state, party);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/membersByStateAndRaces")
+    public List<StateAssembly> getMembersByStateAndRaces(@RequestParam String state, @RequestParam List<String> races) {
+        return stateAssemblyService.getMembersByStateAndRaces(state, races);
     }
 }

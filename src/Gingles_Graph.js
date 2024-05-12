@@ -93,7 +93,7 @@ function Gingles_Graph(props) {
     // console.log(scatterDataRep)
     useEffect(() => {
         if(scatterDataDem && scatterDataRep && demCoefficients && repCoefficients) {
-            const scatterDataCopy = { ...scatterData}
+            const scatterDataCopy = { datasets: []}
             const demMinX = findMinMax(scatterDataDem).min
             const demMaxX = findMinMax(scatterDataDem).max
 
@@ -160,10 +160,10 @@ function Gingles_Graph(props) {
                 title: {
                     display: true,
                     text: `Percent ${props.race}`,
-                    color: "#f00840"
+                    color: "#000000"
                 },
                 ticks: {
-                    color: "#f00840"
+                    color: "#000000"
                 }
             },
             y: {
@@ -171,11 +171,11 @@ function Gingles_Graph(props) {
                 title: {
                     display: true,
                     text: 'Vote Share',
-                    color: "#f00840"
+                    color: "#000000"
                 },
                 ticks: {
                     stepSize: 20,
-                    color: "#f00840"
+                    color: "#000000"
                 },
             },
         },
@@ -186,11 +186,11 @@ function Gingles_Graph(props) {
                 font: {
                     size: 20
                 },
-                color: "#f00840"
+                color: "#000000"
             },
             legend: {
                 labels: {
-                    color: "#f00840"
+                    color: "#000000"
                 }
             }
         }

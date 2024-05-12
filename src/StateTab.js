@@ -156,7 +156,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                                   typeOfBox={selectedGerrymanderingRace}
                                                   typeOfPoint={selectedGerrymanderingPoints}
                                                   ensemble={selectedGerrymanderingEnsemble}
-                                                  style={{display: "inline-block"}}/>,
+                                                  style={{display: "inline-block"}}/>
                         </div>
 
 
@@ -209,7 +209,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                                   typeOfBox={selectedGerrymanderingParty}
                                                   typeOfPoint={selectedGerrymanderingPoints2}
                                                   ensemble={selectedGerrymanderingEnsemble2}
-                                                  style={{display: "inline-block"}}/>,
+                                                  style={{display: "inline-block"}}/>
                         </div>
                     </div>
                 </div>)}

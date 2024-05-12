@@ -1,30 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import ApexCharts from 'apexcharts';
+import './App.css'
 
-function Gerrymandering_Graph({ state, race, chartId }) {
-    const [data, setData] = useState([]);
-
+function Gerrymandering_Graph({ state, race, chartId, typeOfBox, typeOfPoint }) {
+    const [data, setData] = useState(null);
     useEffect(() => {
         fetch(`http://localhost:8080/boxPlotByState?state=${state}`)
             .then(response => response.json())
-            .then(data => setData(data))
+            .then(data => {
+                setData(data)
+                console.log(data)
+            })
             .catch(error => console.error('Error fetching data:', error));
-    }, []);
+    }, [state]);
 
     useEffect(() => {
-        window.dispatchEvent(new Event('resize'));
-        if(!data.length)
+        if(!data) {
+            console.log("Data is empty, cannot render graph.");
             return;
-
-        const boxplotData = data.map(item => ({
-            x: item.districtNum.toString(),
-            y: [item.min, item.lower, item.med, item.upper, item.max]
+        }
+        window.dispatchEvent(new Event('resize'));
+        console.log("yo1")
+        console.log(data)
+        console.log("yo2")
+        console.log(data[typeOfBox])
+        const boxplotData = data[typeOfBox].map((item, index) => ({
+            x: index+1,
+            y: [item.min, item.q1, item.median, item.q3, item.max]
         }));
-
-        const scatterData = data.map(item => ({
-            x: item.districtNum.toString(),
-            y: item.enacted
+        console.log(data['points'][typeOfPoint])
+        const scatterData = data['points'][typeOfPoint].map((item, index) => ({
+            x: index+1,
+            y: item
         }));
+        console.log("Boxplot data:", boxplotData);
+        console.log("Scatter data:", scatterData);
 
         const options = {
             series: [
@@ -41,7 +51,7 @@ function Gerrymandering_Graph({ state, race, chartId }) {
             ],
             chart: {
                 type: 'boxPlot',
-                height: "100%"
+                height: "200%"
             },
             title: {
                 text: `${state} Districts`,
@@ -93,20 +103,33 @@ function Gerrymandering_Graph({ state, race, chartId }) {
                         lower: '#16b1e0',
                     },
                 },
-                markers: {
-                    size: 1,
-                    colors: ['#d30808'], // Adjust the size of the scatter plot points
+                scatter: {
+                    markers: {
+                        size: 0, // Adjust the size of the scatter plot points
+                    },
                 },
             },
+            markers: {
+                size: 3,
+                fillOpacity: 0.5,
+            },
+            animations: {
+                enabled: false
+            }
         };
 
         const chartElement = document.querySelector(`#${chartId}`);
-        if(!chartElement)
+        console.log("chartId:", chartId);
+        console.log("chartElement:", chartElement);
+
+        if (!chartElement) {
+            console.error(`Chart element with ID '${chartId}' not found.`);
             return;
+        }
 
         const chart = new ApexCharts(chartElement, options);
         chart.render();
-    }, [data, chartId]);
+    }, [data, chartId, typeOfBox, typeOfPoint]);
 
     return <div id={chartId} />;
 }

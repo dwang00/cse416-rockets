@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import "./App.css";
 
-function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }) {
+function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }) {
 
     const [tableData, setTableData] = useState(null);
     //const [selectedRows, setSelectedRows] = useState([]);
@@ -28,7 +28,7 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
             name: 'Image',
             selector: 'img',
             id: 'img',
-            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />,
+            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} data-tag="allowRowEvents"/>,
             style: {
                 background: 'white',
             },
@@ -127,19 +127,29 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
         },
     };
 
-    const handleRowClicked = (row) => {
-        setSelectedRowsData(prevSelectedRowsData => {
-            const selectedIndex = prevSelectedRowsData.findIndex(selectedRow => selectedRow === row);
-            let newSelectedRows = [];
+    // const handleRowClicked = (row) => {
+    //     setSelectedRowsData(prevSelectedRowsData => {
+    //         const selectedIndex = prevSelectedRowsData.findIndex(selectedRow => selectedRow === row);
+    //         let newSelectedRows = [];
 
-            if (selectedIndex === -1) {
-                // Row is not yet selected, add it to selectedRows
-                newSelectedRows = [...prevSelectedRowsData, row];
-            } else {
-                // Row is already selected, remove it from selectedRows
-                newSelectedRows = [...prevSelectedRowsData.slice(0, selectedIndex), ...prevSelectedRowsData.slice(selectedIndex + 1)];
+    //         if (selectedIndex === -1) {
+    //             // Row is not yet selected, add it to selectedRows
+    //             newSelectedRows = [...prevSelectedRowsData, row];
+    //         } else {
+    //             // Row is already selected, remove it from selectedRows
+    //             newSelectedRows = [...prevSelectedRowsData.slice(0, selectedIndex), ...prevSelectedRowsData.slice(selectedIndex + 1)];
+    //         }
+    //         return newSelectedRows;
+    //     });
+    // };
+
+    const handleClick = (row) => {
+        console.log(row);
+        setCurrDistrict(row);
+        map.eachLayer((layer) => {
+            if (layer.feature && layer.feature.properties["DISTRICT_N"] === row) {
+                layer.bringToFront();
             }
-            return newSelectedRows;
         });
     };
 
@@ -151,7 +161,8 @@ function StateAssemblyTable({state, selectedRowsData = [], setSelectedRowsData }
                 pagination
                 customStyles = {customStyles}
                 title={"State Representatives"}
-                onRowClicked={handleRowClicked}
+                onRowClicked={(row, event) => handleClick(row.district)}
+                pointerOnHover
             />
         </div>
     );

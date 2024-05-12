@@ -22,16 +22,24 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const [selectedGinglesRace, setSelectedGinglesRace] = useState("caucasian");
     const [selectedGinglesTable, setSelectedGinglesTable] = useState("")
 
-    const [selectedGerrymanderingOption, setSelectedGerrymanderingOption] = useState("caucasian");
+    const [selectedGerrymanderingRace, setSelectedGerrymanderingRace] = useState("caucasian");
+    const [selectedGerrymanderingEnsemble, setSelectedGerrymanderingEnsemble] = useState("250")
+    const [selectedGerrymanderingParty, setSelectedGerrymanderingParty] = useState("democratic")
+
     const [selectedEcoInfOption, setSelectedEcoInfOption] = useState("Presidential");
 
     const handleGinglesOptionChange = (option) => {
         setSelectedGinglesRace(option);
     };
-    const handleGerrymanderingOptionChange = (option) => {
-        setSelectedGerrymanderingOption(option);
+    const handleGerrymanderingRaceChange = (option) => {
+        setSelectedGerrymanderingRace(option);
     };
-
+    const handleGerrymanderingPartyChange = (option) => {
+        setSelectedGerrymanderingParty(option);
+    };
+    const handleGerrymanderingEnsembleChange = (option) => {
+      setSelectedGerrymanderingEnsemble(option)
+    };
     const handleEcoInfOptionChange = (option) => {
         setSelectedEcoInfOption(option);
     };
@@ -65,7 +73,37 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 {currTab == "plans" && (<div className="w-100 h-100">
                     generated plans w/ dropdown to select plan and button to toggle comparison
                     <div>
-                        <Gerrymandering_Graph state = {fullName[currState]} race = "caucasian" chartId="chartDelaware1" typeOfBox = "white" typeOfPoint = "initial_partition_White" style={{display:"inline-block"}}/>,
+                        <select value={selectedGerrymanderingRace}
+                                onChange={(e) => handleGerrymanderingRaceChange(e.target.value)}>
+                            <option value="white">Caucasian</option>
+                            <option value="black">African American</option>
+                        </select>
+                        <select value={selectedGerrymanderingEnsemble}
+                                onChange={(e) => handleGerrymanderingEnsembleChange(e.target.value)}>
+                            <option value={250}>Small Ensemble</option>
+                            <option value={5000}>Large Ensembles</option>
+                        </select>
+                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}1`}
+                                              typeOfBox={selectedGerrymanderingRace}
+                                              typeOfPoint="initial_partition_White"
+                                              ensemble = {selectedGerrymanderingEnsemble}
+                                              style={{display: "inline-block"}}/>,
+
+                        <select value={selectedGerrymanderingParty}
+                                onChange={(e) => handleGerrymanderingPartyChange(e.target.value)}>
+                            <option value="democratic">Democrat</option>
+                            <option value="republican">Republican</option>
+                        </select>
+                        <select value={selectedGerrymanderingEnsemble}
+                                onChange={(e) => handleGerrymanderingEnsembleChange(e.target.value)}>
+                            <option value={250}>Small Ensemble</option>
+                            <option value={5000}>Large Ensembles</option>
+                        </select>
+                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}1`}
+                                              typeOfBox={selectedGerrymanderingParty}
+                                              typeOfPoint="initial_partition_White"
+                                              ensemble = {selectedGerrymanderingEnsemble}
+                                              style={{display: "inline-block"}}/>,
                     </div>
                 </div>)}
             </div>
@@ -74,8 +112,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                     ecological inference
                     <select value={selectedEcoInfOption} onChange={(e) => handleEcoInfOptionChange(e.target.value)}>
                         <option value="Presidential">Presidential</option>
-                        <option value="RepInCongress">Representative in Congress</option>
-                        {/* Add more options if needed */}
+                        {fullName[currState] === "ALABAMA" ? (
+                            <option value="Governor">Governor</option>
+                        ) : (
+                            <option value="RepInCongress">Representative in Congress</option>
+                        )}
                     </select>
                     <div>
                         <EcoInf state={fullName[currState]}

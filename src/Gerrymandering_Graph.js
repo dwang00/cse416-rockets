@@ -2,34 +2,36 @@ import React, { useEffect, useState } from 'react';
 import ApexCharts from 'apexcharts';
 import './App.css'
 
-function Gerrymandering_Graph({ state, race, chartId, typeOfBox, typeOfPoint }) {
-    const [data, setData] = useState(null);
+function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble}) {
+    const [dataRace, setDataRace] = useState(null);
+    const [dataParty, setDataParty] = useState(null)
     useEffect(() => {
         fetch(`http://localhost:8080/boxPlotByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
-                setData(data)
-                console.log(data)
+                if(ensemble === 250) {
+                    setDataRace(data[0])
+                }
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [state]);
 
     useEffect(() => {
-        if(!data) {
+        if(!data250 || !data5000) {
             console.log("Data is empty, cannot render graph.");
             return;
         }
         window.dispatchEvent(new Event('resize'));
         console.log("yo1")
-        console.log(data)
+        console.log(data250)
         console.log("yo2")
-        console.log(data[typeOfBox])
-        const boxplotData = data[typeOfBox].map((item, index) => ({
+        console.log(data250[typeOfBox])
+        const boxplotData = data250[typeOfBox].map((item, index) => ({
             x: index+1,
             y: [item.min, item.q1, item.median, item.q3, item.max]
         }));
-        console.log(data['points'][typeOfPoint])
-        const scatterData = data['points'][typeOfPoint].map((item, index) => ({
+        console.log(data250['points'][typeOfPoint])
+        const scatterData = data250['points'][typeOfPoint].map((item, index) => ({
             x: index+1,
             y: item
         }));
@@ -76,7 +78,7 @@ function Gerrymandering_Graph({ state, race, chartId, typeOfBox, typeOfPoint }) 
             },
             yaxis: {
                 title: {
-                    text: `% ${race}`,
+                    text: `% ${typeOfBox}`,
                     style: {
                         color: "#f00840"
                     }
@@ -129,7 +131,7 @@ function Gerrymandering_Graph({ state, race, chartId, typeOfBox, typeOfPoint }) 
 
         const chart = new ApexCharts(chartElement, options);
         chart.render();
-    }, [data, chartId, typeOfBox, typeOfPoint]);
+    }, [data250,data5000, chartId, typeOfBox, typeOfPoint]);
 
     return <div id={chartId} />;
 }

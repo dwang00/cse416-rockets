@@ -23,6 +23,7 @@ function Gingles_Graph(props) {
                 fetch(`http://localhost:8080/ginglesByState?state=${state}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         if(state === "DELAWARE" ) {
                             console.log("WHY WHY WHY")
                             setDemCan("Lisa Blunt Rochester")

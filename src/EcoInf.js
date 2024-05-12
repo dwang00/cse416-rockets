@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const EcoInf = ({ state, election }) => {
     const svgRef1 = useRef(null);
@@ -174,15 +175,15 @@ const EcoInf = ({ state, election }) => {
 
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ marginBottom: '0px' }}>
-                <svg ref={svgRef1} width={620} height={230}></svg>
+        <div className='d-flex flex-column w-100 h-100'>
+            <div className="" style={{ marginBottom: '0px', height:"33%", borderStyle:"solid"}}>
+                <svg ref={svgRef1} width={700} height={180}></svg>
             </div>
-            <div style={{ marginBottom: '0px' }}>
-                <svg ref={svgRef2} width={620} height={230}></svg>
+            <div style={{ marginBottom: '0px', height:"33%", borderStyle:"solid"}}>
+                <svg ref={svgRef2} width={700} height={180}></svg>
             </div>
-            <div>
-                <svg ref={svgRef3} width={620} height={230}></svg>
+            <div style={{height:"33%", borderStyle:"solid"}}>
+                <svg ref={svgRef3} width={700} height={180}></svg>
             </div>
         </div>
     );

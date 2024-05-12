@@ -66,7 +66,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     return (
         <div className="w-100 d-flex" style={{height: `${height}px`, }}>
             {/* <div className="w-100 justify-content-left"> */}
-                {currTab == "summary" && <div className= "h-100 justify-content-left position-relative overflow-hidden" style={{width: "40%", borderStyle: 'solid'}}>
+                {currTab == "summary" && <div className= "h-100 justify-content-left position-relative overflow-hidden" style={{width: "60%", borderStyle: 'solid'}}>
                     {geoJsons && <HeatMap race='white' map={map} isDensity={isDensity} setIsDensity={setIsDensity} setMap={setMap} state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
                 </div>}
                 {currTab == "analysis" && (
@@ -196,8 +196,8 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                     </div>
                 </div>)}
             {/* </div> */}
-            <div className="justify-content-right vstack" style={{width: "60%"}}>
-                {/* {currTab == "analysis" && (<div className="w-100 h-100">
+            <div className="justify-content-right d-flex flex-column w-100 h-100" >
+                {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle:"solid"}}>
                     ecological inference
                     <select value={selectedEcoInfOption} onChange={(e) => handleEcoInfOptionChange(e.target.value)}>
                         <option value="Presidential">Presidential</option>
@@ -207,13 +207,13 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                             <option value="RepInCongress">Representative in Congress</option>
                         )}
                     </select>
-                    <div>
+                    <div className="w-100" style={{height:"96%"}}>
                         <EcoInf state={fullName[currState]}
                                 election= {selectedEcoInfOption}
                                 width={window.innerWidth * 0.8}
                                 height={window.innerHeight * 0.8}/>
                     </div>
-                </div>)} */}
+                </div>)}
                 
                 {currTab == "summary" && 
                     <div className="d-flex overflow-auto h-50" style={{borderStyle:"solid", }}>
@@ -223,18 +223,18 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district table</div>}
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district bar chart</div>}
                 {/* TODO Fix Height & text formatting */}
+                {currTab == "summary" && 
                 <div className="d-flex flex-row h-50 overflow-hidden">
-                    {currTab == "summary" &&
-                        <div className="justify-content-left h-100" style={{width: isDensity ? "60%" : "100%"}}>
-                            <StateDataSummary state={fullName[currState]} />
-                        </div>
-                    }
-                    {currTab == "summary" && isDensity && 
+                    <div className="justify-content-left h-100" style={{width: isDensity ? "60%" : "100%"}}>
+                        <StateDataSummary state={fullName[currState]} />
+                    </div>
+                    {isDensity && 
                         <div className="w-100 h-100" style={{borderStyle: "solid"}}>
                             {React.createElement(components[0].type, { ...components[0].props })}
                         </div>
                     }
                 </div>
+                }
             </div>
         </div>
     )

@@ -41,6 +41,7 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
         console.log("Scatter data:", scatterData);
 
         const options = {
+            colors: ["#FFFF00", "#008000"],
             series: [
                 {
                     name: 'ReCom Ensemble',
@@ -61,7 +62,7 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                 text: `${state} Districts`,
                 align: 'left',
                 style: {
-                    color: "#f00840"
+                    color: "#000000"
 
                 }
             },
@@ -70,12 +71,12 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                 title: {
                     text: 'Indexed districts',
                     style: {
-                        color: "#f00840"
+                        color: "#000000"
                     }
                 },
                 labels: {
                     style: {
-                        colors: "#f00840"
+                        colors: "#000000"
                     }
                 }
             },
@@ -83,7 +84,7 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                 title: {
                     text: `% ${typeOfBox}`,
                     style: {
-                        color: "#f00840",
+                        color: "#000000",
 
                         fontWeight: 'normal',
                     }
@@ -94,20 +95,21 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                         return value.toFixed(2);
                     },
                     style: {
-                        colors: "#f00840"
+                        colors: "#000000"
                     }
                 }
             },
             legend: {
+                show: true,
                 labels: {
-                    colors: "#f00840"
-                }
+                    colors: "#000000"
+                },
             },
             plotOptions: {
                 boxPlot: {
                     colors: {
-                        upper: '#159ed9',
-                        lower: '#16b1e0',
+                        upper: '#FFFF00', // Yellow color for upper box
+                        lower: '#FFFF00', // Yellow color for lower box
                     },
                 },
                 scatter: {
@@ -118,6 +120,7 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
             },
             markers: {
                 size: 3,
+                colors: '#008000', // Green color for markers
                 fillOpacity: 0.5,
             },
             animations: {

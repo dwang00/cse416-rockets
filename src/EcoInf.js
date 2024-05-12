@@ -12,17 +12,12 @@ const EcoInf = ({ state, election }) => {
         fetch(`http://localhost:8080/get_ecoInf/byStateAndElection?state=${state}&election=${election}`)
             .then(response => response.json())
             .then(data => {
-                let newData;
-                let candidate1;
-                let candidate2;
-                let candidate3;
 
-                if (election === "Presidential") {
-                    candidate1 = data[0].candidate
-                    candidate2 = data[3].candidate
-                    candidate3 = data[6].candidate
+                    let candidate1 = data[0].candidate
+                    let candidate2 = data[3].candidate
+                    let candidate3 = data[6].candidate
 
-                    newData = [
+                    let newData = [
                         data[0].data,
                         data[1].data,
                         data[2].data,
@@ -33,22 +28,6 @@ const EcoInf = ({ state, election }) => {
                         data[7].data,
                         data[8].data
                     ];
-                } else if (election === "RepInCongress") {
-                    candidate1 = data[0].candidate
-                    candidate2 = data[3].candidate
-                    candidate3 = data[6].candidate
-                    newData = [
-                        data[0].data,
-                        data[1].data,
-                        data[2].data,
-                        data[3].data,
-                        data[4].data,
-                        data[5].data,
-                        data[6].data,
-                        data[7].data,
-                        data[8].data
-                    ];
-                }
                 setCombinedData(newData);
                 setCan([candidate1, candidate2, candidate3])
             })
@@ -87,6 +66,11 @@ const EcoInf = ({ state, election }) => {
                 .attr('class', 'axis axis--x')
                 .attr('transform', `translate(0,${height - margin.bottom})`)
                 .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format('.1f')));
+
+            svg.append("text")
+                .attr("transform", `translate(${margin.left - 28}, ${height / 2}) rotate(-90)`)
+                .style("text-anchor", "middle")
+                .text("Probability Density (%)");
 
             svg.append('g')
                 .attr('class', 'axis axis--y')
@@ -176,13 +160,13 @@ const EcoInf = ({ state, election }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ marginBottom: '0px' }}>
-                <svg ref={svgRef1} width={620} height={230}></svg>
+                <svg ref={svgRef1} width={820} height={230}></svg>
             </div>
             <div style={{ marginBottom: '0px' }}>
-                <svg ref={svgRef2} width={620} height={230}></svg>
+                <svg ref={svgRef2} width={820} height={230}></svg>
             </div>
             <div>
-                <svg ref={svgRef3} width={620} height={230}></svg>
+                <svg ref={svgRef3} width={820} height={230}></svg>
             </div>
         </div>
     );

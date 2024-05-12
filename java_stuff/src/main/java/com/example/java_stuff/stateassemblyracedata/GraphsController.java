@@ -4,6 +4,7 @@ import com.example.java_stuff.gingles.*;
 import com.example.java_stuff.boxplotgraph.*;
 import com.example.java_stuff.precinctdata.*;
 import com.example.java_stuff.oppdist.*;
+import com.example.java_stuff.voteseatshare.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,19 +19,21 @@ public class GraphsController {
     private final PrecinctService precinctService;
     private final OppDistService oppDistService;
     private final OppDistBinsService oppDistBinsService;
+    private final VSShareService vsShareService;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GraphsController(StateAssemblyRaceDataService stateAssemblyRaceService,
                             GinglesService ginglesService, BoxPlotService boxPlotService,
                             PrecinctService precinctService, OppDistService oppDistService,
-                            OppDistBinsService oppDistBinsService) {
+                            OppDistBinsService oppDistBinsService, VSShareService vsShareService) {
         this.stateAssemblyRaceService = stateAssemblyRaceService;
         this.ginglesService = ginglesService;
         this.boxPlotService = boxPlotService;
         this.precinctService = precinctService;
         this.oppDistService = oppDistService;
         this.oppDistBinsService = oppDistBinsService;
+        this.vsShareService = vsShareService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -81,5 +84,11 @@ public class GraphsController {
     @GetMapping("oppDistBinsByState")
     public List<OppDistBins> getOppDistBinsByState(@RequestParam("state") String state) {
         return oppDistBinsService.getByState(state);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("shareByState")
+    public List<VSShare> getShareByState(@RequestParam("state") String state) {
+        return this.vsShareService.getByState(state);
     }
 }

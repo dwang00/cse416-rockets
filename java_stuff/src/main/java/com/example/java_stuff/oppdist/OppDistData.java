@@ -25,13 +25,22 @@ public class OppDistData {
     @Field("maxoppdistricts_eur")
     private int maxoppdistricts_eur;
 
-    public OppDistData(String id, State state, int idealpop, int totalpop, int maxoppdistricts_aa, int maxoppdistricts_eur) {
+    @Field("aapop")
+    private int aapop;
+
+    @Field("whitepop")
+    private int whitepop;
+
+    public OppDistData(String id, State state, int idealpop, int totalpop,
+                       int maxoppdistricts_aa, int maxoppdistricts_eur, int aapop, int whitepop) {
         this.id = id;
         this.state = state;
         this.idealpop = idealpop;
         this.totalpop = totalpop;
         this.maxoppdistricts_aa = maxoppdistricts_aa;
         this.maxoppdistricts_eur = maxoppdistricts_eur;
+        this.aapop = aapop;
+        this.whitepop = whitepop;
     }
 
     public String getId() {
@@ -80,5 +89,21 @@ public class OppDistData {
 
     public void setMaxoppdistricts_eur(int maxoppdistricts_eur) {
         this.maxoppdistricts_eur = maxoppdistricts_eur;
+    }
+
+    public int getAapop() {
+        return aapop;
+    }
+
+    public void setAapop(int aapop) {
+        this.aapop = aapop;
+    }
+
+    public int getWhitepop() {
+        return whitepop;
+    }
+
+    public void setWhitepop(int whitepop) {
+        this.whitepop = whitepop;
     }
 }

@@ -13,6 +13,7 @@ public class StateAssemblyService {
 
     private List<StateAssembly> allStateAssemblyData;
 
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public StateAssemblyService(StateAssemblyRepository memberRepository) {

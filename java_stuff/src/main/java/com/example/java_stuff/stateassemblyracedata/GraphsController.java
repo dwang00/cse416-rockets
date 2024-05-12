@@ -17,17 +17,20 @@ public class GraphsController {
     private final BoxPlotService boxPlotService;
     private final PrecinctService precinctService;
     private final OppDistService oppDistService;
+    private final OppDistBinsService oppDistBinsService;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GraphsController(StateAssemblyRaceDataService stateAssemblyRaceService,
                             GinglesService ginglesService, BoxPlotService boxPlotService,
-                            PrecinctService precinctService, OppDistService oppDistService) {
+                            PrecinctService precinctService, OppDistService oppDistService,
+                            OppDistBinsService oppDistBinsService) {
         this.stateAssemblyRaceService = stateAssemblyRaceService;
         this.ginglesService = ginglesService;
         this.boxPlotService = boxPlotService;
         this.precinctService = precinctService;
         this.oppDistService = oppDistService;
+        this.oppDistBinsService = oppDistBinsService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -72,5 +75,11 @@ public class GraphsController {
     @GetMapping("oppDistrictsByState")
     public List<OppDistData> getOppDistsByState(@RequestParam("state") String state) {
         return oppDistService.getByState(state);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("oppDistBinsByState")
+    public List<OppDistBins> getOppDistBinsByState(@RequestParam("state") String state) {
+        return oppDistBinsService.getByState(state);
     }
 }

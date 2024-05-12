@@ -88,8 +88,8 @@ function Gingles_Graph(props) {
             fetchTabularGingles(props.state)
         }
     }, [props.state, props.race, props.table])
-    console.log(scatterDataDem);
-    console.log(scatterDataRep)
+    // console.log(scatterDataDem);
+    // console.log(scatterDataRep)
     useEffect(() => {
         if(scatterDataDem && scatterDataRep && demCoefficients && repCoefficients) {
             const scatterDataCopy = { ...scatterData}

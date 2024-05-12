@@ -37,6 +37,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
         setSelectedGerrymanderingPoints2(option)
     };
     const handleGinglesOptionChange = (option) => {
+        console.log(option);
         setSelectedGinglesRace(option);
     };
     const handleGerrymanderingRaceChange = (option) => {
@@ -75,14 +76,16 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                         <select value={selectedGinglesRace}
                                 onChange={(e) => handleGinglesOptionChange(e.target.value)}>
                             <option value="caucasian">Caucasian</option>
-                            <option value="african_american">African American</option>
+                            <option value="african american">African American</option>
 
                         </select>
                         <button onClick={() => setSelectedGinglesTable(prevState => !prevState)}>
                             {selectedGinglesTable ? "Hide Table" : "Show Table"}
                         </button>
-                        <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
-                                       table={selectedGinglesTable}/>
+                        {selectedGinglesRace === "caucasian" && <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
+                                       table={selectedGinglesTable}/>}
+                        {selectedGinglesRace === "african american" && <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
+                                        table={selectedGinglesTable}/>}
                     </div>
                 )}
                 {currTab == "districts" &&

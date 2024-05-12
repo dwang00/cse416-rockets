@@ -17,6 +17,7 @@ function Gingles_Graph(props) {
         datasets: []
     });
     const [tableData, setTableData] = useState(null)
+    console.log(props.race)
     useEffect(() => {
         function fetchGinglesData(state, race) {
 

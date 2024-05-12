@@ -158,12 +158,12 @@
 }
 
 .legend {
-  background: rgb(252,251,253);
+  /* background: rgb(252,251,253); */
   background: linear-gradient(0deg, rgba(252,251,253,1) 0%, rgba(63,0,125,1) 100%);
-  margin-top: 10px;
+  margin-top: 5px;
   border-style: solid;
   border-color: #000000;
-  border-width: 2px;
+  border-width: 1px;
   display: flex;
 }
 .react-data-table-component .data-table-title {
@@ -195,4 +195,9 @@
 
 [data-column-id="img"].rdt_TableCol {
   background-color: white;
+}
+
+.apexcharts-scatter-series .apexcharts-marker {
+  width: 30px !important; /* Adjust the width */
+  height: 30px !important; /* Adjust the height */
 }

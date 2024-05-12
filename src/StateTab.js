@@ -6,7 +6,9 @@ import 'bootstrap/dist/js/bootstrap.js';
 import StateAssemblyTable from "./StateAssemblyTable.js";
 import StateDataSummary from "./StateDataSummary.js";
 import HeatMap from "./Heatmap.js";
-
+import EcoInf from "./EcoInf";
+import Gerrymandering_Graph from "./Gerrymandering_Graph";
+import Gingles_Graph from "./Gingles_Graph";
 function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const height = window.innerHeight - navbarHeight;
 
@@ -16,18 +18,38 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     //console.log("IM IN STATE TAB 1")
     //console.log(selectedRowsData);
     //console.log("IM IN STATE TAB 2")
+
+    const [currDistrict, setCurrDistrict] = useState(null);
+    const [map, setMap] = useState(null);
+
     return (
         <div className="w-100 d-flex " style={{height: `${height}px`, }}>
             <div className="w-50">
                 {currTab == "summary" && <div className="w-100 h-100 justify-content-left position-relative" style={{borderStyle: 'solid'}}>
-                    {geoJsons && <HeatMap race='white' state={currState} my_json={geoJsons[currState]} mode='default' selectedRows = {selectedRowsData}/>}
+                    {geoJsons && <HeatMap race='white' map={map} setMap={setMap} state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
                 </div>}
-                {currTab == "analysis" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>scatter and gingles</div>}
+                {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                    scatter and gingles
+                    <Gingles_Graph state = {fullName[currState]} race = "caucasian"/>
+                </div>)}
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district map</div>}
-                {currTab == "plans" && <div className="w-100 h-100">generated plans w/ dropdown to select plan and button to toggle comparison</div>}
+                {currTab == "plans" && (<div className="w-100 h-100">
+                    generated plans w/ dropdown to select plan and button to toggle comparison
+                    <div>
+                        <Gerrymandering_Graph state = {fullName[currState]} race = "caucasian" chartId="chartDelaware1" typeOfBox = "white" typeOfPoint = "initial_partition_White" style={{display:"inline-block"}}/>,
+                    </div>
+                </div>)}
             </div>
             <div className="w-50 justify-content-right vstack">
-                {currTab == "analysis" && <div className="w-100 h-100">ecological inference</div>}
+                {currTab == "analysis" && (<div className="w-100 h-100">
+                    ecological inference
+                    <div>
+                        <EcoInf state = "DELAWARE"
+                                election = "Presidential"
+                                width={window.innerWidth * 0.8}
+                                height={window.innerHeight * 0.8}/>
+                    </div>
+                </div>)}
                 <div className="w-100 h-50 d-flex">
                     {/* <StateAssemblyTable state={fullName[currState]} setSelectedRowsData={setSelectedRowsData} selectedRowsData={selectedRowsData}/> */}
                     {/* <StateDataSummary state={fullName[state]}/> */}
@@ -39,7 +61,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                         </ol>
                         <div className="carousel-inner" style={{height: "100%", backgroundColor: '#e6e6e6', borderStyle: 'solid',}}>
                             <div className="carousel-item active overflow-auto" style={{height: "100%"}}>
-                                <StateAssemblyTable state={fullName[currState]} setSelectedRowsData={setSelectedRowsData} selectedRowsData={selectedRowsData}/>
+                                <StateAssemblyTable state={fullName[currState]} map={map} setMap={setMap} currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>
                             </div>
                             <div className="carousel-item" style={{height: "100%"}}>
                                 {React.createElement(components[0].type, { ...components[0].props })}
@@ -49,10 +71,10 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span className="visually-hidden">Previous</span>
                         </a>
-                        <a className="carousel-control-next" href="#houseIndicators" role="button" data-bs-slide="next" style={{right: "-6%"}}>
+                        {/* <a className="carousel-control-next" href="#houseIndicators" role="button" data-bs-slide="next" style={{right: "-6%"}}>
                             <span className="carousel-control-next-icon" aria-hidden="true"></span>
                             <span className="visually-hidden">Next</span>
-                        </a>
+                        </a> */}
                     </div>}
                 </div>
                 <div className="h-50 d-flex">
@@ -61,7 +83,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                     {/* <StateDataSummary state={fullName[currState]}/> */}
                     {/* TODO */}
                     {currTab == "summary" && <div className="position-relative" style={{width:"35%", height:"100%"}}>
-                        <StateDataSummary state={fullName[currState]}/>
+                        {/* <StateDataSummary state={fullName[currState]}/> */}
                         <span>State/District race & political party charts go here</span>
                     </div>
                     }

@@ -10,6 +10,7 @@ import EcoInf from "./EcoInf";
 import Gerrymandering_Graph from "./Gerrymandering_Graph";
 import Gingles_Graph from "./Gingles_Graph";
 import OpportunityDistrictBarChart from "./OpportunityDistrictBarChart";
+import OpportunityDistrictTable from "./OpportunityDistrictTable";
 function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const height = window.innerHeight - navbarHeight;
 
@@ -104,11 +105,16 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                     </div>
                 )}
                 {currTab == "districts" &&
-                    <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district map</div>}
+                    (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                        opportunity district map
+                        <div>
+                            {geoJsons && <HeatMap race='white' map={map} isDensity={isDensity} setIsDensity={setIsDensity} setMap={setMap}
+                                     state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
+                        </div>
+                    </div>)}
                 {currTab == "plans" && (<div className="w-100 h-100">
                     generated plans w/ dropdown to select plan and button to toggle comparison
-                    <div style={{display: "flex", flexDirection: "row"}}>
-                        <div style={{marginRight: "20px", flex: 1}}>
+                    <div>
                             <select value={selectedGerrymanderingRace}
                                     onChange={(e) => handleGerrymanderingRaceChange(e.target.value)}>
                                 <option value="white">Caucasian</option>
@@ -122,45 +128,93 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                             <select value={selectedGerrymanderingPoints} onChange={(e) => handleGerrymanderingPointsChange(e.target.value)}>
                                 {selectedGerrymanderingRace === "white" ? (
                                     <>
-                                        <option value="max_White_for_White_@0.37">partition with most white opportunity districts at 0.37 threshold</option>
-                                        <option value="min_White_for_White_@0.37">partition with least white opportunity districts at 0.37 threshold</option>
-                                        <option value="max_White_for_White_@0.5">partition with most white opportunity districts at 0.5 threshold</option>
-                                        <option value="min_White_for_White_@0.5">partition with least white opportunity districts at 0.5 threshold</option>
-                                        <option value="max_White_for_White_@0.6">partition with most white opportunity districts at 0.6 threshold</option>
-                                        <option value="min_White_for_White_@0.6">partition with least white opportunity districts at 0.6 threshold</option>
-                                        <option value="max_Black_for_White_@0.37">partition with most black opportunity districts at 0.37 threshold</option>
-                                        <option value="min_Black_for_White_@0.37">partition with least black opportunity districts at 0.37 threshold</option>
-                                        <option value="max_Black_for_White_@0.5">partition with most black opportunity districts at 0.5 threshold</option>
-                                        <option value="min_Black_for_White_@0.5">partition with least black opportunity districts at 0.5 threshold</option>
-                                        <option value="max_Black_for_White_@0.6">partition with most black opportunity  districts at 0.6 threshold</option>
-                                        <option value="min_Black_for_White_@0.6">partition with least black opportunity districts at 0.6 threshold</option>
+                                        <option value="initial_partition_White">Enacted
+                                        </option>
+                                        <option value="max_White_for_White_@0.37">partition with most white opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_White_for_White_@0.37">partition with least white opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_White_for_White_@0.5">partition with most white opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_White_for_White_@0.5">partition with least white opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_White_for_White_@0.6">partition with most white opportunity
+                                            districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_White_for_White_@0.6">partition with least white opportunity
+                                            districts at 0.6 threshold
+                                        </option>
+                                        <option value="max_Black_for_White_@0.37">partition with most black opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_Black_for_White_@0.37">partition with least black opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_Black_for_White_@0.5">partition with most black opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_Black_for_White_@0.5">partition with least black opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_Black_for_White_@0.6">partition with most black opportunity
+                                            districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_Black_for_White_@0.6">partition with least black opportunity
+                                            districts at 0.6 threshold
+                                        </option>
                                     </>
                                 ) : (
                                     <>
-                                        <option value="max_White_for_Black_@0.37">partition with most white opportunity districts at 0.37 threshold</option>
-                                        <option value="min_White_for_Black_@0.37">partition with least white opportunity districts at 0.37 threshold</option>
-                                        <option value="max_White_for_Black_@0.5">partition with most white opportunity districts at 0.5 threshold</option>
-                                        <option value="min_White_for_Black_@0.5">partition with least white opportunity districts at 0.5 threshold</option>
-                                        <option value="max_White_for_Black_@0.6">partition with most white opportunity districts at 0.6 threshold</option>
-                                        <option value="min_White_for_Black_@0.6">partition with least white opportunity districts at 0.6 threshold</option>
-                                        <option value="max_Black_for_Black_@0.37">partition with most black opportunity districts at 0.37 threshold</option>
-                                        <option value="min_Black_for_Black_@0.37">partition with least black opportunity districts at 0.37 threshold</option>
-                                        <option value="max_Black_for_Black_@0.5">partition with most black opportunity districts at 0.5 threshold</option>
-                                        <option value="min_Black_for_Black_@0.5">partition with least black opportunity districts at 0.5 threshold</option>
-                                        <option value="max_Black_for_Black_@0.6">partition with most black opportunity districts at 0.6 threshold</option>
-                                        <option value="min_Black_for_Black_@0.6">partition with least black opportunity districts at 0.6 threshold</option>
+                                        <option value="initial_partition_Black">Enacted
+                                        </option>
+                                        <option value="max_White_for_Black_@0.37">partition with most white opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_White_for_Black_@0.37">partition with least white opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_White_for_Black_@0.5">partition with most white opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_White_for_Black_@0.5">partition with least white opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_White_for_Black_@0.6">partition with most white opportunity
+                                            districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_White_for_Black_@0.6">partition with least white opportunity
+                                            districts at 0.6 threshold
+                                        </option>
+                                        <option value="max_Black_for_Black_@0.37">partition with most black opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_Black_for_Black_@0.37">partition with least black opportunity
+                                            districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_Black_for_Black_@0.5">partition with most black opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_Black_for_Black_@0.5">partition with least black opportunity
+                                            districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_Black_for_Black_@0.6">partition with most black opportunity
+                                            districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_Black_for_Black_@0.6">partition with least black opportunity
+                                            districts at 0.6 threshold
+                                        </option>
                                     </>
                                 )}
                             </select>
-                            <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}1`}
+                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}1`}
                                                   typeOfBox={selectedGerrymanderingRace}
                                                   typeOfPoint={selectedGerrymanderingPoints}
                                                   ensemble={selectedGerrymanderingEnsemble}
                                                   style={{display: "inline-block"}}/>,
-                        </div>
-
-
-                        <div style={{flex: 1}}>
                             <select value={selectedGerrymanderingParty}
                                     onChange={(e) => handleGerrymanderingPartyChange(e.target.value)}>
                                 <option value="democratic">Democrat</option>
@@ -175,42 +229,94 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                     onChange={(e) => handleGerrymanderingPointsChange2(e.target.value)}>
                                 {selectedGerrymanderingParty === "democratic" ? (
                                     <>
-                                        <option value="max_White_for_Democratic_@0.37">partition with most white opportunity districts at 0.37 threshold</option>
-                                        <option value="min_White_for_Democratic_@0.37">partition with least white opportunity districts at 0.37 threshold</option>
-                                        <option value="max_White_for_Democratic_@0.5">partition with most white opportunity districts at 0.5 threshold</option>
-                                        <option value="min_White_for_Democratic_@0.5">partition with least white opportunity districts at 0.5 threshold</option>
-                                        <option value="max_White_for_Democratic_@0.6">partition with most white opportunity districts at 0.6 threshold</option>
-                                        <option value="min_White_for_Democratic_@0.6">partition with least white opportunity districts at 0.6 threshold</option>
-                                        <option value="max_Black_for_Democratic_@0.37">partition with most black opportunity districts at 0.37 threshold</option>
-                                        <option value="min_Black_for_Democratic_@0.37">partition with least black opportunity districts at 0.37 threshold</option>
-                                        <option value="max_Black_for_Democratic_@0.5">partition with most black opportunity districts at 0.5 threshold</option>
-                                        <option value="min_Black_for_Democratic_@0.5">partition with least black opportunity districts at 0.5 threshold</option>
-                                        <option value="max_Black_for_Democratic_@0.6">partition with most black opportunity  districts at 0.6 threshold</option>
-                                        <option value="min_Black_for_Democratic_@0.6">partition with least black opportunity districts at 0.6 threshold</option>
+                                        <option value="initial_partition_Democratic">Enacted
+                                        </option>
+                                        <option value="max_White_for_Democratic_@0.37">partition with most white
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_White_for_Democratic_@0.37">partition with least white
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_White_for_Democratic_@0.5">partition with most white
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_White_for_Democratic_@0.5">partition with least white
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_White_for_Democratic_@0.6">partition with most white
+                                            opportunity districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_White_for_Democratic_@0.6">partition with least white
+                                            opportunity districts at 0.6 threshold
+                                        </option>
+                                        <option value="max_Black_for_Democratic_@0.37">partition with most black
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_Black_for_Democratic_@0.37">partition with least black
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_Black_for_Democratic_@0.5">partition with most black
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_Black_for_Democratic_@0.5">partition with least black
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_Black_for_Democratic_@0.6">partition with most black
+                                            opportunity districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_Black_for_Democratic_@0.6">partition with least black
+                                            opportunity districts at 0.6 threshold
+                                        </option>
                                     </>
                                 ) : (
                                     <>
-                                        <option value="max_White_for_Republican_@0.37">partition with most white opportunity districts at 0.37 threshold</option>
-                                        <option value="min_White_for_Republican_@0.37">partition with least white opportunity districts at 0.37 threshold</option>
-                                        <option value="max_White_for_Republican_@0.5">partition with most white opportunity districts at 0.5 threshold</option>
-                                        <option value="min_White_for_Republican_@0.5">partition with least white opportunity districts at 0.5 threshold</option>
-                                        <option value="max_White_for_Republican_@0.6">partition with most white opportunity districts at 0.6 threshold</option>
-                                        <option value="min_White_for_Republican_@0.6">partition with least white opportunity districts at 0.6 threshold</option>
-                                        <option value="max_Black_for_Republican_@0.37">partition with most black opportunity districts at 0.37 threshold</option>
-                                        <option value="min_Black_for_Republican_@0.37">partition with least black opportunity districts at 0.37 threshold</option>
-                                        <option value="max_Black_for_Republican_@0.5">partition with most black opportunity districts at 0.5 threshold</option>
-                                        <option value="min_Black_for_Republican_@0.5">partition with least black opportunity districts at 0.5 threshold</option>
-                                        <option value="max_Black_for_Republican_@0.6">partition with most black opportunity districts at 0.6 threshold</option>
-                                        <option value="min_Black_for_Republican_@0.6">partition with least black opportunity districts at 0.6 threshold</option>
+                                        <option value="initial_partition_Republican">Enacted
+                                        </option>
+                                        <option value="max_White_for_Republican_@0.37">partition with most white
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_White_for_Republican_@0.37">partition with least white
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_White_for_Republican_@0.5">partition with most white
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_White_for_Republican_@0.5">partition with least white
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_White_for_Republican_@0.6">partition with most white
+                                            opportunity districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_White_for_Republican_@0.6">partition with least white
+                                            opportunity districts at 0.6 threshold
+                                        </option>
+                                        <option value="max_Black_for_Republican_@0.37">partition with most black
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="min_Black_for_Republican_@0.37">partition with least black
+                                            opportunity districts at 0.37 threshold
+                                        </option>
+                                        <option value="max_Black_for_Republican_@0.5">partition with most black
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="min_Black_for_Republican_@0.5">partition with least black
+                                            opportunity districts at 0.5 threshold
+                                        </option>
+                                        <option value="max_Black_for_Republican_@0.6">partition with most black
+                                            opportunity districts at 0.6 threshold
+                                        </option>
+                                        <option value="min_Black_for_Republican_@0.6">partition with least black
+                                            opportunity districts at 0.6 threshold
+                                        </option>
                                     </>
                                 )}
                             </select>
-                            <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}2`}
+                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}2`}
                                                   typeOfBox={selectedGerrymanderingParty}
                                                   typeOfPoint={selectedGerrymanderingPoints2}
                                                   ensemble={selectedGerrymanderingEnsemble2}
                                                   style={{display: "inline-block"}}/>,
-                        </div>
+
                     </div>
                 </div>)}
             {/* </div> */}
@@ -238,7 +344,10 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                             <StateAssemblyTable state={fullName[currState]} map={map} setMap={setMap} currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>          
                     </div>
                 }
-                {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district table</div>}
+                {currTab == "districts" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                    opportunity district table
+                    <OpportunityDistrictTable state = {fullName[currState]} race = {selectedOppBarRace} threshold={selectedOppBarThreshold} ensemble={selectedOppBarEnsemble} />
+                </div>)}
                 {currTab == "districts" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
                     opportunity district bar chart
                     <div>

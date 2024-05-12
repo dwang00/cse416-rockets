@@ -56,7 +56,8 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
             ],
             chart: {
                 type: 'boxPlot',
-                height: "500"
+                height: "320",
+                width: "1700"
             },
             title: {
                 text: `${state} Districts`,

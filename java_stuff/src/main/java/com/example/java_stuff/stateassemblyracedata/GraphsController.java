@@ -3,6 +3,7 @@ package com.example.java_stuff.stateassemblyracedata;
 import com.example.java_stuff.gingles.*;
 import com.example.java_stuff.boxplotgraph.*;
 import com.example.java_stuff.precinctdata.*;
+import com.example.java_stuff.oppdist.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +15,19 @@ public class GraphsController {
     private final StateAssemblyRaceDataService stateAssemblyRaceService;
     private final GinglesService ginglesService;
     private final BoxPlotService boxPlotService;
-
     private final PrecinctService precinctService;
+    private final OppDistService oppDistService;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GraphsController(StateAssemblyRaceDataService stateAssemblyRaceService,
                             GinglesService ginglesService, BoxPlotService boxPlotService,
-                            PrecinctService precinctService) {
+                            PrecinctService precinctService, OppDistService oppDistService) {
         this.stateAssemblyRaceService = stateAssemblyRaceService;
         this.ginglesService = ginglesService;
         this.boxPlotService = boxPlotService;
         this.precinctService = precinctService;
+        this.oppDistService = oppDistService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -64,5 +66,11 @@ public class GraphsController {
     @GetMapping("precinctsByState")
     public List<Precinct> getPrecinctsByState(@RequestParam("state") String state) {
         return precinctService.getPrecinctsByState(state);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("oppDistrictsByState")
+    public List<OppDistData> getOppDistsByState(@RequestParam("state") String state) {
+        return oppDistService.getByState(state);
     }
 }

@@ -8,20 +8,18 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
         fetch(`http://localhost:8080/boxPlotByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
-                if(typeOfBox === "democratic" || typeOfBox === "republican")
-                {
-                    if(ensemble === 250) {
-                        setData(data[0])
-                    }
-                    else if (ensemble === 5000) {
-                        setData(data[1])
-                    }
+                if(ensemble === "250") {
+                    setData(data[0])
+                }
+                else if (ensemble === "5000") {
+                    setData(data[1])
                 }
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [state]);
 
     useEffect(() => {
+        console.log(data)
         if(!data) {
             console.log("Data is empty, cannot render graph.");
             return;
@@ -29,8 +27,7 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
         window.dispatchEvent(new Event('resize'));
         console.log("yo1")
         console.log(data)
-        console.log("yo2")
-        console.log(data[typeOfBox])
+        console.log("yo2 " + typeOfBox)
         const boxplotData = data[typeOfBox].map((item, index) => ({
             x: index+1,
             y: [item.min, item.q1, item.median, item.q3, item.max]
@@ -51,20 +48,21 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                     data: boxplotData,
                 },
                 {
-                    name: 'Enacted',
+                    name: typeOfPoint,
                     type: 'scatter',
                     data: scatterData,
                 },
             ],
             chart: {
                 type: 'boxPlot',
-                height: "200%"
+                height: "500"
             },
             title: {
                 text: `${state} Districts`,
                 align: 'left',
                 style: {
                     color: "#f00840"
+
                 }
             },
             xaxis: {
@@ -85,7 +83,9 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                 title: {
                     text: `% ${typeOfBox}`,
                     style: {
-                        color: "#f00840"
+                        color: "#f00840",
+
+                        fontWeight: 'normal',
                     }
                 },
                 labels: {

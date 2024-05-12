@@ -13,6 +13,9 @@ public class BoxPlot {
     @Field("state")
     private State state;
 
+    @Field("ensemble")
+    private int ensemble;
+
     @Field("points")
     private Object points;
 
@@ -28,9 +31,10 @@ public class BoxPlot {
     @Field("republican")
     private Object republican;
 
-    public BoxPlot(String id, State state, Object points, Object black, Object white, Object democratic, Object republican) {
+    public BoxPlot(String id, State state, int ensemble, Object points, Object black, Object white, Object democratic, Object republican) {
         this.id = id;
         this.state = state;
+        this.ensemble = ensemble;
         this.points = points;
         this.black = black;
         this.white = white;
@@ -52,6 +56,14 @@ public class BoxPlot {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public int getEnsemble() {
+        return ensemble;
+    }
+
+    public void setEnsemble(int ensemble) {
+        this.ensemble = ensemble;
     }
 
     public Object getPoints() {

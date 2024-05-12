@@ -7,7 +7,7 @@ const EcoInf = ({ state, election }) => {
     const svgRef3 = useRef(null);
     const [combinedData, setCombinedData] = useState([]);
     const [can, setCan] = useState(null)
-
+    console.log(election)
     useEffect(() => {
         fetch(`http://localhost:8080/get_ecoInf/byStateAndElection?state=${state}&election=${election}`)
             .then(response => response.json())
@@ -34,19 +34,19 @@ const EcoInf = ({ state, election }) => {
                         data[8].data
                     ];
                 } else if (election === "RepInCongress") {
-                    candidate1 = data[9].candidate
-                    candidate2 = data[12].candidate
-                    candidate3 = data[15].candidate
+                    candidate1 = data[0].candidate
+                    candidate2 = data[3].candidate
+                    candidate3 = data[6].candidate
                     newData = [
-                        data[9].data,
-                        data[10].data,
-                        data[11].data,
-                        data[12].data,
-                        data[13].data,
-                        data[14].data,
-                        data[15].data,
-                        data[16].data,
-                        data[17].data
+                        data[0].data,
+                        data[1].data,
+                        data[2].data,
+                        data[3].data,
+                        data[4].data,
+                        data[5].data,
+                        data[6].data,
+                        data[7].data,
+                        data[8].data
                     ];
                 }
                 setCombinedData(newData);
@@ -59,6 +59,10 @@ const EcoInf = ({ state, election }) => {
     }, [state, election]);
 
     useEffect(() => {
+        d3.select(svgRef1.current).selectAll("*").remove();
+        d3.select(svgRef2.current).selectAll("*").remove();
+        d3.select(svgRef3.current).selectAll("*").remove();
+
         if (!combinedData || combinedData.length === 0) return;
         const plotsData = [];
         plotsData.push(combinedData.slice(0, 3))

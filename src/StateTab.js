@@ -19,6 +19,22 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     //console.log(selectedRowsData);
     //console.log("IM IN STATE TAB 2")
 
+    const [selectedGinglesRace, setSelectedGinglesRace] = useState("caucasian");
+    const [selectedGinglesTable, setSelectedGinglesTable] = useState("")
+
+    const [selectedGerrymanderingOption, setSelectedGerrymanderingOption] = useState("caucasian");
+    const [selectedEcoInfOption, setSelectedEcoInfOption] = useState("Presidential");
+
+    const handleGinglesOptionChange = (option) => {
+        setSelectedGinglesRace(option);
+    };
+    const handleGerrymanderingOptionChange = (option) => {
+        setSelectedGerrymanderingOption(option);
+    };
+
+    const handleEcoInfOptionChange = (option) => {
+        setSelectedEcoInfOption(option);
+    };
     const [currDistrict, setCurrDistrict] = useState(null);
     const [map, setMap] = useState(null);
 
@@ -28,11 +44,24 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 {currTab == "summary" && <div className="w-100 h-100 justify-content-left position-relative" style={{borderStyle: 'solid'}}>
                     {geoJsons && <HeatMap race='white' map={map} setMap={setMap} state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
                 </div>}
-                {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
-                    scatter and gingles
-                    <Gingles_Graph state = {fullName[currState]} race = "caucasian"/>
-                </div>)}
-                {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district map</div>}
+                {currTab == "analysis" && (
+                    <div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                        scatter and gingles
+                        <select value={selectedGinglesRace}
+                                onChange={(e) => handleGinglesOptionChange(e.target.value)}>
+                            <option value="caucasian">Caucasian</option>
+                            <option value="african_american">African American</option>
+
+                        </select>
+                        <button onClick={() => setSelectedGinglesTable(prevState => !prevState)}>
+                            {selectedGinglesTable ? "Hide Table" : "Show Table"}
+                        </button>
+                        <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
+                                       table={selectedGinglesTable}/>
+                    </div>
+                )}
+                {currTab == "districts" &&
+                    <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district map</div>}
                 {currTab == "plans" && (<div className="w-100 h-100">
                     generated plans w/ dropdown to select plan and button to toggle comparison
                     <div>
@@ -43,9 +72,14 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
             <div className="w-50 justify-content-right vstack">
                 {currTab == "analysis" && (<div className="w-100 h-100">
                     ecological inference
+                    <select value={selectedEcoInfOption} onChange={(e) => handleEcoInfOptionChange(e.target.value)}>
+                        <option value="Presidential">Presidential</option>
+                        <option value="RepInCongress">Representative in Congress</option>
+                        {/* Add more options if needed */}
+                    </select>
                     <div>
-                        <EcoInf state = "DELAWARE"
-                                election = "Presidential"
+                        <EcoInf state={fullName[currState]}
+                                election= {selectedEcoInfOption}
                                 width={window.innerWidth * 0.8}
                                 height={window.innerHeight * 0.8}/>
                     </div>

@@ -43,20 +43,6 @@ public class StateAssemblyService {
         return membersWithMatchingRace;
     }
 
-    public List<StateAssembly> getMembersByParty(String party) {
-        if(allStateAssemblyData == null) {
-            allStateAssemblyData = stateAssemblyRepository.findAll();
-        }
-        List<StateAssembly> membersWithMatchingParty = new ArrayList<>();
-
-        for (StateAssembly member : allStateAssemblyData) {
-            if (member.getParty().toString().equals(party)) {
-                membersWithMatchingParty.add(member);
-            }
-        }
-        return membersWithMatchingParty;
-    }
-
     public List<StateAssembly> getMembersByState(String state) {
         if(allStateAssemblyData == null) {
             allStateAssemblyData = stateAssemblyRepository.findAll();
@@ -69,5 +55,37 @@ public class StateAssemblyService {
             }
         }
         return membersInState;
+    }
+
+    public List<StateAssembly> getMembersByStateAndParty(String state, String party) {
+        if(allStateAssemblyData == null) {
+            allStateAssemblyData = stateAssemblyRepository.findAll();
+        }
+        List<StateAssembly> filteredMembers = new ArrayList<>();
+
+        for(StateAssembly member : allStateAssemblyData) {
+            if(member.getState().toString().equals(state) && member.getParty().toString().equals(party)) {
+                filteredMembers.add(member);
+            }
+        }
+        return filteredMembers;
+    }
+    public List<StateAssembly> getMembersByStateAndRaces(String state, List<String> races) {
+        if(allStateAssemblyData == null) {
+            allStateAssemblyData = stateAssemblyRepository.findAll();
+        }
+        List<StateAssembly> filteredMembers = new ArrayList<>();
+
+        for(StateAssembly member : allStateAssemblyData) {
+            if(member.getState().toString().equals(state)) {
+                for (String race : races) {
+                    if (member.getRaces().contains(race)) {
+                        filteredMembers.add(member);
+                        break; // Once one matching race is found, no need to check further races for this member
+                    }
+                }
+            }
+        }
+        return filteredMembers;
     }
 }

@@ -9,6 +9,7 @@ import HeatMap from "./Heatmap.js";
 import EcoInf from "./EcoInf";
 import Gerrymandering_Graph from "./Gerrymandering_Graph";
 import Gingles_Graph from "./Gingles_Graph";
+import OpportunityDistrictBarChart from "./OpportunityDistrictBarChart";
 function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const height = window.innerHeight - navbarHeight;
 
@@ -221,7 +222,12 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                     </div>
                 }
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district table</div>}
-                {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district bar chart</div>}
+                {currTab == "districts" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                    opportunity district bar chart
+                    <div>
+                        <OpportunityDistrictBarChart state = {fullName[currState]}/>
+                    </div>
+                </div>)}
                 {/* TODO Fix Height & text formatting */}
                 {currTab == "summary" && 
                 <div className="d-flex flex-row h-50 overflow-hidden">

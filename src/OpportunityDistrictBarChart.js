@@ -8,13 +8,14 @@ function OpportunityDistrictBarChart({ state, race, ensemble, threshold}) {
         fetch(`http://localhost:8080/oppDistBinsByState?state=${state}`)
             .then(response => response.json)
             .then(data => {
+                console.log(data)
                 setOppDistrictsData(data)
             })
             .catch(error => {
                 console.error("Error fetching data:", error)
             })
     }, [])
-    const oppDataDe = {
+    const oppData = {
         labels: Array.from({ length: 41 }, (_, i) => i + 1), // Assuming you have 40 data points
         datasets: [
             {
@@ -28,7 +29,7 @@ function OpportunityDistrictBarChart({ state, race, ensemble, threshold}) {
             }
         ]
     };
-    const optionsOppDe = {
+    const optionsOppData = {
         maintainAspectRatio: false,
         scales: {
             xAxes: [{
@@ -48,4 +49,7 @@ function OpportunityDistrictBarChart({ state, race, ensemble, threshold}) {
             }]
         }
     };
+    return <Bar data={oppData} options={optionsOppData} />;
+
 }
+export default OpportunityDistrictBarChart;

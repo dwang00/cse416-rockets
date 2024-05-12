@@ -75,14 +75,14 @@ const barOptionsAlabama = {
             indexAxis: 'Ethnicity',
             labels: ['Caucasian', 'African American'],
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
         y: {
             indexAxis: 'Number of Representatives',
             beginAtZero: true,
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
     },
@@ -93,7 +93,7 @@ const barOptionsAlabama = {
           font: {
               size: 20
           },
-          color: "#f00840"
+        //   color: "#f00840"
         },
         plugins: {
             title: {
@@ -107,7 +107,7 @@ const barOptionsAlabama = {
                 display: false
             }
         }
-    }
+    },
 };
 
     const scatterDataAlabama = {
@@ -133,10 +133,10 @@ const barOptionsAlabama = {
                 title: {
                     display: true,
                     text: 'Percent African American',
-                    color: "#f00840"
+                    // color: "#f00840"
                 },
                 ticks: {
-                    color: "#f00840"
+                    // color: "#f00840"
                 }
             },
             y: {
@@ -144,11 +144,11 @@ const barOptionsAlabama = {
                 title: {
                     display: true,
                     text: 'Vote Share',
-                    color: "#f00840"
+                    // color: "#f00840"
                 },
                 ticks: {
                     stepSize: 20,
-                    color: "#f00840"
+                    // color: "#f00840"
                 },
             },
         },
@@ -159,11 +159,11 @@ const barOptionsAlabama = {
                 font: {
                     size: 20
                 },
-                color: "#f00840"
+                // color: "#f00840"
             },
             legend: {
                 labels: {
-                    color: "#f00840"
+                    // color: "#f00840"
                 }
             }
         }
@@ -248,14 +248,14 @@ const barOptionsDelaware = {
             indexAxis: 'Ethnicity',
             labels: ['Caucasian', 'African American', 'Asian'],
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
         y: {
             indexAxis: 'Number of Representatives',
             beginAtZero: true,
             ticks: {
-                color: "#f00840"
+                // color: "#f00840"
             }
         },
     },
@@ -266,7 +266,7 @@ const barOptionsDelaware = {
             font: {
                 size: 20
             },
-            color: "#f00840"
+            // color: "#f00840"
         },
         legend: {
             display: false
@@ -291,7 +291,7 @@ const barOptionsDelaware = {
 
     const alComponents = [
 
-        <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
+        <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block",}}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
         <EcoInf
@@ -341,8 +341,8 @@ const barOptionsDelaware = {
     ];
 
     const deComponents = [
-        <Bar options = {optionsOppDe} data = {oppDataDe} style = {{display: "inline-block"}}/>,
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
+        <Bar options = {optionsOppDe} data = {oppDataDe} style = {{display: "inline-block"}}/>,
         <Gingles_Graph state = "DELAWARE" race = "caucasian" demCan = "Lisa Blunt Rochester" repCan = "Lee Murphy"/>,
         <Gerrymandering_Graph state = "DELAWARE" race = "caucasian" chartId="chartDelaware1" style={{display:"inline-block"}}/>,
         <EcoInf

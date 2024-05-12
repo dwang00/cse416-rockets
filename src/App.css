@@ -43,13 +43,13 @@
   justify-content: center;
   background-color: #e6e6e6;
   font-size: 7vmin;
-  color: #f00840;
+  /* color: #f00840; */
   font-weight: bold;
   height: 10vmin;
 }
 
 .map_instructions {
-  color: #f00840;
+  /* color: #f00840; */
   background-color: #e6e6e6;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .toggle_button {
-  color: #f00840;
+  /* color: #f00840; */
   background-color: #666666;
   font-weight: bold;
   border-style: none;

@@ -50,7 +50,12 @@ const customStyles = {
         style: {
             fontSize: "12px",
             width: "100%",
+            height: "10px"
         }
+    },
+    denseStyle: {
+        minHeight: "20px",
+        maxHeight: "20px"
     }
 };
 const attributeLabels = {
@@ -160,7 +165,7 @@ function StateDataSummary({ state }) {
             selector: key,
             sortable: true,
             wrap: true,
-            width: '200px',
+            width: '25%',
             style: {
                 textAlign: 'right',
             }
@@ -172,7 +177,7 @@ function StateDataSummary({ state }) {
         selector: 'attribute',
         sortable: true,
         wrap: true,
-        width: '200px',
+        width: '75%',
         style: {
             textAlign: "left"
         }
@@ -191,7 +196,7 @@ function StateDataSummary({ state }) {
     //removing id row and state row
     const slicedData = data.slice(2);
     return (
-        <div className="position-absolute top-0 end-0" style={{ maxHeight:'100%', maxWidth: '100%', margin: '0 auto', zIndex: '1000', position: "absolute", right:"0"}}>
+        <div className="" style={{ maxHeight:'100%', maxWidth: '100%', margin: '0 auto',}}>
             <DataTable
                 columns={columns}
                 data={slicedData}

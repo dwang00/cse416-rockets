@@ -17,12 +17,14 @@ function Gingles_Graph(props) {
         datasets: []
     });
     const [tableData, setTableData] = useState(null)
+    console.log(props.race)
     useEffect(() => {
         function fetchGinglesData(state, race) {
 
                 fetch(`http://localhost:8080/ginglesByState?state=${state}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         if(state === "DELAWARE" ) {
                             console.log("WHY WHY WHY")
                             setDemCan("Lisa Blunt Rochester")
@@ -41,19 +43,21 @@ function Gingles_Graph(props) {
                             }
                         }
                         else if(state === "ALABAMA") {
+                            console.log("YOOOOOOOOOOOOOOOOOOOOOOO")
+                            console.log(data)
                             setDemCan("")
                             setRepCan("")
                             if(race === 'caucasian') {
-                                setScatterDataDem(data[6].dataPoints);
-                                setScatterDataRep(data[7].dataPoints);
-                                setDemCoefficients(data[6].function);
-                                setRepCoefficients(data[7].function);
+                                setScatterDataDem(data[2].dataPoints);
+                                setScatterDataRep(data[3].dataPoints);
+                                setDemCoefficients(data[2].function);
+                                setRepCoefficients(data[3].function);
                             }
                             else if (race === "african american") {
-                                setScatterDataDem(data[4].dataPoints);
-                                setScatterDataRep(data[5].dataPoints);
-                                setDemCoefficients(data[4].function);
-                                setRepCoefficients(data[5].function);
+                                setScatterDataDem(data[0].dataPoints);
+                                setScatterDataRep(data[1].dataPoints);
+                                setDemCoefficients(data[0].function);
+                                setRepCoefficients(data[1].function);
                             }
                         }
                     })
@@ -85,9 +89,11 @@ function Gingles_Graph(props) {
             fetchTabularGingles(props.state)
         }
     }, [props.state, props.race, props.table])
+    // console.log(scatterDataDem);
+    // console.log(scatterDataRep)
     useEffect(() => {
         if(scatterDataDem && scatterDataRep && demCoefficients && repCoefficients) {
-            const scatterDataCopy = { ...scatterData}
+            const scatterDataCopy = { datasets: []}
             const demMinX = findMinMax(scatterDataDem).min
             const demMaxX = findMinMax(scatterDataDem).max
 
@@ -131,19 +137,19 @@ function Gingles_Graph(props) {
             const scatterDem = {
                 label: demCan,
                 data: scatterDataDem,
-                backgroundColor: 'rgba(75, 192, 192, .5)',
+                backgroundColor: 'rgba(75, 192, 192, .3)',
             }
             const scatterRep = {
                 label: repCan,
                 data: scatterDataRep,
-                backgroundColor: 'rgba(255, 99, 132, .5)',
+                backgroundColor: 'rgba(255, 99, 132, .3)',
             }
             scatterDataCopy.datasets.push(scatterDem);
             scatterDataCopy.datasets.push(scatterRep);
             scatterDataCopy.datasets.push(curveDem);
             scatterDataCopy.datasets.push(curveRep);
             setScatterData(scatterDataCopy);
-
+            console.log("hopeojfeawiofa")
         }
     }, [scatterDataDem, scatterDataRep, demCoefficients, repCoefficients])
     const scatterOptions = {
@@ -154,10 +160,10 @@ function Gingles_Graph(props) {
                 title: {
                     display: true,
                     text: `Percent ${props.race}`,
-                    color: "#f00840"
+                    color: "#000000"
                 },
                 ticks: {
-                    color: "#f00840"
+                    color: "#000000"
                 }
             },
             y: {
@@ -165,11 +171,11 @@ function Gingles_Graph(props) {
                 title: {
                     display: true,
                     text: 'Vote Share',
-                    color: "#f00840"
+                    color: "#000000"
                 },
                 ticks: {
                     stepSize: 20,
-                    color: "#f00840"
+                    color: "#000000"
                 },
             },
         },
@@ -180,11 +186,11 @@ function Gingles_Graph(props) {
                 font: {
                     size: 20
                 },
-                color: "#f00840"
+                color: "#000000"
             },
             legend: {
                 labels: {
-                    color: "#f00840"
+                    color: "#000000"
                 }
             }
         }
@@ -288,18 +294,24 @@ function Gingles_Graph(props) {
             },
         },
     };
-
+// TODO legend stroke and fill colors for regressions appears to be swapped
     return (
 
-        <div className="w-100">
-            {/*<Scatter options={scatterOptions} data={scatterData} style={{display: "inline-block"}}/>*/}
-            {props.table===true && tableData && (<DataTable
-                columns={columns}
-                data={tableData}
-                pagination
-                customStyles={customStyles}
-                title={"Precinct by Precinct"}
-            />)}
+        <div className="w-100" style={{height: "95%", borderStyle:"solid"}}>
+            {props.table ? (
+                tableData && (
+                    <DataTable
+                        columns={columns}
+                        data={tableData}
+                        pagination
+                        customStyles={customStyles}
+                        title={"Precinct by Precinct"}
+                        dense
+                    />
+                )
+            ) : (
+                <Scatter options={scatterOptions} data={scatterData} style={{ display: "inline-block" }} />
+            )}
         </div>
 )
     ;

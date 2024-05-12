@@ -28,7 +28,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             name: 'Image',
             selector: 'img',
             id: 'img',
-            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} data-tag="allowRowEvents"/>,
+            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: "100%", borderRadius: '50%', backgroundColor: "white" }} data-tag="allowRowEvents"/>,
             style: {
                 background: 'white',
             },
@@ -84,7 +84,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     const customStyles = {
         pagination: {
             style: {
-                backgroundColor: '#e6e6e6', // Change the background color of the pagination controls
+                backgroundColor: '#ffffff', // Change the background color of the pagination controls
                 color: 'black', // Change the text color of the pagination controls
                 padding: '10px', // Add padding to the pagination controls
                 borderRadius: '5px', // Add border radius to the pagination control
@@ -92,7 +92,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
         },
         table: {
             style: {
-                backgroundColor: '#e6e6e6',
+                backgroundColor: '#ffffff',
                 color: 'black',
                 padding: '20px',
                 borderRadius: '5px',
@@ -102,7 +102,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             style: {
                 minHeight: '10%',
                 maxHeight: '10%',
-                backgroundColor: 'e6e6e6',
+                backgroundColor: 'ffffff',
             },
         },
         headRow: {
@@ -160,7 +160,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             <DataTable
                 columns={columns}
                 data={data}
-                pagination
+                // pagination
                 customStyles = {customStyles}
                 title={"State Representatives"}
                 onRowClicked={(row, event) => handleClick(row.district)}

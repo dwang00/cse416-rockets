@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, GeoJSON, TileLayer } from 'react-leaflet';
+import { MapContainer, GeoJSON, TileLayer, SVGOverlay, LayerGroup } from 'react-leaflet';
 import 'bootstrap/dist/css/bootstrap.css';
 import StateDataSummary from './StateDataSummary';
 
@@ -116,12 +116,10 @@ function HeatMap(props) {
     // useEffect(() => {
     //     highlightSelectedDistrict();
     // }, [selectedRows, props.state]);
-
-    const [isDensity, setIsDensity] = useState(false);
     const [race, setRace] = useState("white");
 
     function getColor(feature){
-        if (!isDensity){
+        if (!props.isDensity){
             return "#f00840"; //tab20[feature.id%20]
         }
 
@@ -136,7 +134,7 @@ function HeatMap(props) {
     };
 
     const toggleMode = () => {
-        setIsDensity(!isDensity);
+        props.setIsDensity(!props.isDensity);
         setRace("white");
     };
 
@@ -175,14 +173,14 @@ function HeatMap(props) {
                         Population
                     </label>
                 </div>} */}
-                {isDensity && 
+                {props.isDensity && 
                 <div class="form-check" style={{textAlign: "left"}}>
                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="white" defaultChecked onClick={toggleRace}/>
                     <label class="form-check-label" for="exampleRadios1">
                         Caucasian
                     </label>
                 </div>}
-                {isDensity &&
+                {props.isDensity &&
                 <div class="form-check" style={{textAlign: "left"}}>
                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="black" onClick={toggleRace}/>
                     <label class="form-check-label" for="exampleRadios2">
@@ -194,16 +192,16 @@ function HeatMap(props) {
                     <label class="form-check-label" for="flexSwitchCheckDefault">Population density mode</label>
                 </div>
             </div>
-            {isDensity &&
-            <div className="position-absolute end-0 justify-content-center" 
+            {props.isDensity &&
+            <div className="position-absolute bottom-0 justify-content-center" 
                 style={{zIndex:"1000", padding: "3px", height: "150px",}}>
                 <div className="d-flex flex-row">
+                    <div className="legend" style={{height: "130px", width: "10px"}}></div>
                     <div className="d-flex flex-column" style={{height: "150px", width: "30px", fontSize: "12px", paddingRight: "3px"}}>
                         <div style={{textAlign: "right"}}>100%</div>
                         <div style={{marginTop: "40px", textAlign: "right"}}>50%</div>
                         <div style={{marginTop: "44px", textAlign: "right"}}>0%</div>
                     </div>
-                    <div className="legend" style={{height: "130px", width: "10px"}}></div>
                 </div>
             </div>}
             <MapContainer center={center_locations[props.state]}
@@ -221,6 +219,10 @@ function HeatMap(props) {
                 }}
                 ref={props.setMap}
                 className='align-self-center'>
+                
+                {/* <div className="position-absolute top-0 end-0" style={{height:"25%", width:"30%", zIndex: "700"}}>
+                    <StateDataSummary state={fullName[props.state]} />
+                </div> */}
 
                 {props.my_json &&
                     <GeoJSON
@@ -230,7 +232,7 @@ function HeatMap(props) {
                             // color: "#f00840",
                             // weight: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 3 : .5, // Conditional border thickness
                             fillColor: getColor(feature),
-                            fillOpacity: isDensity ? 1 : 0.3,
+                            fillOpacity: props.isDensity ? 1 : 0.3,
                             color: props.currDistrict === feature.properties["DISTRICT_N"] ? "#f00840" : "#000",
                             weight: props.currDistrict === feature.properties["DISTRICT_N"] ? 3 : .5
                         })}

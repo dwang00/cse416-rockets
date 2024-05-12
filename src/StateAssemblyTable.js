@@ -49,6 +49,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             sortable: true,
             style: {
                 background: 'white',
+                textAlign: 'right',
             },
         },
         {
@@ -76,6 +77,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             sortable: true,
             style: {
                 background: 'white',
+                textAlign: 'right',
             },
         },
     ];

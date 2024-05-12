@@ -168,7 +168,52 @@ const barOptionsAlabama = {
             }
         }
     };
-
+    // opportunity districts for delaware
+    const [oppDistrictsDe, setOppDistrictsDe] = useState(null);
+    useEffect(() => {
+        fetch()
+            .then(response => response.json)
+            .then(data => {
+                setOppDistrictsDe(data)
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error)
+            })
+    }, [])
+    const oppDataDe = {
+        labels: Array.from({ length: 41 }, (_, i) => i + 1), // Assuming you have 40 data points
+        datasets: [
+            {
+                label: 'White',
+                backgroundColor: 'rgba(75,192,192,0.2)',
+                borderColor: 'rgba(75,192,192,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(75,192,192,0.4)',
+                hoverBorderColor: 'rgba(75,192,192,1)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 18, 57, 73, 63, 32, 4, 0, 3, 35, 85, 93, 32, 1, 7, 36, 115, 77, 15, 1, 0]
+            }
+        ]
+    };
+    const optionsOppDe = {
+        maintainAspectRatio: false,
+        scales: {
+            xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'District'
+                }
+            }],
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: '# of partitions where we found the opportunity district'
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
     //DELAWARE STUFF ***********************************************************
     const [deBarData, setDeBarData]= useState(null);
     useEffect(() => {
@@ -245,6 +290,7 @@ const barOptionsDelaware = {
     const [currState, setCurrState] = useState(null);
 
     const alComponents = [
+
         <Bar options={barOptionsAlabama} data={barDataAlabama} style={{display:"inline-block"}}/>,
         <Scatter options={scatterOptionsAlabama} data={scatterDataAlabama} style={{display:"inline-block"}}/>,
         <Gerrymandering_Alabama chartId = "chartAlabama1" style={{display:"inline-block"}}/>,
@@ -295,7 +341,7 @@ const barOptionsDelaware = {
     ];
 
     const deComponents = [
-
+        <Bar options = {optionsOppDe} data = {oppDataDe} style = {{display: "inline-block"}}/>,
         <Bar options={barOptionsDelaware} data={barDataDelaware} style={{display:"inline-block"}}/>,
         <Gingles_Graph state = "DELAWARE" race = "caucasian" demCan = "Lisa Blunt Rochester" repCan = "Lee Murphy"/>,
         <Gerrymandering_Graph state = "DELAWARE" race = "caucasian" chartId="chartDelaware1" style={{display:"inline-block"}}/>,

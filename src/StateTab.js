@@ -7,6 +7,8 @@ import StateAssemblyTable from "./StateAssemblyTable.js";
 import StateDataSummary from "./StateDataSummary.js";
 import HeatMap from "./Heatmap.js";
 import EcoInf from "./EcoInf";
+import Gerrymandering_Graph from "./Gerrymandering_Graph";
+import Gingles_Graph from "./Gingles_Graph";
 function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
     const height = window.innerHeight - navbarHeight;
 
@@ -22,9 +24,17 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 {currTab == "summary" && <div className="w-100 h-100 justify-content-left position-relative" style={{borderStyle: 'solid'}}>
                     {geoJsons && <HeatMap race='white' state={currState} my_json={geoJsons[currState]} mode='default' selectedRows = {selectedRowsData}/>}
                 </div>}
-                {currTab == "analysis" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>scatter and gingles</div>}
+                {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                    scatter and gingles
+                    <Gingles_Graph state = {fullName[currState]} race = "caucasian"/>
+                </div>)}
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district map</div>}
-                {currTab == "plans" && <div className="w-100 h-100">generated plans w/ dropdown to select plan and button to toggle comparison</div>}
+                {currTab == "plans" && (<div className="w-100 h-100">
+                    generated plans w/ dropdown to select plan and button to toggle comparison
+                    <div>
+                        <Gerrymandering_Graph state = {fullName[currState]} race = "caucasian" chartId="chartDelaware1" typeOfBox = "white" typeOfPoint = "initial_partition_White" style={{display:"inline-block"}}/>,
+                    </div>
+                </div>)}
             </div>
             <div className="w-50 justify-content-right vstack">
                 {currTab == "analysis" && (<div className="w-100 h-100">

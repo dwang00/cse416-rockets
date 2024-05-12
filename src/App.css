@@ -196,3 +196,8 @@
 [data-column-id="img"].rdt_TableCol {
   background-color: white;
 }
+
+.apexcharts-scatter-series .apexcharts-marker {
+  width: 30px !important; /* Adjust the width */
+  height: 30px !important; /* Adjust the height */
+}

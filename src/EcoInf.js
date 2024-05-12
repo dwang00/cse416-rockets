@@ -128,13 +128,13 @@ const EcoInf = ({ state, election }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ marginBottom: '10px' }}>
-                <svg ref={svgRef1} width={620} height={250}></svg>
+                <svg ref={svgRef1} width={620} height={230}></svg>
             </div>
             <div style={{ marginBottom: '10px' }}>
-                <svg ref={svgRef2} width={620} height={250}></svg>
+                <svg ref={svgRef2} width={620} height={230}></svg>
             </div>
             <div>
-                <svg ref={svgRef3} width={620} height={250}></svg>
+                <svg ref={svgRef3} width={620} height={230}></svg>
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import { range } from 'mathjs';
 import CubicSpline from 'cubic-spline';
+import DataTable from 'react-data-table-component';
 
 function Gingles_Graph(props) {
 
@@ -10,38 +11,77 @@ function Gingles_Graph(props) {
     const [demCoefficients, setDemCoefficients] = useState(null);
     const [repCoefficients, setRepCoefficients] = useState(null);
 
+    const [demCan, setDemCan] = useState(null)
+    const [repCan, setRepCan] = useState(null)
     const [scatterData, setScatterData] = useState({
         datasets: []
     });
+    const [tableData, setTableData] = useState(null)
     useEffect(() => {
-        function fetchGinglesData(state, race, demCan, repCan) {
-            if(state === 'DELAWARE') {
-                fetch('http://localhost:8080/ginglesByState?state=DELAWARE')
+        function fetchGinglesData(state, race) {
+
+                fetch(`http://localhost:8080/ginglesByState?state=${state}`)
                     .then(response => response.json())
                     .then(data => {
-                        if(race==='caucasian') {
-                            setScatterDataDem(data[2].dataPoints);
-                            setScatterDataRep(data[3].dataPoints);
-                            setDemCoefficients(data[2].function);
-                            setRepCoefficients(data[3].function);
+                        if(state === "DELAWARE" ) {
+                            setDemCan("Lisa Blunt Rochester")
+                            setRepCan("Lee Murphy")
+                            if(race==='caucasian') {
+                                setScatterDataDem(data[2].dataPoints);
+                                setScatterDataRep(data[3].dataPoints);
+                                setDemCoefficients(data[2].function);
+                                setRepCoefficients(data[3].function);
+                            }
+                            else if(race === 'african american') {
+                                setScatterDataDem(data[0].dataPoints);
+                                setScatterDataRep(data[1].dataPoints);
+                                setDemCoefficients(data[0].function);
+                                setRepCoefficients(data[1].function);
+                            }
                         }
-                        else if(race === 'african american') {
-                            setScatterDataDem(data[0].dataPoints);
-                            setScatterDataRep(data[1].dataPoints);
-                            setDemCoefficients(data[0].function);
-                            setRepCoefficients(data[1].function);
+                        else if(state === "ALABAMA") {
+                            setDemCan("")
+                            setRepCan("")
+                            if(race === 'caucasian') {
+                                setScatterDataDem(data[6].dataPoints);
+                                setScatterDataRep(data[7].dataPoints);
+                                setDemCoefficients(data[6].function);
+                                setRepCoefficients(data[7].function);
+                            }
+                            else if (race === "african american") {
+                                setScatterDataDem(data[4].dataPoints);
+                                setScatterDataRep(data[5].dataPoints);
+                                setDemCoefficients(data[4].function);
+                                setRepCoefficients(data[5].function);
+                            }
                         }
                     })
                     .catch(error => {
                         console.error('Error fetching data:', error);
                     })
-            }
-            if(state === 'ALABAMA') {
-                ///do not have anything in database yet for this
-            }
         }
-        fetchGinglesData(props.state, props.race, props.demCan, props.repCan)
-    }, [props.state, props.race, props.demCan, props.repCan])
+        function fetchTabularGingles(state) {
+            fetch(`http://localhost:8080/precinctsByState?state=${state}`)
+                .then(response => response.json())
+                .then(data => {
+                    if(state === "DELAWARE" ) {
+                        setTableData(data)
+                    }
+                    else if(state === "ALABAMA") {
+                        setTableData(data)
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                })
+
+        }
+        fetchGinglesData(props.state, props.race)
+        if(props.table === "true") {
+            fetchTabularGingles(props.state)
+        }
+
+    }, [props.state, props.race])
     useEffect(() => {
         if(scatterDataDem && scatterDataRep && demCoefficients && repCoefficients) {
             const scatterDataCopy = { ...scatterData}
@@ -50,7 +90,7 @@ function Gingles_Graph(props) {
 
             const repMinX = findMinMax(scatterDataRep).min
             const repMaxX = findMinMax(scatterDataRep).max
-            const step = 0.05;
+            const step = 0.01;
 
             const xValuesDem = range(demMinX, demMaxX, step).toArray();
             const xValuesRep = range(repMinX, repMaxX, step).toArray();
@@ -71,6 +111,8 @@ function Gingles_Graph(props) {
                 label: `nonlinear regression for ${props.race} democrat voting`,
                 data: interpolatedXDem.map((x, index) => ({x, y: interpolatedYDem[index]})),
                 borderColor: 'rgba(75, 192, 192, 1)',
+                pointStyle: 'line', // Set the point style to 'line' to make the points invisible
+                pointRadius: 0, // Set the point radius to 0 to make the points invisible
                 fill: false,
                 showLine: true
             }
@@ -78,16 +120,18 @@ function Gingles_Graph(props) {
                 label: `nonlinear regression for ${props.race} republican voting`,
                 data: interpolatedXRep.map((x, index) => ({x, y: interpolatedYRep[index]})),
                 borderColor: 'rgba(255, 99, 132, 1)',
+                pointStyle: 'line', // Set the point style to 'line' to make the points invisible
+                pointRadius: 0, // Set the point radius to 0 to make the points invisible
                 fill: false,
                 showLine: true
             }
             const scatterDem = {
-                label: props.demCan,
+                label: demCan,
                 data: scatterDataDem,
                 backgroundColor: 'rgba(75, 192, 192, .5)',
             }
             const scatterRep = {
-                label: props.repCan,
+                label: repCan,
                 data: scatterDataRep,
                 backgroundColor: 'rgba(255, 99, 132, .5)',
             }
@@ -129,7 +173,7 @@ function Gingles_Graph(props) {
         plugins: {
             title: {
                 display: true,
-                text: `${props.demCan} v ${props.repCan}`,
+                text: `${demCan} v ${repCan}`,
                 font: {
                     size: 20
                 },
@@ -145,10 +189,119 @@ function Gingles_Graph(props) {
     if (!scatterData || !demCoefficients || !repCoefficients) {
         return <div>Loading...</div>;
     }
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+    const columns = [
+        {
+            name: 'Total Population',
+            selector: 'POPULATION',
+            id: 'total_population',
+            cell: row => numberWithCommas(row.POPULATION), // Apply commas to the number
+            style: {
+                background: 'white',
+                textAlign: 'right',
+            },
+        },
+        {
+            name: 'Minority Population',
+            selector: 'ETH1_AA',
+            id: 'minority_population',
+            sortable: true,
+            cell: row => numberWithCommas(row.ETH1_AA), // Apply commas to the number
+            style: {
+                background: 'white',
+                textAlign: 'right',
+            },
+        },
+        {
+            name: 'Republican Votes',
+            selector: 'PARTY_REP',
+            id: 'republican_votes',
+            sortable: true,
+            cell: row => numberWithCommas(row.PARTY_REP), // Apply commas to the number
+            style: {
+                background: 'white',
+                textAlign: 'right',
+            },
+        },
+        {
+            name: 'Democratic Votes',
+            selector: 'PARTY_DEM',
+            id: 'democratic_votes',
+            sortable: true,
+            cell: row => numberWithCommas(row.PARTY_DEM), // Apply commas to the number
+            style: {
+                background: 'white',
+                textAlign: 'right',
+            },
+        }
+    ];
+
+    const customStyles = {
+        pagination: {
+            style: {
+                backgroundColor: '#e6e6e6', // Change the background color of the pagination controls
+                color: 'black', // Change the text color of the pagination controls
+                padding: '10px', // Add padding to the pagination controls
+                borderRadius: '5px', // Add border radius to the pagination control
+            },
+        },
+        table: {
+            style: {
+                backgroundColor: '#e6e6e6',
+                color: 'black',
+                padding: '20px',
+                borderRadius: '5px',
+            },
+        },
+        header: {
+            style: {
+                minHeight: '10%',
+                maxHeight: '10%',
+                backgroundColor: 'e6e6e6',
+            },
+        },
+        headRow: {
+            style: {
+                borderTopStyle: 'solid',
+                borderTopWidth: '1px',
+            },
+        },
+        headCells: {
+            style: {
+                '&:not(:last-of-type)': {
+                    borderRightStyle: 'solid',
+                    borderRightWidth: '1px',
+                },
+            },
+        },
+        cells: {
+            style: {
+                '&:not(:last-of-type)': {
+                    borderRightStyle: 'solid',
+                    borderRightWidth: '1px',
+                },
+            },
+        },
+    };
+
     return (
-      <Scatter options={scatterOptions} data = {scatterData} style={{ display: "inline-block" }} />
-    );
+
+        <div className="w-100">
+            <Scatter options={scatterOptions} data={scatterData} style={{display: "inline-block"}}/>
+            {props.table==="true" && tableData (<DataTable
+                columns={columns}
+                data={tableData}
+                pagination
+                customStyles={customStyles}
+                title={"Precinct by Precinct"}
+            />)}
+        </div>
+)
+    ;
 }
+
 function generatePolynomialFunction(coefficients) {
     return function(x) {
         let result = 0;

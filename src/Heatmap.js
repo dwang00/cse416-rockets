@@ -9,28 +9,28 @@ function HeatMap(props) {
     const [selectedRows, setSelectedRows] = useState([]);
 
     const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
-    console.log("IM IN HEATMAP.JS 1")
-    console.log(selectedRows)
-    console.log("IM IN HEATMAP.JS 2")
-    useEffect(() => {
-        const uniqueSelectedRowsData = props.selectedRows.filter((row, index, self) =>
-                index === self.findIndex(r => (
-                    r.district === row.district && r.state === row.state
-                ))
-        );
+    // console.log("IM IN HEATMAP.JS 1")
+    // console.log(selectedRows)
+    // console.log("IM IN HEATMAP.JS 2")
+    // useEffect(() => {
+    //     const uniqueSelectedRowsData = props.selectedRows.filter((row, index, self) =>
+    //             index === self.findIndex(r => (
+    //                 r.district === row.district && r.state === row.state
+    //             ))
+    //     );
 
-        // Modify the state property for each row
-        const modifiedRows = uniqueSelectedRowsData.map(row => {
-            if (row.state === "ALABAMA") {
-                return { ...row, state: "al" };
-            } else if (row.state === "DELAWARE") {
-                return { ...row, state: "de" };
-            }
-            return row;
-        });
+    //     // Modify the state property for each row
+    //     const modifiedRows = uniqueSelectedRowsData.map(row => {
+    //         if (row.state === "ALABAMA") {
+    //             return { ...row, state: "al" };
+    //         } else if (row.state === "DELAWARE") {
+    //             return { ...row, state: "de" };
+    //         }
+    //         return row;
+    //     });
 
-        setSelectedRows(modifiedRows);
-    }, [props.selectedRows]);
+    //     setSelectedRows(modifiedRows);
+    // }, [props.selectedRows]);
 
     const center_locations = {
         "al": [32.655, -86.66],
@@ -85,46 +85,44 @@ function HeatMap(props) {
         });
         return feature ? feature.id : null;
     }
-    function highlightSelectedDistrict() {
-        const selectedRowsData = selectedRows;
-        const selectedState = props.state;
+    // function highlightSelectedDistrict() {
+    //     const selectedRowsData = selectedRows;
+    //     const selectedState = props.state;
 
-        if (!selectedRowsData || selectedRows.length === 0) {
-            setHighlightedDistrictId(null);
-            return;
-        }
+    //     if (!selectedRowsData || selectedRows.length === 0) {
+    //         setHighlightedDistrictId(null);
+    //         return;
+    //     }
 
-        const highlightedIds = [];
-        console.log(selectedRowsData)
-        selectedRowsData.forEach(row => {
-            if (row.state === selectedState) {
-                const featureId = getFeatureIdByDistrict(row.district, selectedState);
-                if (featureId) {
-                    highlightedIds.push(featureId);
-                }
-            }
-        });
+    //     const highlightedIds = [];
+    //     console.log(selectedRowsData)
+    //     selectedRowsData.forEach(row => {
+    //         if (row.state === selectedState) {
+    //             const featureId = getFeatureIdByDistrict(row.district, selectedState);
+    //             if (featureId) {
+    //                 highlightedIds.push(featureId);
+    //             }
+    //         }
+    //     });
 
-        console.log("Highlighted Districts:", highlightedIds);
+    //     console.log("Highlighted Districts:", highlightedIds);
 
-        // Set the highlighted districts
-        setHighlightedDistrictId(prevHighlightedDistrictId => {
-            return highlightedIds.length > 0 ? highlightedIds : null;
-        });
-    }
+    //     // Set the highlighted districts
+    //     setHighlightedDistrictId(prevHighlightedDistrictId => {
+    //         return highlightedIds.length > 0 ? highlightedIds : null;
+    //     });
+    // }
 
-
-
-    useEffect(() => {
-        highlightSelectedDistrict();
-    }, [selectedRows, props.state]);
+    // useEffect(() => {
+    //     highlightSelectedDistrict();
+    // }, [selectedRows, props.state]);
 
     const [isDensity, setIsDensity] = useState(false);
-    const [race, setRace] = useState("white")
+    const [race, setRace] = useState("white");
 
     function getColor(feature){
         if (!isDensity){
-            return tab20[feature.id%20]
+            return "#f00840"; //tab20[feature.id%20]
         }
 
         if (race === 'white'){
@@ -135,31 +133,41 @@ function HeatMap(props) {
         }else{
             return purplesColors[Math.floor(feature.properties.area_density * purplesColors.length)]
         }
-    }
+    };
 
     const toggleMode = () => {
         setIsDensity(!isDensity);
+        setRace("white");
     };
 
     const toggleRace = (event) => {
         setRace(event.target.value);
     };
 
+    const handleClick = (id) => {
+        // console.log(id);
+        props.setCurrDistrict(id);
+    };
+
+    // useEffect(() => {
+    //     if (props.layers) {
+    //         // props.currLayer.bringToFront();
+    //         console.log(props.layers);
+    //     }
+    // }, [props.layers]);
+
     return (
         <div className="position-relative w-100 h-100" >
             <div className="position-absolute bottom-0 end-0" 
-                style={{position: "absolute", bottom: "0", right:"0", zIndex: "1000", 
+                style={{position: "absolute", zIndex: "1000", 
                 backgroundColor: "#fff",
-                padding: "5px",
+                paddingLeft: "5px",
+                paddingRight: "5px",
+                paddingTop: "5px",
                 borderStyle: "solid",
                 borderColor: "#000",
-                color: "#f00840", 
-                fontWeight: "bold"
+                fontSize: "12px"
                 }}>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={toggleMode}/>
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Display heatmap</label>
-                </div>
                 {/* {isDensity && 
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="both" onClick={toggleRace}/>
@@ -168,33 +176,36 @@ function HeatMap(props) {
                     </label>
                 </div>} */}
                 {isDensity && 
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="white" onClick={toggleRace}/>
+                <div class="form-check" style={{textAlign: "left"}}>
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="white" defaultChecked onClick={toggleRace}/>
                     <label class="form-check-label" for="exampleRadios1">
                         Caucasian
                     </label>
                 </div>}
                 {isDensity &&
-                <div class="form-check">
+                <div class="form-check" style={{textAlign: "left"}}>
                     <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="black" onClick={toggleRace}/>
                     <label class="form-check-label" for="exampleRadios2">
                         African American
                     </label>
                 </div>}
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={toggleMode}/>
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Population density mode</label>
+                </div>
             </div>
-                {isDensity &&
-                <div className="position-absolute bottom-0 justify-content-center" 
-                    style={{zIndex:"1000", backgroundColor:"#fff", padding: "3px", borderStyle:"solid"}}>
-                    <div>Legend</div>
-                    <div className="d-flex">
-                        <div style={{height: "150px", width: "45px"}}>
-                            <div className="align-items-start">100%</div>
-                            <div className="align-items-center" style={{marginTop: "40px"}}>50%</div>
-                            <div className="align-self-end" style={{marginTop: "50px"}}>0%</div>
-                        </div>
-                        <div className="legend" style={{height: "150px", width: "30px"}}></div>
+            {isDensity &&
+            <div className="position-absolute end-0 justify-content-center" 
+                style={{zIndex:"1000", padding: "3px", height: "150px",}}>
+                <div className="d-flex flex-row">
+                    <div className="d-flex flex-column" style={{height: "150px", width: "30px", fontSize: "12px", paddingRight: "3px"}}>
+                        <div style={{textAlign: "right"}}>100%</div>
+                        <div style={{marginTop: "40px", textAlign: "right"}}>50%</div>
+                        <div style={{marginTop: "44px", textAlign: "right"}}>0%</div>
                     </div>
-                </div>}
+                    <div className="legend" style={{height: "130px", width: "10px"}}></div>
+                </div>
+            </div>}
             <MapContainer center={center_locations[props.state]}
                 zoom={default_zoom[props.state]}
                 dragging={true}
@@ -208,22 +219,26 @@ function HeatMap(props) {
                     width: '100%',
                     backgroundColor: '#e6e6e6',
                 }}
+                ref={props.setMap}
                 className='align-self-center'>
 
                 {props.my_json &&
                     <GeoJSON
                         data={JSON.parse(props.my_json)}
                         style={feature => ({
-                            color: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : 'black',
-                            weight: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 3 : .5, // Conditional border thickness
+                            // color: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 'red' : 'black',
+                            // color: "#f00840",
+                            // weight: highlightedDistrictId && highlightedDistrictId.includes(feature.id) ? 3 : .5, // Conditional border thickness
                             fillColor: getColor(feature),
-                            fillOpacity: 1
+                            fillOpacity: isDensity ? 1 : 0.3,
+                            color: props.currDistrict === feature.properties["DISTRICT_N"] ? "#f00840" : "#000",
+                            weight: props.currDistrict === feature.properties["DISTRICT_N"] ? 3 : .5
                         })}
-                        // onEachFeature={(feature, layer) => {
-                        //     feature.on({
-                        //         click: handleClick(feature)
-                        //     })
-                        // }}
+                        onEachFeature={(feature, layer) => {
+                            layer.on({
+                                click: () => {handleClick(feature.properties["DISTRICT_N"]); console.log(feature); layer.bringToFront();}
+                            });
+                        }}
                     />}
 
                 <TileLayer

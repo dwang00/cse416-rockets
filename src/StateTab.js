@@ -48,12 +48,13 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
 
     useEffect(() => {
         setCurrDistrict(null);
+        setIsDensity(false);
     }, [currTab]);
 
     return (
-        <div className="w-100 d-flex " style={{height: `${height}px`, }}>
-            <div className="w-50">
-                {currTab == "summary" && <div className="w-100 h-100 justify-content-left position-relative" style={{borderStyle: 'solid'}}>
+        <div className="w-100 d-flex" style={{height: `${height}px`, }}>
+            {/* <div className="w-100 justify-content-left"> */}
+                {currTab == "summary" && <div className= "h-100 justify-content-left position-relative overflow-hidden" style={{width: "40%", borderStyle: 'solid'}}>
                     {geoJsons && <HeatMap race='white' map={map} isDensity={isDensity} setIsDensity={setIsDensity} setMap={setMap} state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
                 </div>}
                 {currTab == "analysis" && (
@@ -110,8 +111,8 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                               style={{display: "inline-block"}}/>,
                     </div>
                 </div>)}
-            </div>
-            <div className="w-50 justify-content-right vstack">
+            {/* </div> */}
+            <div className="justify-content-right vstack" style={{width: "60%"}}>
                 {/* {currTab == "analysis" && (<div className="w-100 h-100">
                     ecological inference
                     <select value={selectedEcoInfOption} onChange={(e) => handleEcoInfOptionChange(e.target.value)}>
@@ -131,17 +132,25 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 </div>)} */}
                 
                 {currTab == "summary" && 
-                    <div className="w-100 d-flex overflow-auto" style={{height: isDensity ? "50%" : "100%", borderStyle:"solid"}}>
+                    <div className="d-flex overflow-auto h-50" style={{borderStyle:"solid", }}>
                             <StateAssemblyTable state={fullName[currState]} map={map} setMap={setMap} currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>          
                     </div>
                 }
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district table</div>}
                 {currTab == "districts" && <div className="w-100 h-100" style={{borderStyle: 'solid'}}>opportunity district bar chart</div>}
                 {/* TODO Fix Height & text formatting */}
-                {currTab == "summary" && isDensity && 
-                    <div className="h-50 d-flex" style={{borderStyle:"solid"}}>
-                        {React.createElement(components[0].type, { ...components[0].props })}
-                    </div>}
+                <div className="d-flex flex-row h-50 overflow-hidden">
+                    {currTab == "summary" &&
+                        <div className="justify-content-left h-100" style={{width: isDensity ? "60%" : "100%"}}>
+                            <StateDataSummary state={fullName[currState]} />
+                        </div>
+                    }
+                    {currTab == "summary" && isDensity && 
+                        <div className="w-100 h-100" style={{borderStyle: "solid"}}>
+                            {React.createElement(components[0].type, { ...components[0].props })}
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     )

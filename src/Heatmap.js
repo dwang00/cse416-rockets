@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // import { useFetch } from 'react-fetch';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, GeoJSON, TileLayer } from 'react-leaflet';
+import { MapContainer, GeoJSON, TileLayer, SVGOverlay, LayerGroup } from 'react-leaflet';
 import 'bootstrap/dist/css/bootstrap.css';
 import StateDataSummary from './StateDataSummary';
 
@@ -193,15 +193,15 @@ function HeatMap(props) {
                 </div>
             </div>
             {props.isDensity &&
-            <div className="position-absolute end-0 justify-content-center" 
+            <div className="position-absolute bottom-0 justify-content-center" 
                 style={{zIndex:"1000", padding: "3px", height: "150px",}}>
                 <div className="d-flex flex-row">
+                    <div className="legend" style={{height: "130px", width: "10px"}}></div>
                     <div className="d-flex flex-column" style={{height: "150px", width: "30px", fontSize: "12px", paddingRight: "3px"}}>
                         <div style={{textAlign: "right"}}>100%</div>
                         <div style={{marginTop: "40px", textAlign: "right"}}>50%</div>
                         <div style={{marginTop: "44px", textAlign: "right"}}>0%</div>
                     </div>
-                    <div className="legend" style={{height: "130px", width: "10px"}}></div>
                 </div>
             </div>}
             <MapContainer center={center_locations[props.state]}
@@ -219,6 +219,10 @@ function HeatMap(props) {
                 }}
                 ref={props.setMap}
                 className='align-self-center'>
+                
+                {/* <div className="position-absolute top-0 end-0" style={{height:"25%", width:"30%", zIndex: "700"}}>
+                    <StateDataSummary state={fullName[props.state]} />
+                </div> */}
 
                 {props.my_json &&
                     <GeoJSON

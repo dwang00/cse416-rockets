@@ -1,5 +1,6 @@
 package com.example.java_stuff.boxplotgraph;
 
+import com.example.java_stuff.enums.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,9 @@ public class BoxPlotService {
         return plotsInState;
     }*/
 
-    public BoxPlot getBoxPlotByState(String state) {
-        BoxPlot plotsInState;
-        plotsInState = boxPlotRepository.findByState(state);
+    public List<BoxPlot> getBoxPlotByState(String state) {
+        List<BoxPlot> plotsInState;
+        plotsInState = boxPlotRepository.findByState(State.valueOf(state));
         return plotsInState;
     }
 }

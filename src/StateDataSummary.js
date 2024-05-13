@@ -78,6 +78,7 @@ function StateDataSummary({ state }) {
             .then((data) => {
                 setTableData(data);
                 console.log(data)
+                console.log("i am looking in state data summary")
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -166,7 +167,8 @@ function StateDataSummary({ state }) {
     };
 
     const newData = flattenObject(tableData[0]);
-
+    console.log(" i am printing the flattened version")
+    console.log(newData)
     const finalData = transformData(newData)
     finalData.forEach(object =>
         object.attribute = capitalizeFirstLetter(object.attribute))

@@ -353,18 +353,18 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                             <StateAssemblyTable state={fullName[currState]} map={map} setMap={setMap} currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>          
                     </div>
                 }
-                {currTab == "districts" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                {currTab == "districts" && (<div className="w-100 h-50" style={{borderStyle: 'solid'}}>
                     opportunity district table
-                    <OpportunityDistrictTable state = {fullName[currState]} race = {selectedOppBarRace} threshold={selectedOppBarThreshold} ensemble={selectedOppBarEnsemble} />
+                    {/* <OpportunityDistrictTable state = {fullName[currState]} race = {selectedOppBarRace} threshold={selectedOppBarThreshold} ensemble={selectedOppBarEnsemble} /> */}
                 </div>)}
-                {currTab == "districts" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
-                    opportunity district bar chart
-                    <div>
-                        <select value={selectedOppBarRace}
+                {currTab == "districts" && (<div className="w-100 h-50" style={{borderStyle: 'solid'}}>
+                    Opportunity Districts per Plan
+                    <div className="h-75">
+                        {/* <select value={selectedOppBarRace}
                                 onChange={(e) => handleOppBarRaceChange(e.target.value)}>
                             <option value="white">Caucasian</option>
                             <option value="black">African American</option>
-                        </select>
+                        </select> */}
                         <select value={selectedOppBarEnsemble}
                                 onChange={(e) => handleOppBarEnsembleChange(e.target.value)}>
                             <option value={250}>Small Ensemble - 250 Plans</option>
@@ -380,7 +380,7 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
 
                             </option>
                         </select>
-                        <OpportunityDistrictBarChart state={fullName[currState]} race={selectedOppBarRace}
+                        <OpportunityDistrictBarChart state={fullName[currState]} race={"black"}
                                                      threshold={selectedOppBarThreshold}
                                                      ensemble={selectedOppBarEnsemble}/>
                     </div>

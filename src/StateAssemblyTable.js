@@ -281,6 +281,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
 
     return (
         <div className="w-100">
+            <div className="fw-bold" style={{fontSize:"22px"}}>{state.charAt(0) + state.slice(1).toLowerCase()} State Representatives</div>
             <select value={selectedFilter} onChange={handleFilterChange}>
                 <option value="">All</option>
                 <option value="African American">African American</option>
@@ -292,7 +293,6 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
                 columns={columns}
                 data={filteredData}
                 customStyles={customStyles}
-                title="State Representatives"
                 onRowClicked={(row, event) => handleClick(row.district)}
                 pointerOnHover
             />

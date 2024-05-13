@@ -242,12 +242,12 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                     <div className="fw-bold w-100 h-100 d-flex flex-column" style={{borderStyle: 'solid', height:"3%", fontSize: "21px"}}>
                         Election Results
                         <div style={{height:"4%"}}>
-                            <select value={selectedGinglesRace}
+                            {selectedGinglesOption === "scatter" && <select value={selectedGinglesRace}
                                     onChange={(e) => handleGinglesRaceChange(e.target.value)}>
                                 <option value="Caucasian">Caucasian</option>
                                 <option value="African American">African American</option>
 
-                            </select>
+                            </select>}
                             <select value = {selectedGinglesOption} onChange = {(e) => handleGinglesOptionChange(e.target.value)}>
 
                                 <option value="scatter">Gingles 2/3 Analysis</option>

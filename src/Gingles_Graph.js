@@ -20,8 +20,9 @@ function Gingles_Graph(props) {
         datasets: []
     })
     const [tableData, setTableData] = useState(null)
-    const [voteData, setVoteData] = useState(null)
-    const [seatData, setSeatData] = useState(null)
+
+    const [curveDataWhite, setCurveDataWhite] = useState(null)
+    const [curveDataBlack, setCurveDataBlack] = useState(null)
     console.log(props.race)
     useEffect(() => {
         function fetchGinglesData(state, race) {
@@ -94,25 +95,29 @@ function Gingles_Graph(props) {
         if(props.view === "table") {
             fetchTabularGingles(props.state)
         }
-        function fetchCurve(state, race) {
+        function fetchCurve(state) {
             fetch(`http://localhost:8080/shareByState?state=${state}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log("yOOOOOOOOOOOOOOO")
                     console.log('DO I GET HERE')
                     console.log(data[0].africanamerican.seats)
-                    if(race === "African American") {
-                        setSeatData(data[0].africanamerican.seats)
-                        console.log(data[0].africanamerican.seats)
-                        setVoteData(data[0].africanamerican.votes)
-                        console.log(data[0].africanamerican.votes)
-                    }
-                    else if(race === "Caucasian") {
-                        setSeatData(data[0].caucasian.seats)
-                        console.log(data[0].caucasian.seats)
-                        setVoteData(data[0].caucasian.votes)
-                        console.log(data[0].caucasian.votes)
-                    }
+                    console.log(data[0].africanamerican.votes)
+                        console.log("DO I GET HERE2")
+                        const curveDataBlackPoints = data[0].africanamerican.votes.map((xValue, index) => ({
+                            x: xValue,
+                            y: data[0].africanamerican.seats[index] // Assuming the lengths are same
+                        }));
+                        // Set the state with the formatted data
+                        setCurveDataBlack(curveDataBlackPoints);
+                        console.log("YOOOOOOOOO ISET DATA")
+                        console.log(data[0].caucasian)
+                        const curveDataWhitePoints = data[0].caucasian.votes.map((xValue, index) => ({
+                            x: xValue,
+                            y: data[0].caucasian.seats[index] // Assuming the lengths are same
+                        }));
+                        // Set the state with the formatted data
+                        setCurveDataWhite(curveDataWhitePoints);
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
@@ -123,52 +128,66 @@ function Gingles_Graph(props) {
             fetchCurve(props.state, props.race)
         }
     }, [props.state, props.race, props.view])
-    // console.log(scatterDataDem);
-    // console.log(scatterDataRep)
+    console.log("maybe i get here")
+    console.log(curveDataBlack)
+    console.log(curveDataWhite)
+    console.log("AAAAAAAAAAAAAAAA")
     useEffect(()=> {
-        if(seatData && voteData) {
+        console.log("do i even get here")
+        console.log(curveDataBlack)
+        console.log(curveDataWhite)
+        if(curveDataWhite && curveDataBlack) {
+            console.log("PLEASEEEEEEEEEEEEEEEEEEEEE")
+            console.log(curveDataWhite)
+            console.log(curveDataBlack)
             const curveDataCopy = {datasets: []}
 
-            const scatterSeat = {
-                label: "Seat Share (%)",
-                data: scatterDataDem,
+            const scatterBlack = {
+                label: "Black (%)",
+                data: curveDataBlack,
                 borderColor: 'rgba(75, 192, 192, 1)',
-                //pointStyle: 'line', // Set the point style to 'line' to make the points invisible
-                //pointRadius: 0, // Set the point radius to 0 to make the points invisible
-                //fill: false,
-                //showLine: true
+                pointStyle: 'line', // Set the point style to 'line' to make the points invisible
+                pointRadius: 0, // Set the point radius to 0 to make the points invisible
+                fill: false,
+                showLine: true
             }
-            const scatterVote = {
-                label: "Vote Share (%)",
-                data: scatterDataRep,
+            const scatterWhite = {
+                label: "Caucasian (%)",
+                data: curveDataWhite,
                 borderColor: 'rgba(255, 99, 132, 1)',
-                //pointStyle: 'line', // Set the point style to 'line' to make the points invisible
-                //pointRadius: 0, // Set the point radius to 0 to make the points invisible
-                //fill: false,
-                //showLine: true
+                pointStyle: 'line', // Set the point style to 'line' to make the points invisible
+                pointRadius: 0, // Set the point radius to 0 to make the points invisible
+                fill: false,
+                showLine: true
             }
-            curveDataCopy.datasets.push(scatterSeat)
-            curveDataCopy.datasets.push(scatterVote)
+            curveDataCopy.datasets.push(scatterBlack)
+            curveDataCopy.datasets.push(scatterWhite)
+            console.log(curveDataCopy)
             setScatterCurveData(curveDataCopy)
         }
-    }, [seatData, voteData])
+    }, [curveDataWhite, curveDataBlack])
     const curveOptions = {
         maintainAspectRatio: false,
         animation: false,
         scales: {
             x: {
+                beginAtZero: true,
+                min:0,
+                max:1,
                 title: {
                     display: true,
                     text: `Vote Share (%)`,
                     color: "#000000"
                 },
                 ticks: {
+                    stepSize: .1,
                     color: "#000000"
                 }
             },
             y: {
                 beginAtZero: true,
                 min:0,
+                max:1,
                 title: {
                     display: true,
                     text: 'Seat Share (%)',
@@ -183,7 +202,7 @@ function Gingles_Graph(props) {
         plugins: {
             title: {
                 display: true,
-                text: `${props.race} Vote Share v Seat Share`,
+                text: `Vote Share v Seat Share`,
                 font: {
                     size: 20
                 },
@@ -262,6 +281,9 @@ function Gingles_Graph(props) {
         animation: false,
         scales: {
             x: {
+                beginAtZero: true,
+                min:0,
+                max:1,
                 title: {
                     display: true,
                     text: `Percent ${props.race}`,
@@ -274,6 +296,7 @@ function Gingles_Graph(props) {
             y: {
                 beginAtZero: true,
                 min:0,
+                max:1,
                 title: {
                     display: true,
                     text: 'Vote Share (%)',

@@ -70,7 +70,7 @@ function App() {
             {
                 label: 'Percent of Total Population',
                 data: alabamaPop,
-                backgroundColor: ['orange', 'yellow'],
+                backgroundColor: ['blue', 'green'],
                 borderWidth: 1
             }
         ],
@@ -150,7 +150,7 @@ const barOptionsAlabama = {
             {
                 label: 'Percent of Total Population',
                 data: delawarePop,
-                backgroundColor: ['orange', 'yellow'],
+                backgroundColor: ['blue', 'green', 'red'],
                 borderWidth: 1
             }
         ],

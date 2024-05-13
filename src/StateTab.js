@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
+import GetData from "./get_data";
 import Slideshow from './Slideshow.js';
 import 'bootstrap/dist/css/bootstrap.css';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import StateAssemblyTable from "./StateAssemblyTable.js";
@@ -13,80 +15,6 @@ import OpportunityDistrictBarChart from "./OpportunityDistrictBarChart";
 import OpportunityDistrictTable from "./OpportunityDistrictTable";
 function StateTab({components, navbarHeight, geoJsons, precinct, currState, currTab, setCurrTab}) {
     const height = window.innerHeight - navbarHeight;
-
-    const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
-    const [selectedRowsData, setSelectedRowsData] = useState([]);
-    //console.log("IM IN STATE TAB 1")
-    //console.log(selectedRowsData);
-    //console.log("IM IN STATE TAB 2")
-
-    const [selectedGinglesRace, setSelectedGinglesRace] = useState("Caucasian");
-    const [selectedGinglesOption, setSelectedGinglesOption] = useState("scatter")
-
-    const [selectedGerrymanderingRace, setSelectedGerrymanderingRace] = useState("black");
-    const [selectedGerrymanderingEnsemble, setSelectedGerrymanderingEnsemble] = useState("250")
-    const [selectedGerrymanderingPoints, setSelectedGerrymanderingPoints] = useState("initial_partition_Black")
-
-    const [selectedGerrymanderingPoints2, setSelectedGerrymanderingPoints2] = useState("initial_partition_Democratic")
-    const [selectedGerrymanderingEnsemble2, setSelectedGerrymanderingEnsemble2] = useState("250")
-    const [selectedGerrymanderingParty, setSelectedGerrymanderingParty] = useState("democratic")
-
-    const [selectedEcoInfOption, setSelectedEcoInfOption] = useState("Presidential");
-
-    const [selectedOppBarRace, setSelectedOppBarRace] = useState("Black")
-    const [selectedOppBarEnsemble, setSelectedOppBarEnsemble] = useState("250")
-    const [selectedOppBarThreshold, setSelectedOppBarThreshold] = useState("t37")
-
-    const handleGerrymanderingPointsChange = (option) => {
-      setSelectedGerrymanderingPoints(option)
-    };
-    const handleGerrymanderingPointsChange2 = (option) => {
-        setSelectedGerrymanderingPoints2(option)
-    };
-    const handleGinglesRaceChange = (option) => {
-        console.log(option);
-        setSelectedGinglesRace(option);
-    };
-    const handleGinglesOptionChange = (option) => {
-        console.log(option);
-        setSelectedGinglesOption(option);
-    };
-    const handleGerrymanderingRaceChange = (option) => {
-        setSelectedGerrymanderingRace(option);
-    };
-    const handleGerrymanderingPartyChange = (option) => {
-        setSelectedGerrymanderingParty(option);
-    };
-    const handleGerrymanderingEnsembleChange = (option) => {
-      setSelectedGerrymanderingEnsemble(option)
-    };
-    const handleGerrymanderingEnsembleChange2 = (option) => {
-        setSelectedGerrymanderingEnsemble2(option)
-    };
-    const handleEcoInfOptionChange = (option) => {
-        setSelectedEcoInfOption(option);
-    };
-    const handleOppBarRaceChange = (option) => {
-        setSelectedOppBarRace(option);
-    }
-    const handleOppBarEnsembleChange = (option) => {
-        setSelectedOppBarEnsemble(option);
-    }
-    const handleOppBarThresholdChange = (option) => {
-        setSelectedOppBarThreshold(option);
-    }
-    const [currDistrict, setCurrDistrict] = useState(null);
-    const [map, setMap] = useState(null);
-    const [isDensity, setIsDensity] = useState(false);
-
-    useEffect(() => {
-        setCurrDistrict(null);
-        setIsDensity(false);
-    }, [currTab]);
-    console.log("beginning of geojsons")
-    console.log(geoJsons)
-    console.log(precinct)
-    console.log("end of geojsons")
     return (
         <div className="w-100 d-flex" style={{height: `${height}px`, }}>
         {currTab == "districts" &&

@@ -11,9 +11,12 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     //const [selectedRows, setSelectedRows] = useState([]);
 
     useEffect( () => {
+        console.log("1231231231231231231231",state)
         fetch(`http://localhost:8080/get_members/membersByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
+                console.log("1111111111111111111111")
+                console.log(data)
                 setTableData(data);
                 setFilteredData(data); // Initialize filteredData with the fetched data
             })

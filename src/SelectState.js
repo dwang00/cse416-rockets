@@ -3,15 +3,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { MapContainer, TileLayer, GeoJSON, SVGOverlay } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
-function SelectState({navbarHeight, geoJson, currState, setCurrState}) {
+function SelectState({navbarHeight, geoJson, currState, setCurrState, setCurrTab}) {
     const height = window.innerHeight - navbarHeight;
     
     const handleClick = (state) => () => {
         setCurrState(state);
+        setCurrTab("summary");
     };
 
     return (
-        <div className="w-100 d-flex justify-content-center" style={{height: `${height}px`}}>
+        <div className="w-100 d-flex position-relative" style={{height: `${height}px`}}>
             {!currState && 
                 <MapContainer center={[34.793555, -83.440726]} 
                     zoom={5.5} zoomSnap={0.5} minZoom={4.5} maxZoom={7} zoomDelta={0.5}

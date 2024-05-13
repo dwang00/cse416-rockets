@@ -283,6 +283,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     return (
         <div className="w-100">
             <div className="fw-bold" style={{fontSize:"22px"}}>{state.charAt(0) + state.slice(1).toLowerCase()} State Representatives</div>
+            <span>Filter by: </span>
             <select value={selectedFilter} onChange={handleFilterChange}>
                 <option value="">All</option>
                 <option value="African American">African American</option>

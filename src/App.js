@@ -62,12 +62,13 @@ function App() {
         labels: ['Caucasian', 'African American'],
         datasets: [
             {
-                // label: 'Ethnicity of Alabama House Representatives',
+                label: 'Percent of Alabama House Representatives',
                 data: alBarData,
                 backgroundColor: ['blue', 'green'],
                 borderWidth: 1,
             },
             {
+                label: 'Percent of Total Population',
                 data: alabamaPop,
                 backgroundColor: ['orange', 'yellow'],
                 borderWidth: 1
@@ -141,12 +142,13 @@ const barOptionsAlabama = {
         labels: ['Caucasian', 'African American', 'Asian'],
         datasets: [
             {
-                label: 'Ethnicity of Delaware House Representatives',
+                label: 'Percent of Delaware House Representatives',
                 data: deBarData,
                 backgroundColor: ['blue', 'green', 'red'],
                 borderWidth: 1,
             },
             {
+                label: 'Percent of Total Population',
                 data: delawarePop,
                 backgroundColor: ['orange', 'yellow'],
                 borderWidth: 1
@@ -237,14 +239,14 @@ const barOptionsDelaware = {
         getjsons();
     }, []);
 
-    const [currTab, setCurrTab] = useState("summary");
+    const [currTab, setCurrTab] = useState("select");
 
     return (
         <div className="App">
-            <Navbar setCurrState={setCurrState} logo={logo} navbarHeight={navbarHeight} currTab={currTab} setCurrTab={setCurrTab}/>
-            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} precinct={precinct} currState={currState} setCurrState={setCurrState} currTab={currTab}/>}
-            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} precinct={precinct} currState={currState} setCurrState={setCurrState} currTab={currTab}/>}
-            {!currState && <SelectState navbarHeight={navbarHeight} geoJson={geoJsons} currState={currState} setCurrState={setCurrState}/>}
+            <Navbar currState={currState} setCurrState={setCurrState} logo={logo} navbarHeight={navbarHeight} currTab={currTab} setCurrTab={setCurrTab}/>
+            {currState == 'de' && <StateTab components = {deComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} precinct={precinct} currState={currState} setCurrState={setCurrState} currTab={currTab} setCurrTab={setCurrTab}/>}
+            {currState == 'al' && <StateTab components = {alComponents} navbarHeight={navbarHeight} geoJsons={geoJsons} precinct={precinct} currState={currState} setCurrState={setCurrState} currTab={currTab} setCurrTab={setCurrTab}/>}
+            {!currState && <SelectState navbarHeight={navbarHeight} geoJson={geoJsons} currState={currState} setCurrState={setCurrState} setCurrTab={setCurrTab}/>}
 
             {/* <div style={{backgroundColor: "#686464"}}>
                 <h1>State Assembly Districts For Delaware</h1>

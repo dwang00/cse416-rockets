@@ -11,7 +11,7 @@ import Gerrymandering_Graph from "./Gerrymandering_Graph";
 import Gingles_Graph from "./Gingles_Graph";
 import OpportunityDistrictBarChart from "./OpportunityDistrictBarChart";
 import OpportunityDistrictTable from "./OpportunityDistrictTable";
-function StateTab({components, navbarHeight, geoJsons, precinct, currState, currTab}) {
+function StateTab({components, navbarHeight, geoJsons, precinct, currState, currTab, setCurrTab}) {
     const height = window.innerHeight - navbarHeight;
 
     const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
@@ -89,37 +89,10 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
     console.log("end of geojsons")
     return (
         <div className="w-100 d-flex" style={{height: `${height}px`, }}>
-            {/* <div className="w-100 justify-content-left"> */}
-                {currTab == "summary" && <div className= "h-100 justify-content-left position-relative overflow-hidden" style={{width: "40%", borderStyle: 'solid'}}>
-                    {geoJsons && <HeatMap race='white' map={map} isDensity={isDensity} setIsDensity={setIsDensity} setMap={setMap} state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
-                </div>}
-                {currTab == "analysis" && (
-                    <div className="w-100 h-100" style={{borderStyle: 'solid'}}>
-                        scatter and gingles
-                        <select value={selectedGinglesRace}
-                                onChange={(e) => handleGinglesRaceChange(e.target.value)}>
-                            <option value="Caucasian">Caucasian</option>
-                            <option value="African American">African American</option>
-
-                        </select>
-                        <select value = {selectedGinglesOption} onChange = {(e) => handleGinglesOptionChange(e.target.value)}>
-
-                            <option value="scatter">Gingles 2/3 Analysis</option>
-                            <option value = "table">Precinct by Precinct view</option>
-                            <option value = "curve">Vote Share vs Seat Share</option>
-                        </select>
-                        <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
-                                       view={selectedGinglesOption}/>
-                    </div>
-                )}
-                {currTab == "districts" &&
-                    (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
-                        opportunity district map
-                        <div>
-
-                        </div>
-                    </div>)}
-                {currTab == "plans" && (<div className="w-100 h-100 d-flex justify-content-center">
+        {currTab == "districts" &&
+            <div className="h-100 w-100 flex-column d-flex">
+                <div className="w-100 h-100" style={{borderStyle: 'solid'}}>
+                <div className="w-100 h-100 d-flex justify-content-center">
                     <div style={{height:"5%", padding:"5px"}}>
                             <select value={selectedGerrymanderingRace}
                                     onChange={(e) => handleGerrymanderingRaceChange(e.target.value)}>
@@ -221,113 +194,70 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                                                   typeOfPoint={selectedGerrymanderingPoints}
                                                   ensemble={selectedGerrymanderingEnsemble}
 
-                                                  style={{display: "inline-block"}}/>,
-                            {/* <select value={selectedGerrymanderingParty}
-                                    onChange={(e) => handleGerrymanderingPartyChange(e.target.value)}>
-                                <option value="democratic">Democrat</option>
-                                <option value="republican">Republican</option>
-                            </select>
-                            <select value={selectedGerrymanderingEnsemble2}
-                                    onChange={(e) => handleGerrymanderingEnsembleChange2(e.target.value)}>
-                                <option value={250}>Small Ensemble</option>
-                                <option value={5000}>Large Ensembles</option>
-                            </select>
-                            <select value={selectedGerrymanderingPoints2}
-                                    onChange={(e) => handleGerrymanderingPointsChange2(e.target.value)}>
-                                {selectedGerrymanderingParty === "democratic" ? (
-                                    <>
-                                        <option value="initial_partition_Democratic">Enacted
-                                        </option>
-                                        <option value="max_White_for_Democratic_@0.37">Partition with Most White
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="min_White_for_Democratic_@0.37">Partition with Least White
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="max_White_for_Democratic_@0.5">Partition with Most White
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="min_White_for_Democratic_@0.5">Partition with Least White
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="max_White_for_Democratic_@0.44">Partition with Most White
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="min_White_for_Democratic_@0.44">Partition with Least White
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="max_Black_for_Democratic_@0.37">Partition with Most Black
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="min_Black_for_Democratic_@0.37">Partition with Least Black
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="max_Black_for_Democratic_@0.5">Partition with Most Black
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="min_Black_for_Democratic_@0.5">Partition with Least Black
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="max_Black_for_Democratic_@0.44">Partition with Most Black
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="min_Black_for_Democratic_@0.44">Partition with Least Black
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                    </>
-                                ) : (
-                                    <>
-                                        <option value="initial_partition_Republican">Enacted
-                                        </option>
-                                        <option value="max_White_for_Republican_@0.37">Partition with Most White
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="min_White_for_Republican_@0.37">Partition with Least White
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="max_White_for_Republican_@0.5">Partition with Most White
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="min_White_for_Republican_@0.5">Partition with Least White
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="max_White_for_Republican_@0.44">Partition with Most White
-                                            Opportunity Districts at 0.44 Threshold
-                                        </option>
-                                        <option value="min_White_for_Republican_@0.44">Partition with Least White
-                                            Opportunity Districts at 0.44 Threshold
-                                        </option>
-                                        <option value="max_Black_for_Republican_@0.37">Partition with Most Black
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="min_Black_for_Republican_@0.37">Partition with Least Black
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="max_Black_for_Republican_@0.5">Partition with Most Black
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="min_Black_for_Republican_@0.5">Partition with Least Black
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="max_Black_for_Republican_@0.44">Partition with Most Black
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="min_Black_for_Republican_@0.44">Partition with Least Black
-                                            Opportunity Districts at 0.44 Threshold
-                                        </option>
-                                    </>
-                                )}
-                            </select> */}
-                        {/* <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}2`}
-                                                  typeOfBox={selectedGerrymanderingParty}
-                                                  typeOfPoint={selectedGerrymanderingPoints2}
-                                                  ensemble={selectedGerrymanderingEnsemble2}
-                                                  style={{display: "inline-block"}}/>, */}
-
+                                                  style={{display: "inline-block"}}/>
+                </div>
+                </div>
+                </div>
+                <div className="d-flex flex-row h-100" > 
+                    <div className="w-50" style={{height: "95%", borderTop:"solid", }}>   
+                    {React.createElement(components[0].type, {...components[0].props})}
                     </div>
-                </div>)}
-            {/* </div> */}
-            {!(currTab == "plans") && <div className="justify-content-right d-flex flex-column w-100 h-100" >
+                <div className="w-50 h-100 fw-bold" style={{borderStyle: 'solid', borderBottom:"0px", fontSize:"21px"}}>
+                    Opportunity Districts per Plan
+                    <div className="h-75">
+                        {/* <select value={selectedOppBarRace}
+                                onChange={(e) => handleOppBarRaceChange(e.target.value)}>
+                            <option value="white">Caucasian</option>
+                            <option value="black">African American</option>
+                        </select> */}
+                        <select value={selectedOppBarEnsemble}
+                                onChange={(e) => handleOppBarEnsembleChange(e.target.value)}>
+                            <option value={250}>Small Ensemble - 250 Plans</option>
+                            <option value={5000}>Large Ensembles - 5,000 Plans</option>
+                        </select>
+                        <select value={selectedOppBarThreshold}
+                                onChange={(e) => handleOppBarThresholdChange(e.target.value)}>
+                            <option value="t37">District Plan at .37 Threshold
+                            </option>
+                            <option value="t5">District Plan at .5 Threshold
+                            </option>
+                            <option value="t44"> District Plan at .44 Threshold
+
+                            </option>
+                        </select>
+                        <OpportunityDistrictBarChart state={fullName[currState]} race={"black"}
+                                                    threshold={selectedOppBarThreshold}
+                                                    ensemble={selectedOppBarEnsemble}/>
+                    </div>
+                </div>
+                </div>
+            </div>}
+            {/* <div className="w-100 justify-content-left"> */}
+                {currTab == "summary" && <div className= "h-100 justify-content-left position-relative overflow-hidden" style={{width: "40%", borderStyle: 'solid'}}>
+                    {geoJsons && <HeatMap race='white' map={map} isDensity={isDensity} setIsDensity={setIsDensity} setMap={setMap} state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
+                </div>}
+                {currTab == "analysis" && (
+                    <div className="fw-bold w-100 h-100 d-flex flex-column" style={{borderStyle: 'solid', height:"3%", fontSize: "21px"}}>
+                        Election Results
+                        <div style={{height:"4%"}}>
+                            <select value={selectedGinglesRace}
+                                    onChange={(e) => handleGinglesRaceChange(e.target.value)}>
+                                <option value="Caucasian">Caucasian</option>
+                                <option value="African American">African American</option>
+
+                            </select>
+                            <select value = {selectedGinglesOption} onChange = {(e) => handleGinglesOptionChange(e.target.value)}>
+
+                                <option value="scatter">Gingles 2/3 Analysis</option>
+                                <option value = "table">Precinct by Precinct view</option>
+                                <option value = "curve">Vote Share vs Seat Share</option>
+                            </select>
+                        </div>
+                        <Gingles_Graph state={fullName[currState]} race={selectedGinglesRace}
+                                       view={selectedGinglesOption}/>
+                    </div>
+                )}
+            {(currTab == "analysis" ||currTab=="summary") && <div className="justify-content-right d-flex flex-column w-100 h-100" >
                 {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle:"solid"}}>
                     <div className= "fw-bold" style={{height:"5%", fontSize: "21px"}}>Ecological Inference</div>
                     <div style={{height: "5%"}}>
@@ -353,42 +283,11 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                             <StateAssemblyTable state={fullName[currState]} map={map} setMap={setMap} currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>          
                     </div>
                 }
-                {currTab == "districts" && (<div className="w-100 h-50" style={{borderStyle: 'solid'}}>
-                    opportunity district table
-                    {/* <OpportunityDistrictTable state = {fullName[currState]} race = {selectedOppBarRace} threshold={selectedOppBarThreshold} ensemble={selectedOppBarEnsemble} /> */}
-                </div>)}
-                {currTab == "districts" && (<div className="w-100 h-50" style={{borderStyle: 'solid'}}>
-                    Opportunity Districts per Plan
-                    <div className="h-75">
-                        {/* <select value={selectedOppBarRace}
-                                onChange={(e) => handleOppBarRaceChange(e.target.value)}>
-                            <option value="white">Caucasian</option>
-                            <option value="black">African American</option>
-                        </select> */}
-                        <select value={selectedOppBarEnsemble}
-                                onChange={(e) => handleOppBarEnsembleChange(e.target.value)}>
-                            <option value={250}>Small Ensemble - 250 Plans</option>
-                            <option value={5000}>Large Ensembles - 5,000 Plans</option>
-                        </select>
-                        <select value={selectedOppBarThreshold}
-                                onChange={(e) => handleOppBarThresholdChange(e.target.value)}>
-                            <option value="t37">District Plan at .37 Threshold
-                            </option>
-                            <option value="t5">District Plan at .5 Threshold
-                            </option>
-                            <option value="t44"> District Plan at .44 Threshold
-
-                            </option>
-                        </select>
-                        <OpportunityDistrictBarChart state={fullName[currState]} race={"black"}
-                                                     threshold={selectedOppBarThreshold}
-                                                     ensemble={selectedOppBarEnsemble}/>
-                    </div>
-                </div>)}
                 {/* TODO Fix Height & text formatting */}
                 {currTab == "summary" &&
-                    <div className="d-flex flex-row h-50 overflow-hidden">
-                        <div className="justify-content-left h-100" style={{width: "60%"}}>
+                    <div className="d-flex flex-row h-50 overflow-hidden" >
+                        <div className="justify-content-left h-100" style={{width: "60%", cursor:"pointer"}} data-toggle="tooltip" data-placement="top" 
+                        title="Click for election information" onClick={() => setCurrTab("analysis")}>
                             <StateDataSummary state={fullName[currState]}/>
                         </div>
                         <div className="w-100 h-100" style={{borderStyle: "solid"}}>

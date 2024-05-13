@@ -55,13 +55,14 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     const data = tableData
     const capitalizeFirstLetter = (string) => {
         let real;
+        console.log(string);
         if(string === "DEMOCRAT") {
             real = "Democratic"
-            return real
+            return real;
         }
         if(string === "african american") {
             real = "African American"
-            return real
+            return real;
         }
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     };
@@ -243,18 +244,38 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             }
         });
     };
+
     const ai = {
-        "ALABAMA": {"white": 63, "asian": 6, "middle eastern": 2, "indian": 1, "black": 25, "latino hispanic": 8, "Difference": 42,},
-        "DELAWARE": {"black": 10, "white": 24,  "latino hispanic": 4, "indian": 1, "middle eastern": 2, "Difference": 12}
+        "ALABAMA": {"White": 63, "Asian": 6, "Middle Eastern": 2, "Indian": 1, "Black": 25, "Latino Hispanic": 8},
+        "DELAWARE": {"White": 24, "Asian": 0, "Middle Eastern": 2, "Indian": 1, "Black": 10, "Latino Hispanic": 4}
+    };
+    const actual = {
+        "ALABAMA": {"White": 78, "Asian": 0, "Middle Eastern": 0, "Indian": 0, "Black": 27, "Latino Hispanic": 0},
+        "DELAWARE": {"White": 30, "Asian": 1, "Middle Eastern": 0, "Indian": 0, "Black": 10, "Latino Hispanic": 0}
+    };
+    const diff = {
+        "ALABAMA": 42,
+        "DELAWARE": 12,
     }
     const renderPredictedRaces = () => {
         if (ai[state]) {
             const predictedRaces = Object.entries(ai[state]).map(([race, count]) => (
-                <div key={race} style={{ marginRight: '10px' }}> {race}: {count}</div>
+                <div key={race}>{race}: {count}</div>
+            ));
+            const actualRaces = Object.entries(actual[state]).map(([race, count]) => (
+                <div key={race}>{race}: {count}</div>
             ));
             return (
-                <div style = {{display: 'flex'}}>
-                    <strong>AI Predicted Races: </strong> {predictedRaces}
+                <div>
+                    <div className="d-flex flex-row justify-content-between" style = {{fontSize: "14px", padding: "5px"}}>
+                        <div className="fw-bold">Expected Race Distribution: </div> {predictedRaces}
+                    </div>
+                    <div className="d-flex flex-row justify-content-between" style = {{fontSize: "14px", padding: "5px"}}>
+                        <div className="fw-bold">Actual Race Distribution: </div> {actualRaces}
+                    </div>
+                    <div className="d-flex flex-row justify-content-left" style = {{fontSize: "14px", padding: "5px"}}>
+                        <div><span className="fw-bold">Difference: </span><span> {diff[state]}</span></div>
+                    </div>
                 </div>
             );
         }
@@ -263,6 +284,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
 
     return (
         <div className="w-100">
+            <div className="fw-bold" style={{fontSize:"22px"}}>{state.charAt(0) + state.slice(1).toLowerCase()} State Representatives</div>
             <select value={selectedFilter} onChange={handleFilterChange}>
                 <option value="">All</option>
                 <option value="African American">African American</option>
@@ -274,7 +296,6 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
                 columns={columns}
                 data={filteredData}
                 customStyles={customStyles}
-                title="State Representatives"
                 onRowClicked={(row, event) => handleClick(row.district)}
                 pointerOnHover
             />

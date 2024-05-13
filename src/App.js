@@ -80,7 +80,7 @@ const barOptionsAlabama = {
         x: {
             title: {
                 display: true,
-                text: "Race: Representation (%) and Population (%)"
+                text: "Race: Representation (%, Left) and Population (%, Right)"
             },
             labels: ['Caucasian', 'African American'],
             ticks: {

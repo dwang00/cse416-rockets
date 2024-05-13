@@ -155,7 +155,7 @@ function OpportunityDistrictTable({state, race, ensemble, threshold}) {
     };
 */
     return (
-        <div className = "w-100" >
+        <div className = "h-100 w-100" >
             <DataTable
                 columns={columns}
                 data={data}

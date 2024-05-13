@@ -22,16 +22,16 @@ public class OppDistBins {
     @Field("t5")
     private Object t5;
 
-    @Field("t6")
-    private Object t6;
+    @Field("t44")
+    private Object t44;
 
-    public OppDistBins(String id, State state, int ensemble, Object t37, Object t5, Object t6) {
+    public OppDistBins(String id, State state, int ensemble, Object t37, Object t5, Object t44) {
         this.id = id;
         this.state = state;
         this.ensemble = ensemble;
         this.t37 = t37;
         this.t5 = t5;
-        this.t6 = t6;
+        this.t44 = t44;
     }
 
     public String getId() {
@@ -74,11 +74,11 @@ public class OppDistBins {
         this.t5 = t5;
     }
 
-    public Object getT6() {
-        return t6;
+    public Object getT44() {
+        return t44;
     }
 
-    public void setT6(Object t6) {
-        this.t6 = t6;
+    public void setT44(Object t44) {
+        this.t44 = t44;
     }
 }

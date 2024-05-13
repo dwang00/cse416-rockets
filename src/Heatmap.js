@@ -34,7 +34,7 @@ function HeatMap(props) {
 
     const center_locations = {
         "al": [32.655, -86.66],
-        "de": [39.15,-75.439787]
+        "de": [39.13, -75.439787]
     }
     const default_zoom = {"al":6.5, "de":8.5}
 
@@ -148,7 +148,6 @@ function HeatMap(props) {
     };
 
     const handleClick = (id) => {
-        // console.log(id);
         props.setCurrDistrict(id);
     };
 
@@ -199,9 +198,9 @@ function HeatMap(props) {
             </div>
             {props.isDensity &&
             <div className="position-absolute bottom-0 justify-content-center" 
-                style={{zIndex:"1000", padding: "3px", height: "150px", width: "100px"}}>
-                <div className="d-flex flex-row" style={{fontSize: "12px"}}>
-                    <div className="d-flex flex-column w-25" style={{borderStyle:"solid", border:"1px"}}>
+                style={{zIndex:"1000", padding: "3px", height: "160px", width: "80px", borderStyle:"solid", backgroundColor:"white"}}>
+                <div className="d-flex flex-row" style={{fontSize: "10px"}}>
+                    <div className="d-flex flex-column w-25" style={{borderStyle:"solid", borderWidth:"1px"}}>
                         <div style={{height:"10%", backgroundColor:"#4f1e8b"}}></div>
                         <div style={{height:"10%", backgroundColor:"#603f9a"}}></div>
                         <div style={{height:"10%", backgroundColor:"#7261ac"}}></div>
@@ -267,7 +266,7 @@ function HeatMap(props) {
                         })}
                         onEachFeature={(feature, layer) => {
                             layer.on({
-                                click: () => {handleClick(feature.properties["DISTRICT_N"]); console.log(feature); layer.bringToFront();}
+                                click: () => {handleClick(feature.properties["DISTRICT_N"]); layer.bringToFront();}
                             });
                         }}
                     />}

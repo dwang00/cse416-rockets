@@ -30,28 +30,29 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             name: 'Image',
             selector: 'img',
             id: 'img',
+            width: "12%",
             cell: row => (
                 <div
                     style={{
                         position: 'relative',
-                        overflow: 'hidden',
-                        width: '50px',
+                        // overflow: 'hidden',
+                        width: '40px',
                         height: '50px',
                         borderRadius: '50%',
                         transition: 'width 0.3s, height 0.3s'
                     }}
                     onMouseEnter={(e) => {
-                        e.target.style.width = '100px';
+                        e.target.style.width = '80px';
                         e.target.style.height = '100px';
-                        e.target.parentElement.style.width = '100px';
+                        e.target.parentElement.style.width = '80px';
                         e.target.parentElement.style.height = '100px';
 
                     }}
                     onMouseLeave={(e) => {
-                        e.target.style.width = '50px';
+                        e.target.style.width = '40px';
                         e.target.style.height = '50px';
 
-                        e.target.parentElement.style.width = '50px';
+                        e.target.parentElement.style.width = '40px';
                         e.target.parentElement.style.height = '50px';
                     }}
                     onClick={() => handleClick(row.district)}
@@ -86,7 +87,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             id: 'district',
             sortable: true,
             right: true,
-            width: "89px",
+            width: "11%",
             cell: row => <div style={{ textAlign: "center" }}>{row.district}</div>
         },
         {
@@ -94,7 +95,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             selector: 'party',
             id: 'party',
             sortable: true,
-            width: "140px",
+            width: "12%",
             cell: row => capitalizeFirstLetter(row.party), // Capitalize the first letter and convert the rest to lowercase
         },
         {
@@ -102,7 +103,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             selector: 'races',
             id: 'races',
             sortable: true,
-            width: "150px",
+            width: "16%",
             cell: row => capitalizeFirstLetter(row.races[0]), // Capitalize the first letter and convert the rest to lowercase
 
         },
@@ -112,7 +113,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             id: 'margin',
             sortable: true,
             right: true,
-            width: "140px"
+            width: "16%"
         },
     ];
 
@@ -195,7 +196,6 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     // };
 
     const handleClick = (row) => {
-        console.log(row);
         setCurrDistrict(row);
         map.eachLayer((layer) => {
             if (layer.feature && layer.feature.properties["DISTRICT_N"] === row) {
@@ -204,17 +204,36 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
         });
     };
     const ai = {
-        "ALABAMA": {"white": 63, "asian": 6, "middle eastern": 2, "indian": 1, "black": 25, "latino hispanic": 8, "Difference": 42,},
-        "DELAWARE": {"black": 10, "white": 24,  "latino hispanic": 4, "indian": 1, "middle eastern": 2, "Difference": 12}
+        "ALABAMA": {"White": 63, "Asian": 6, "Middle Eastern": 2, "Indian": 1, "Black": 25, "Latino Hispanic": 8},
+        "DELAWARE": {"White": 24, "Asian": 0, "Middle Eastern": 2, "Indian": 1, "Black": 10, "Latino Hispanic": 4}
+    };
+    const actual = {
+        "ALABAMA": {"White": 78, "Asian": 0, "Middle Eastern": 0, "Indian": 0, "Black": 27, "Latino Hispanic": 0},
+        "DELAWARE": {"White": 30, "Asian": 1, "Middle Eastern": 0, "Indian": 0, "Black": 10, "Latino Hispanic": 0}
+    };
+    const diff = {
+        "ALABAMA": 42,
+        "DELAWARE": 12,
     }
     const renderPredictedRaces = () => {
         if (ai[state]) {
             const predictedRaces = Object.entries(ai[state]).map(([race, count]) => (
-                <div key={race} style={{ marginRight: '10px' }}> {race}: {count}</div>
+                <div key={race}>{race}: {count}</div>
+            ));
+            const actualRaces = Object.entries(actual[state]).map(([race, count]) => (
+                <div key={race}>{race}: {count}</div>
             ));
             return (
-                <div style = {{display: 'flex'}}>
-                    <strong>AI Predicted Races: </strong> {predictedRaces}
+                <div>
+                    <div className="d-flex flex-row justify-content-between" style = {{fontSize: "14px", padding: "5px"}}>
+                        <div className="fw-bold">DeepFace Expected Race Distribution: </div> {predictedRaces}
+                    </div>
+                    <div className="d-flex flex-row justify-content-between" style = {{fontSize: "14px", padding: "5px"}}>
+                        <div className="fw-bold">Actual Race Distribution: </div> {actualRaces}
+                    </div>
+                    <div className="d-flex flex-row justify-content-left" style = {{fontSize: "14px", padding: "5px"}}>
+                        <div><span className="fw-bold">Difference: </span><span> {diff[state]}</span></div>
+                    </div>
                 </div>
             );
         }
@@ -223,12 +242,12 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
 
     return (
         <div className = "w-100">
+            <span className="fw-bold" style={{fontSize: "20px"}}>{state.charAt(0) + state.slice(1).toLowerCase()} State Representatives</span>
             <DataTable
                 columns={columns}
                 data={data}
                 // pagination
                 customStyles = {customStyles}
-                title={"State Representatives"}
                 onRowClicked={(row, event) => handleClick(row.district)}
                 pointerOnHover
             />

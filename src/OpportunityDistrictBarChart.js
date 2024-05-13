@@ -19,7 +19,7 @@ function OpportunityDistrictBarChart({ state, race, ensemble, threshold}) {
             .catch(error => {
                 console.error("Error fetching data:", error)
             })
-    }, [])
+    }, [state, race, ensemble, threshold])
     console.log(oppDistrictsData)
     const oppData = {
         labels: Array.from({ length: 41 }, (_, i) => i + 1), // Assuming you have 40 data points
@@ -47,7 +47,7 @@ function OpportunityDistrictBarChart({ state, race, ensemble, threshold}) {
             y: {
                 title: {
                     display: true,
-                    text: "Number of ensembles"
+                    text: "Number of District Plans"
                 },
                 ticks: {
                     beginAtZero: true

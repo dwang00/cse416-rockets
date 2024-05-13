@@ -165,7 +165,7 @@ function StateDataSummary({ state }) {
             sortable: true,
             wrap: true,
             style: {
-                textAlign: 'left'
+                textAlign: 'left',
             }
         },
         ...uniqueKeys.map(key => ({
@@ -188,7 +188,8 @@ function StateDataSummary({ state }) {
         wrap: true,
         width: '75%',
         style: {
-            textAlign: "left"
+            textAlign: "left",
+            fontWeight: 'bold'
         }
     });
     // Construct data

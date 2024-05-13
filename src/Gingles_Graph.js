@@ -27,8 +27,8 @@ function Gingles_Graph(props) {
                         console.log(data);
                         if(state === "DELAWARE" ) {
                             console.log("WHY WHY WHY")
-                            setDemCan("Lisa Blunt Rochester")
-                            setRepCan("Lee Murphy")
+                            setDemCan("Lisa Blunt Rochester (Democratic)")
+                            setRepCan("Lee Murphy (Republican) ")
                             if(race==='caucasian') {
                                 setScatterDataDem(data[2].dataPoints);
                                 setScatterDataRep(data[3].dataPoints);
@@ -45,8 +45,8 @@ function Gingles_Graph(props) {
                         else if(state === "ALABAMA") {
                             console.log("YOOOOOOOOOOOOOOOOOOOOOOO")
                             console.log(data)
-                            setDemCan("")
-                            setRepCan("")
+                            setDemCan("Yolanda Rochelle Flowers (Democratic)")
+                            setRepCan("Kay Ivey (Republican)")
                             if(race === 'caucasian') {
                                 setScatterDataDem(data[2].dataPoints);
                                 setScatterDataRep(data[3].dataPoints);
@@ -149,7 +149,6 @@ function Gingles_Graph(props) {
             scatterDataCopy.datasets.push(curveDem);
             scatterDataCopy.datasets.push(curveRep);
             setScatterData(scatterDataCopy);
-            console.log("hopeojfeawiofa")
         }
     }, [scatterDataDem, scatterDataRep, demCoefficients, repCoefficients])
     const scatterOptions = {
@@ -168,13 +167,14 @@ function Gingles_Graph(props) {
             },
             y: {
                 beginAtZero: true,
+                min:0,
                 title: {
                     display: true,
-                    text: 'Vote Share',
+                    text: 'Vote Share (%)',
                     color: "#000000"
                 },
                 ticks: {
-                    stepSize: 20,
+                    stepSize: .1,
                     color: "#000000"
                 },
             },

@@ -108,8 +108,7 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                     (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
                         opportunity district map
                         <div>
-                            {geoJsons && <HeatMap race='white' map={map} isDensity={isDensity} setIsDensity={setIsDensity} setMap={setMap}
-                                     state={currState} my_json={geoJsons[currState]} mode='default' currDistrict={currDistrict} setCurrDistrict={setCurrDistrict}/>}
+
                         </div>
                     </div>)}
                 {currTab == "plans" && (<div className="w-100 h-100">
@@ -122,8 +121,8 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                             </select>
                             <select value={selectedGerrymanderingEnsemble}
                                     onChange={(e) => handleGerrymanderingEnsembleChange(e.target.value)}>
-                                <option value={250}>Small Ensemble</option>
-                                <option value={5000}>Large Ensembles</option>
+                                <option value={250}>Ensemble - 250</option>
+                                <option value={5000}>Ensemble - 5000</option>
                             </select>
                             <select value={selectedGerrymanderingPoints} onChange={(e) => handleGerrymanderingPointsChange(e.target.value)}>
                                 {selectedGerrymanderingRace === "white" ? (
@@ -351,21 +350,40 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                 {currTab == "districts" && (<div className="w-100 h-100" style={{borderStyle: 'solid'}}>
                     opportunity district bar chart
                     <div>
-                        <OpportunityDistrictBarChart state = {fullName[currState]} race = {selectedOppBarRace} threshold={selectedOppBarThreshold} ensemble={selectedOppBarEnsemble}/>
+                        <select value={selectedOppBarRace}
+                                onChange={(e) => handleOppBarRaceChange(e.target.value)}>
+                            <option value="white">Caucasian</option>
+                            <option value="black">African American</option>
+                        </select>
+                        <select value={selectedOppBarEnsemble}
+                                onChange={(e) => handleOppBarEnsembleChange(e.target.value)}>
+                            <option value={250}>Small Ensemble</option>
+                            <option value={5000}>Large Ensembles</option>
+                        </select>
+                        <select value={selectedOppBarThreshold}
+                                onChange={(e) => handleOppBarThresholdChange(e.target.value)}>
+                            <option value="t37">District plan at .37 threshold
+                            </option>
+                            <option value="t5">District plan at .5 threshold
+                            </option>
+                        </select>
+                        <OpportunityDistrictBarChart state={fullName[currState]} race={selectedOppBarRace}
+                                                     threshold={selectedOppBarThreshold}
+                                                     ensemble={selectedOppBarEnsemble}/>
                     </div>
                 </div>)}
                 {/* TODO Fix Height & text formatting */}
-                {currTab == "summary" && 
-                <div className="d-flex flex-row h-50 overflow-hidden">
-                    <div className="justify-content-left h-100" style={{width: isDensity ? "60%" : "100%"}}>
-                        <StateDataSummary state={fullName[currState]} />
-                    </div>
-                    {isDensity && 
-                        <div className="w-100 h-100" style={{borderStyle: "solid"}}>
-                            {React.createElement(components[0].type, { ...components[0].props })}
+                {currTab == "summary" &&
+                    <div className="d-flex flex-row h-50 overflow-hidden">
+                        <div className="justify-content-left h-100" style={{width: isDensity ? "60%" : "100%"}}>
+                            <StateDataSummary state={fullName[currState]}/>
                         </div>
-                    }
-                </div>
+                        {isDensity &&
+                            <div className="w-100 h-100" style={{borderStyle: "solid"}}>
+                                {React.createElement(components[0].type, {...components[0].props})}
+                            </div>
+                        }
+                    </div>
                 }
             </div>
         </div>

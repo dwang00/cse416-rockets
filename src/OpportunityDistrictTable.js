@@ -11,14 +11,7 @@ function OpportunityDistrictTable({state, race, ensemble, threshold}) {
         fetch(`http://localhost:8080/oppDistrictsByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                console.log("hi i eo;fjiaw0wae9fijowkmal")
-                if(ensemble==="250") {
-                    setTableData(data[0][threshold][race])
-                }
-                else {
-                    setTableData(data[1][threshold][race])
-                }
+                setTableData(data);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -27,7 +20,7 @@ function OpportunityDistrictTable({state, race, ensemble, threshold}) {
     if (!tableData) {
         return <div>Loading...</div>;
     }
-    const data = tableData.splice(2)
+    const data = tableData
     console.log(data)
     console.log("yowareafew")
     const columns = [
@@ -40,8 +33,8 @@ function OpportunityDistrictTable({state, race, ensemble, threshold}) {
             },
         },
         {
-            name: 'Minority Population',
-            selector: 'name',
+            name: 'African American Population',
+            selector: 'aapop',
             id: 'name',
             sortable: true,
             style: {
@@ -49,8 +42,8 @@ function OpportunityDistrictTable({state, race, ensemble, threshold}) {
             },
         },
         {
-            name: 'District',
-            selector: 'district',
+            name: 'Caucasian Population',
+            selector: 'whitepop',
             id: 'district',
             sortable: true,
             style: {

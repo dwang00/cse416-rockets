@@ -78,11 +78,12 @@ function Gingles_Graph(props) {
                     console.log("yOOOOOOOOOOOOOOO")
                     console.log('DO I GET HERE')
                     console.log(data)
-                    if(state === "DELAWARE" ) {
-                        setTableData(data)
-                    }
-                    else if(state === "ALABAMA") {
-                        setTableData(data)
+                    const modifiedData = data.map((item, index) => ({
+                        ...item,
+                        precinct: `${index + 1}`, // Assign a precinct name based on the index
+                    }));
+                    if(state === "DELAWARE" || state === "ALABAMA") {
+                        setTableData(modifiedData);
                     }
                 })
                 .catch(error => {
@@ -303,11 +304,20 @@ function Gingles_Graph(props) {
     if (!scatterData || !demCoefficients || !repCoefficients) {
         return <div>Loading...</div>;
     }
-
     const numberWithCommas = (x) => {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
     const columns = [
+        {
+            name: 'Precinct',
+            selector: 'precinct', // Change 'precinct' to the appropriate property name from your data
+            id: 'precinct',
+            sortable: true,
+            right: true,
+            width: "95px",
+            cell: row => row.precinct || "Unknown", // If 'precinct' data doesn't exist, display "Unknown"
+
+        },
         {
             name: 'Total Population',
             selector: 'POPULATION',

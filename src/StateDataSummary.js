@@ -133,11 +133,43 @@ function StateDataSummary({ state }) {
         return transformedData;
     }
 
-
+    const capitalizeFirstLetter = (string) => {
+        let real;
+        if(string === "Voter Distribution - democrat") {
+            real = "Voter Distribution - Democratic";
+        } else if(string === "Voter Distribution - republican") {
+            real = "Voter Distribution - Republican";
+        }
+        else if(string === "State Reps Race Distribution - caucasian") {
+            real = "State Reps Race Distribution - Caucasian";
+        } else if(string === "State Reps Race Distribution - african American") {
+            real = "State Reps Race Distribution - African American";
+        } else if(string === "State Reps Race Distribution - asian") {
+            real = "State Reps Race Distribution - Asian";
+        }
+        else if(string === "State Reps Party Distribution - democrat") {
+            real = "State Reps Party Distribution - Democratic"
+        }
+        else if(string === "State Reps Party Distribution - republican") {
+            real = "State Reps Party Distribution - Republican"
+        }
+        else if(string === "Caucasian Pop") {
+            real = "Caucasian Population"
+        }
+        else if(string === "African American Pop") {
+            real = "African American Population"
+        }
+        else {
+            real =string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+        return real;
+    };
 
     const newData = flattenObject(tableData[0]);
 
     const finalData = transformData(newData)
+    finalData.forEach(object =>
+        object.attribute = capitalizeFirstLetter(object.attribute))
 
     const transposedData = finalData.map(item => ({
         attribute: item.attribute,

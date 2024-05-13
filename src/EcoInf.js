@@ -153,11 +153,11 @@ const EcoInf = ({ state, election }) => {
 
     return (
         <div className='d-flex flex-column w-100 h-100'>
-            <div className="" style={{ marginBottom: '0px', height:"33%", borderStyle:"solid"}}>
-                <svg ref={svgRef1} width={700} height={180}></svg>
+            <div className="" style={{ marginBottom: '0px', height:"63%", borderStyle:"solid"}}>
+                <svg ref={svgRef1} width={740} height={340}></svg>
             </div>
-            <div style={{ marginBottom: '0px', height:"33%", borderStyle:"solid"}}>
-                <svg ref={svgRef2} width={700} height={180}></svg>
+            <div style={{ marginBottom: '0px', height:"63%", borderStyle:"solid"}}>
+                <svg ref={svgRef2} width={740} height={340}></svg>
             </div>
         </div>
     );

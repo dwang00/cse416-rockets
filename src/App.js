@@ -50,12 +50,14 @@ function App() {
         fetch('http://localhost:8080/get_racedata/byState?state=ALABAMA')
             .then(response => response.json())
             .then(data => {
-                setAlBarData([data[0].raceCount.caucasian, data[0].raceCount.africanAmerican]);
+                setAlBarData([data[0].raceCount.caucasian/105, data[0].raceCount.africanAmerican/105]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
     }, []);
+    const delawarePop = [693232/1019459, 242631/1019459, 0]
+    const alabamaPop = [3495919/5073903, 1359806/5073903]
     const barDataAlabama = {
         labels: ['Caucasian', 'African American'],
         datasets: [
@@ -65,20 +67,31 @@ function App() {
                 backgroundColor: ['blue', 'green'],
                 borderWidth: 1,
             },
+            {
+                data: alabamaPop,
+                backgroundColor: ['orange', 'yellow'],
+                borderWidth: 1
+            }
         ],
     };
 const barOptionsAlabama = {
     maintainAspectRatio: false,
     scales: {
         x: {
-            indexAxis: 'Ethnicity',
+            title: {
+                display: true,
+                text: "Race: Representation (%) and Population (%)"
+            },
             labels: ['Caucasian', 'African American'],
             ticks: {
                 // color: "#f00840"
             }
         },
         y: {
-            indexAxis: 'Number of Representatives',
+            title: {
+                display: true,
+                text: "Ethnicity (%)"
+            },
             beginAtZero: true,
             ticks: {
                 // color: "#f00840"
@@ -109,110 +122,7 @@ const barOptionsAlabama = {
     },
 };
 
-    const scatterDataAlabama = {
-        datasets: [
-            {
-                label: 'Will Boyd',
-                //const generateDataset = (length, minX, maxX, minY, maxY, slope, intercept, noise) => {
 
-                data: generateDataset(400,0, 1, 0, 1, .48, .19, .12),
-                backgroundColor: 'rgba(75, 192, 192, 1)',
-            },
-            {
-                label: 'Katie Britt',
-                data: generateDataset(168,0, 1, 0, 1, -.18, .73, .15),
-                backgroundColor: 'rgba(255, 99, 132, 1)',
-            },
-        ],
-    };
-    const scatterOptionsAlabama = {
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                title: {
-                    display: true,
-                    text: 'Percent African American',
-                    // color: "#f00840"
-                },
-                ticks: {
-                    // color: "#f00840"
-                }
-            },
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Vote Share',
-                    // color: "#f00840"
-                },
-                ticks: {
-                    stepSize: 20,
-                    // color: "#f00840"
-                },
-            },
-        },
-        plugins: {
-            title: {
-                display: true,
-                text: "2022 Boyd v Britt",
-                font: {
-                    size: 20
-                },
-                // color: "#f00840"
-            },
-            legend: {
-                labels: {
-                    // color: "#f00840"
-                }
-            }
-        }
-    };
-    // opportunity districts for delaware
-    const [oppDistrictsDe, setOppDistrictsDe] = useState(null);
-    useEffect(() => {
-        fetch()
-            .then(response => response.json)
-            .then(data => {
-                setOppDistrictsDe(data)
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error)
-            })
-    }, [])
-    const oppDataDe = {
-        labels: Array.from({ length: 41 }, (_, i) => i + 1), // Assuming you have 40 data points
-        datasets: [
-            {
-                label: 'White',
-                backgroundColor: 'rgba(75,192,192,0.2)',
-                borderColor: 'rgba(75,192,192,1)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(75,192,192,0.4)',
-                hoverBorderColor: 'rgba(75,192,192,1)',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 18, 57, 73, 63, 32, 4, 0, 3, 35, 85, 93, 32, 1, 7, 36, 115, 77, 15, 1, 0]
-            }
-        ]
-    };
-    const optionsOppDe = {
-        maintainAspectRatio: false,
-        scales: {
-            xAxes: [{
-                scaleLabel: {
-                    display: true,
-                    labelString: 'District'
-                }
-            }],
-            yAxes: [{
-                scaleLabel: {
-                    display: true,
-                    labelString: '# of partitions where we found the opportunity district'
-                },
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    };
     //DELAWARE STUFF ***********************************************************
     const [deBarData, setDeBarData]= useState(null);
     useEffect(() => {
@@ -220,8 +130,8 @@ const barOptionsAlabama = {
             .then(response => response.json())
             .then(data => {
                 // Set the fetched data to the state
-                setDeBarData([data[0].raceCount.caucasian,data[0].raceCount.africanAmerican,
-                    data[0].raceCount.asian]);
+                setDeBarData([data[0].raceCount.caucasian/41,data[0].raceCount.africanAmerican/41,
+                    data[0].raceCount.asian/41]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -236,6 +146,11 @@ const barOptionsAlabama = {
                 backgroundColor: ['blue', 'green', 'red'],
                 borderWidth: 1,
             },
+            {
+                data: delawarePop,
+                backgroundColor: ['orange', 'yellow'],
+                borderWidth: 1
+            }
         ],
     };
 
@@ -244,14 +159,20 @@ const barOptionsDelaware = {
     maintainAspectRatio: false,
     scales: {
         x: {
-            indexAxis: 'Ethnicity',
+            title: {
+                display: true,
+                text: "Race: Representation (%) and Population (%)"
+            },
             labels: ['Caucasian', 'African American', 'Asian'],
             ticks: {
                 // color: "#f00840"
             }
         },
         y: {
-            indexAxis: 'Number of Representatives',
+            title: {
+                display: true,
+                text: "Ethnicity (%)"
+            },
             beginAtZero: true,
             ticks: {
                 // color: "#f00840"

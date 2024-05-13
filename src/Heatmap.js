@@ -118,16 +118,21 @@ function HeatMap(props) {
     // }, [selectedRows, props.state]);
     const [race, setRace] = useState("white");
 
+    const colors = ['#fcfbfd', '#f2f0f7', '#e2e1ef', '#cecee5', '#b6b5d8', '#9d99c8', '#8582bc', '#7261ac', '#603f9a', '#4f1e8b'];
+
     function getColor(feature){
         if (!props.isDensity){
-            return "#f00840"; //tab20[feature.id%20]
+            return "blue"; //tab20[feature.id%20]
         }
 
         if (race === 'white'){
-            return purplesColors[Math.floor(feature.properties.white_density * purplesColors.length)]
+            // console.log(Math.floor(feature.properties.white_density *  10));
+            // return purplesColors[Math.floor(feature.properties.white_density * purplesColors.length / 10) * 10]
+            return colors[Math.floor(feature.properties.white_density *  10)];
         }
         else if(race === 'black'){
-            return purplesColors[Math.floor(feature.properties.black_density * purplesColors.length)]
+            // return purplesColors[Math.floor(feature.properties.black_density * purplesColors.length / 10) * 10]
+            return colors[Math.floor(feature.properties.black_density *  10)];
         }else{
             return purplesColors[Math.floor(feature.properties.area_density * purplesColors.length)]
         }
@@ -194,14 +199,38 @@ function HeatMap(props) {
             </div>
             {props.isDensity &&
             <div className="position-absolute bottom-0 justify-content-center" 
-                style={{zIndex:"1000", padding: "3px", height: "150px",}}>
-                <div className="d-flex flex-row">
-                    <div className="legend" style={{height: "130px", width: "10px"}}></div>
+                style={{zIndex:"1000", padding: "3px", height: "150px", width: "100px"}}>
+                <div className="d-flex flex-row" style={{fontSize: "12px"}}>
+                    <div className="d-flex flex-column w-25" style={{borderStyle:"solid", border:"1px"}}>
+                        <div style={{height:"10%", backgroundColor:"#4f1e8b"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#603f9a"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#7261ac"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#8582bc"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#9d99c8"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#b6b5d8"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#cecee5"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#e2e1ef"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#f2f0f7"}}></div>
+                        <div style={{height:"10%", backgroundColor:"#fcfbfd"}}></div>
+                    </div>
+                    <div className="d-flex flex-column text-left w-75">
+                        <div>90-100%</div>
+                        <div>80-90%</div>
+                        <div>70-80%</div>
+                        <div>60-70%</div>
+                        <div>50-60%</div>
+                        <div>40-50%</div>
+                        <div>30-40%</div>
+                        <div>20-30%</div>
+                        <div>10-20%</div>
+                        <div>0-10%</div>
+                    </div>
+                    {/* <div className="legend" style={{height: "130px", width: "10px"}}></div>
                     <div className="d-flex flex-column" style={{height: "150px", width: "30px", fontSize: "12px", paddingRight: "3px"}}>
                         <div style={{textAlign: "right"}}>100%</div>
                         <div style={{marginTop: "40px", textAlign: "right"}}>50%</div>
                         <div style={{marginTop: "44px", textAlign: "right"}}>0%</div>
-                    </div>
+                    </div> */}
                 </div>
             </div>}
             <MapContainer center={center_locations[props.state]}

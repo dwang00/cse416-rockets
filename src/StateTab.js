@@ -325,7 +325,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
             {/* </div> */}
             <div className="justify-content-right d-flex flex-column w-100 h-100" >
                 {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle:"solid"}}>
-                    ecological inference
+                    <div className= "fw-bold" style={{height:"5%", fontSize: "21px"}}>Ecological Inference</div>
+                    <div style={{height: "5%"}}>
                     <select value={selectedEcoInfOption} onChange={(e) => handleEcoInfOptionChange(e.target.value)}>
                         <option value="Presidential">Presidential</option>
                         {fullName[currState] === "ALABAMA" ? (
@@ -334,7 +335,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                             <option value="RepInCongress">Representative in Congress</option>
                         )}
                     </select>
-                    <div className="w-100" style={{height:"96%"}}>
+                    </div>
+                    <div className="w-100" style={{height:"90%"}}>
                         <EcoInf state={fullName[currState]}
                                 election= {selectedEcoInfOption}
                                 width={window.innerWidth * 0.8}

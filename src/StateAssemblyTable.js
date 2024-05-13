@@ -68,28 +68,29 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             name: 'Image',
             selector: 'img',
             id: 'img',
+            width: "11%",
             cell: row => (
                 <div
                     style={{
                         position: 'relative',
                         overflow: 'hidden',
-                        width: '50px',
+                        width: '40px',
                         height: '50px',
                         borderRadius: '50%',
                         transition: 'width 0.3s, height 0.3s'
                     }}
                     onMouseEnter={(e) => {
-                        e.target.style.width = '100px';
+                        e.target.style.width = '80px';
                         e.target.style.height = '100px';
-                        e.target.parentElement.style.width = '100px';
+                        e.target.parentElement.style.width = '80px';
                         e.target.parentElement.style.height = '100px';
 
                     }}
                     onMouseLeave={(e) => {
-                        e.target.style.width = '50px';
+                        e.target.style.width = '40px';
                         e.target.style.height = '50px';
 
-                        e.target.parentElement.style.width = '50px';
+                        e.target.parentElement.style.width = '40px';
                         e.target.parentElement.style.height = '50px';
                     }}
                     onClick={() => handleClick(row.district)}
@@ -124,7 +125,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             id: 'district',
             sortable: true,
             right: true,
-            width: "89px",
+            width: "11%",
             cell: row => <div style={{ textAlign: "center" }}>{row.district}</div>
         },
         {
@@ -132,7 +133,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             selector: 'party',
             id: 'party',
             sortable: true,
-            width: "140px",
+            width: "11%",
             cell: row => capitalizeFirstLetter(row.party), // Capitalize the first letter and convert the rest to lowercase
         },
         {
@@ -140,7 +141,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             selector: 'races',
             id: 'races',
             sortable: true,
-            width: "150px",
+            width: "16%",
             cell: row => capitalizeFirstLetter(row.races[0]), // Capitalize the first letter and convert the rest to lowercase
 
         },
@@ -150,7 +151,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             id: 'margin',
             sortable: true,
             right: true,
-            width: "140px"
+            width: "16%"
         },
     ];
 

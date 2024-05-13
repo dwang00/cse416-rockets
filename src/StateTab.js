@@ -119,8 +119,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
 
                         </div>
                     </div>)}
-                {currTab == "plans" && (<div className="w-100 h-100">
-                    <div>
+                {currTab == "plans" && (<div className="w-100 h-100 d-flex justify-content-center">
+                    <div style={{height:"5%", padding:"5px"}}>
                             <select value={selectedGerrymanderingRace}
                                     onChange={(e) => handleGerrymanderingRaceChange(e.target.value)}>
                                 <option value="white">Caucasian</option>
@@ -129,7 +129,7 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                             <select value={selectedGerrymanderingEnsemble}
                                     onChange={(e) => handleGerrymanderingEnsembleChange(e.target.value)}>
                                 <option value={250}>Ensemble - 250 plans</option>
-                                <option value={5000}>Ensemble - 5000 plans</option>
+                                <option value={5000}>Ensemble - 5,000 plans</option>
                             </select>
                             <select value={selectedGerrymanderingPoints} onChange={(e) => handleGerrymanderingPointsChange(e.target.value)}>
                                 {selectedGerrymanderingRace === "white" ? (
@@ -222,7 +222,7 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                                                   ensemble={selectedGerrymanderingEnsemble}
 
                                                   style={{display: "inline-block"}}/>,
-                            <select value={selectedGerrymanderingParty}
+                            {/* <select value={selectedGerrymanderingParty}
                                     onChange={(e) => handleGerrymanderingPartyChange(e.target.value)}>
                                 <option value="democratic">Democrat</option>
                                 <option value="republican">Republican</option>
@@ -317,17 +317,17 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                                         </option>
                                     </>
                                 )}
-                            </select>
-                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}2`}
+                            </select> */}
+                        {/* <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}2`}
                                                   typeOfBox={selectedGerrymanderingParty}
                                                   typeOfPoint={selectedGerrymanderingPoints2}
                                                   ensemble={selectedGerrymanderingEnsemble2}
-                                                  style={{display: "inline-block"}}/>,
+                                                  style={{display: "inline-block"}}/>, */}
 
                     </div>
                 </div>)}
             {/* </div> */}
-            <div className="justify-content-right d-flex flex-column w-100 h-100" >
+            {!(currTab == "plans") && <div className="justify-content-right d-flex flex-column w-100 h-100" >
                 {currTab == "analysis" && (<div className="w-100 h-100" style={{borderStyle:"solid"}}>
                     <div className= "fw-bold" style={{height:"5%", fontSize: "21px"}}>Ecological Inference</div>
                     <div style={{height: "5%"}}>
@@ -396,7 +396,7 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                         </div>
                     </div>
                 }
-            </div>
+            </div>}
         </div>
     )
 };

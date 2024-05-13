@@ -62,7 +62,7 @@ function App() {
         labels: ['Caucasian', 'African American'],
         datasets: [
             {
-                label: 'Ethnicity of Alabama House Representatives',
+                // label: 'Ethnicity of Alabama House Representatives',
                 data: alBarData,
                 backgroundColor: ['blue', 'green'],
                 borderWidth: 1,
@@ -115,9 +115,9 @@ const barOptionsAlabama = {
                   size: 20
               },
             },
-            legend: {
-                display: false
-            }
+        },
+        legend: {
+            display: false
         }
     },
 };
@@ -161,7 +161,7 @@ const barOptionsDelaware = {
         x: {
             title: {
                 display: true,
-                text: "Race: Representation (%) and Population (%)"
+                text: "Race: Representation (%, Left) and Population (%, Right)"
             },
             labels: ['Caucasian', 'African American', 'Asian'],
             ticks: {

@@ -16,7 +16,12 @@ function Gingles_Graph(props) {
     const [scatterData, setScatterData] = useState({
         datasets: []
     });
+    const [scatterCurveData, setScatterCurveData] = useState( {
+        datasets: []
+    })
     const [tableData, setTableData] = useState(null)
+    const [voteData, setVoteData] = useState(null)
+    const [seatData, setSeatData] = useState(null)
     console.log(props.race)
     useEffect(() => {
         function fetchGinglesData(state, race) {
@@ -29,13 +34,13 @@ function Gingles_Graph(props) {
                             console.log("WHY WHY WHY")
                             setDemCan("Lisa Blunt Rochester (Democratic)")
                             setRepCan("Lee Murphy (Republican) ")
-                            if(race==='caucasian') {
+                            if(race==='Caucasian') {
                                 setScatterDataDem(data[2].dataPoints);
                                 setScatterDataRep(data[3].dataPoints);
                                 setDemCoefficients(data[2].function);
                                 setRepCoefficients(data[3].function);
                             }
-                            else if(race === 'african american') {
+                            else if(race === 'African American') {
                                 setScatterDataDem(data[0].dataPoints);
                                 setScatterDataRep(data[1].dataPoints);
                                 setDemCoefficients(data[0].function);
@@ -47,13 +52,13 @@ function Gingles_Graph(props) {
                             console.log(data)
                             setDemCan("Yolanda Rochelle Flowers (Democratic)")
                             setRepCan("Kay Ivey (Republican)")
-                            if(race === 'caucasian') {
+                            if(race === 'Caucasian') {
                                 setScatterDataDem(data[2].dataPoints);
                                 setScatterDataRep(data[3].dataPoints);
                                 setDemCoefficients(data[2].function);
                                 setRepCoefficients(data[3].function);
                             }
-                            else if (race === "african american") {
+                            else if (race === "African American") {
                                 setScatterDataDem(data[0].dataPoints);
                                 setScatterDataRep(data[1].dataPoints);
                                 setDemCoefficients(data[0].function);
@@ -73,11 +78,12 @@ function Gingles_Graph(props) {
                     console.log("yOOOOOOOOOOOOOOO")
                     console.log('DO I GET HERE')
                     console.log(data)
-                    if(state === "DELAWARE" ) {
-                        setTableData(data)
-                    }
-                    else if(state === "ALABAMA") {
-                        setTableData(data)
+                    const modifiedData = data.map((item, index) => ({
+                        ...item,
+                        precinct: `${index + 1}`, // Assign a precinct name based on the index
+                    }));
+                    if(state === "DELAWARE" || state === "ALABAMA") {
+                        setTableData(modifiedData);
                     }
                 })
                 .catch(error => {
@@ -85,12 +91,112 @@ function Gingles_Graph(props) {
                 })
 
         }
-        if(props.table === true) {
+        if(props.view === "table") {
             fetchTabularGingles(props.state)
         }
-    }, [props.state, props.race, props.table])
+        function fetchCurve(state, race) {
+            fetch(`http://localhost:8080/shareByState?state=${state}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("yOOOOOOOOOOOOOOO")
+                    console.log('DO I GET HERE')
+                    console.log(data[0].africanamerican.seats)
+                    if(race === "African American") {
+                        setSeatData(data[0].africanamerican.seats)
+                        console.log(data[0].africanamerican.seats)
+                        setVoteData(data[0].africanamerican.votes)
+                        console.log(data[0].africanamerican.votes)
+                    }
+                    else if(race === "Caucasian") {
+                        setSeatData(data[0].caucasian.seats)
+                        console.log(data[0].caucasian.seats)
+                        setVoteData(data[0].caucasian.votes)
+                        console.log(data[0].caucasian.votes)
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                })
+
+        }
+        if(props.view === "curve") {
+            fetchCurve(props.state, props.race)
+        }
+    }, [props.state, props.race, props.view])
     // console.log(scatterDataDem);
     // console.log(scatterDataRep)
+    useEffect(()=> {
+        if(seatData && voteData) {
+            const curveDataCopy = {datasets: []}
+
+            const scatterSeat = {
+                label: "Seat Share (%)",
+                data: scatterDataDem,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                //pointStyle: 'line', // Set the point style to 'line' to make the points invisible
+                //pointRadius: 0, // Set the point radius to 0 to make the points invisible
+                //fill: false,
+                //showLine: true
+            }
+            const scatterVote = {
+                label: "Vote Share (%)",
+                data: scatterDataRep,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                //pointStyle: 'line', // Set the point style to 'line' to make the points invisible
+                //pointRadius: 0, // Set the point radius to 0 to make the points invisible
+                //fill: false,
+                //showLine: true
+            }
+            curveDataCopy.datasets.push(scatterSeat)
+            curveDataCopy.datasets.push(scatterVote)
+            setScatterCurveData(curveDataCopy)
+        }
+    }, [seatData, voteData])
+    const curveOptions = {
+        maintainAspectRatio: false,
+        animation: false,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: `Vote Share (%)`,
+                    color: "#000000"
+                },
+                ticks: {
+                    color: "#000000"
+                }
+            },
+            y: {
+                beginAtZero: true,
+                min:0,
+                title: {
+                    display: true,
+                    text: 'Seat Share (%)',
+                    color: "#000000"
+                },
+                ticks: {
+                    stepSize: .1,
+                    color: "#000000"
+                },
+            },
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: `${props.race} Vote Share v Seat Share`,
+                font: {
+                    size: 20
+                },
+                color: "#000000"
+            },
+            legend: {
+                labels: {
+                    color: "#000000"
+                }
+            }
+        }
+    };
+
     useEffect(() => {
         if(scatterDataDem && scatterDataRep && demCoefficients && repCoefficients) {
             const scatterDataCopy = { datasets: []}
@@ -203,6 +309,16 @@ function Gingles_Graph(props) {
     };
     const columns = [
         {
+            name: 'Precinct',
+            selector: 'precinct', // Change 'precinct' to the appropriate property name from your data
+            id: 'precinct',
+            sortable: true,
+            right: true,
+            width: "95px",
+            cell: row => row.precinct || "Unknown", // If 'precinct' data doesn't exist, display "Unknown"
+
+        },
+        {
             name: 'Total Population',
             selector: 'POPULATION',
             id: 'total_population',
@@ -298,7 +414,7 @@ function Gingles_Graph(props) {
     return (
 
         <div className="w-100" style={{height: "95%", borderStyle:"solid"}}>
-            {props.table ? (
+            {props.view === "table" ? (
                 tableData && (
                     <DataTable
                         columns={columns}
@@ -309,8 +425,10 @@ function Gingles_Graph(props) {
                         dense
                     />
                 )
-            ) : (
+            ) : props.view === "scatter" ? (
                 <Scatter options={scatterOptions} data={scatterData} style={{ display: "inline-block" }} />
+            ) : (
+                <Scatter options={curveOptions} data={scatterCurveData} style={{ display: "inline-block" }} />
             )}
         </div>
 )

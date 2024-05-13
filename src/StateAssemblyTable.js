@@ -5,24 +5,62 @@ import "./App.css";
 function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }) {
 
     const [tableData, setTableData] = useState(null);
+    const [filteredData, setFilteredData] = useState(null); // State to hold filtered data
+    const [selectedFilter, setSelectedFilter] = useState(''); // State to hold selected filter
+
     //const [selectedRows, setSelectedRows] = useState([]);
 
     useEffect( () => {
         fetch(`http://localhost:8080/get_members/membersByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
-                setTableData(data)
+                setTableData(data);
+                setFilteredData(data); // Initialize filteredData with the fetched data
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
     }, [state]);
+
+    useEffect(() => {
+        // Filter data based on selected filter
+        if (selectedFilter === '') {
+            setFilteredData(tableData); // If no filter is selected, display all data
+        } else {
+            const filtered = tableData.filter(row => {
+                if (selectedFilter === 'African American') {
+                    return row.races.includes('african american');
+                } else if (selectedFilter === 'Caucasian') {
+                    return row.races.includes('caucasian');
+                } else if (selectedFilter === 'Democratic') {
+                    return row.party.toLowerCase() === 'democratic';
+                } else if (selectedFilter === 'Republican') {
+                    return row.party.toLowerCase() === 'republican';
+                }
+                return true;
+            });
+            setFilteredData(filtered);
+        }
+    }, [tableData, selectedFilter]);
+
+    const handleFilterChange = (e) => {
+        setSelectedFilter(e.target.value);
+    };
     if (!tableData) {
         return <div>Loading...</div>;
     }
-
     const data = tableData
     const capitalizeFirstLetter = (string) => {
+        let real;
+        console.log(string);
+        if(string === "DEMOCRAT") {
+            real = "Democratic"
+            return real;
+        }
+        if(string === "african american") {
+            real = "African American"
+            return real;
+        }
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     };
     const columns = [
@@ -30,29 +68,28 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             name: 'Image',
             selector: 'img',
             id: 'img',
-            width: "12%",
             cell: row => (
                 <div
                     style={{
                         position: 'relative',
-                        // overflow: 'hidden',
-                        width: '40px',
+                        overflow: 'hidden',
+                        width: '50px',
                         height: '50px',
                         borderRadius: '50%',
                         transition: 'width 0.3s, height 0.3s'
                     }}
                     onMouseEnter={(e) => {
-                        e.target.style.width = '80px';
+                        e.target.style.width = '100px';
                         e.target.style.height = '100px';
-                        e.target.parentElement.style.width = '80px';
+                        e.target.parentElement.style.width = '100px';
                         e.target.parentElement.style.height = '100px';
 
                     }}
                     onMouseLeave={(e) => {
-                        e.target.style.width = '40px';
+                        e.target.style.width = '50px';
                         e.target.style.height = '50px';
 
-                        e.target.parentElement.style.width = '40px';
+                        e.target.parentElement.style.width = '50px';
                         e.target.parentElement.style.height = '50px';
                     }}
                     onClick={() => handleClick(row.district)}
@@ -87,7 +124,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             id: 'district',
             sortable: true,
             right: true,
-            width: "11%",
+            width: "89px",
             cell: row => <div style={{ textAlign: "center" }}>{row.district}</div>
         },
         {
@@ -95,7 +132,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             selector: 'party',
             id: 'party',
             sortable: true,
-            width: "12%",
+            width: "140px",
             cell: row => capitalizeFirstLetter(row.party), // Capitalize the first letter and convert the rest to lowercase
         },
         {
@@ -103,7 +140,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             selector: 'races',
             id: 'races',
             sortable: true,
-            width: "16%",
+            width: "150px",
             cell: row => capitalizeFirstLetter(row.races[0]), // Capitalize the first letter and convert the rest to lowercase
 
         },
@@ -113,7 +150,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             id: 'margin',
             sortable: true,
             right: true,
-            width: "16%"
+            width: "140px"
         },
     ];
 
@@ -196,6 +233,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     // };
 
     const handleClick = (row) => {
+        console.log(row);
         setCurrDistrict(row);
         map.eachLayer((layer) => {
             if (layer.feature && layer.feature.properties["DISTRICT_N"] === row) {
@@ -203,6 +241,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             }
         });
     };
+
     const ai = {
         "ALABAMA": {"White": 63, "Asian": 6, "Middle Eastern": 2, "Indian": 1, "Black": 25, "Latino Hispanic": 8},
         "DELAWARE": {"White": 24, "Asian": 0, "Middle Eastern": 2, "Indian": 1, "Black": 10, "Latino Hispanic": 4}
@@ -226,7 +265,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             return (
                 <div>
                     <div className="d-flex flex-row justify-content-between" style = {{fontSize: "14px", padding: "5px"}}>
-                        <div className="fw-bold">DeepFace Expected Race Distribution: </div> {predictedRaces}
+                        <div className="fw-bold">Expected Race Distribution: </div> {predictedRaces}
                     </div>
                     <div className="d-flex flex-row justify-content-between" style = {{fontSize: "14px", padding: "5px"}}>
                         <div className="fw-bold">Actual Race Distribution: </div> {actualRaces}
@@ -241,13 +280,19 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     };
 
     return (
-        <div className = "w-100">
-            <span className="fw-bold" style={{fontSize: "20px"}}>{state.charAt(0) + state.slice(1).toLowerCase()} State Representatives</span>
+        <div className="w-100">
+            <select value={selectedFilter} onChange={handleFilterChange}>
+                <option value="">All</option>
+                <option value="African American">African American</option>
+                <option value="Caucasian">Caucasian</option>
+                <option value="Democratic">Democratic</option>
+                <option value="Republican">Republican</option>
+            </select>
             <DataTable
                 columns={columns}
-                data={data}
-                // pagination
-                customStyles = {customStyles}
+                data={filteredData}
+                customStyles={customStyles}
+                title="State Representatives"
                 onRowClicked={(row, event) => handleClick(row.district)}
                 pointerOnHover
             />

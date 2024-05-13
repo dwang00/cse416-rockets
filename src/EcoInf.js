@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 const EcoInf = ({ state, election }) => {
     const svgRef1 = useRef(null);
     const svgRef2 = useRef(null);
-    const svgRef3 = useRef(null);
     const [combinedData, setCombinedData] = useState([]);
     const [can, setCan] = useState(null)
     console.log(election)
@@ -16,7 +15,6 @@ const EcoInf = ({ state, election }) => {
 
                     let candidate1 = data[0].candidate
                     let candidate2 = data[3].candidate
-                    let candidate3 = data[6].candidate
 
                     let newData = [
                         data[0].data,
@@ -25,12 +23,9 @@ const EcoInf = ({ state, election }) => {
                         data[3].data,
                         data[4].data,
                         data[5].data,
-                        data[6].data,
-                        data[7].data,
-                        data[8].data
                     ];
                 setCombinedData(newData);
-                setCan([candidate1, candidate2, candidate3])
+                setCan([candidate1, candidate2])
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -41,20 +36,18 @@ const EcoInf = ({ state, election }) => {
     useEffect(() => {
         d3.select(svgRef1.current).selectAll("*").remove();
         d3.select(svgRef2.current).selectAll("*").remove();
-        d3.select(svgRef3.current).selectAll("*").remove();
 
         if (!combinedData || combinedData.length === 0) return;
         const plotsData = [];
         plotsData.push(combinedData.slice(0, 3))
         plotsData.push(combinedData.slice(3, 6))
-        plotsData.push(combinedData.slice(6, 9))
 
         plotsData.forEach((data, index) => {
-            const svg = d3.select([svgRef1.current, svgRef2.current, svgRef3.current][index]);
+            const svg = d3.select([svgRef1.current, svgRef2.current][index]);
             const width = +svg.attr('width');
             const height = +svg.attr('height') -10;
             const margin = {top: 20, right: 30, bottom: 30, left: 40};
-
+            const partyItems = ["Democratic", "Republican"]
             const x = d3.scaleLinear()
                 .domain([0, 1])
                 .range([margin.left, width - margin.right]);
@@ -81,7 +74,7 @@ const EcoInf = ({ state, election }) => {
                 .attr('x', (width + margin.left + margin.right) / 2)
                 .attr('y', height)
                 .attr('text-anchor', 'middle')
-                .text(`Support for ${can[index]}`)
+                .text(`Support for ${can[index]} (${partyItems[index]})`)
                 .attr('fill', '#000')
 
             renderPlot(svg, data[0], 'green')
@@ -165,9 +158,6 @@ const EcoInf = ({ state, election }) => {
             </div>
             <div style={{ marginBottom: '0px', height:"33%", borderStyle:"solid"}}>
                 <svg ref={svgRef2} width={700} height={180}></svg>
-            </div>
-            <div style={{height:"33%", borderStyle:"solid"}}>
-                <svg ref={svgRef3} width={700} height={180}></svg>
             </div>
         </div>
     );

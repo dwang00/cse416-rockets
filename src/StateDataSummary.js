@@ -112,21 +112,27 @@ function StateDataSummary({ state }) {
         for (const key in data) {
             let attributeName = key
                 .replace(/([A-Z])/g, ' $1')
-                .replace(/^./, function(str){ return str.toUpperCase(); })
+                .replace(/^./, function (str) { return str.toUpperCase(); })
                 .replace(/([A-Z][a-z])/g, '$1')
                 .replace(/\./g, ' - ')
                 .replace(' ', ' ');
 
             attributeName = attributeName.charAt(0).toUpperCase() + attributeName.slice(1);
 
+            let formattedValue = data[key];
+            if (typeof data[key] === 'number') {
+                formattedValue = data[key].toLocaleString(); // Format number with commas
+            }
+
             transformedData.push({
                 attribute: attributeName,
-                value: data[key].toString()
+                value: formattedValue.toString() // Convert to string
             });
         }
 
         return transformedData;
     }
+
 
 
     const newData = flattenObject(tableData[0]);
@@ -137,6 +143,8 @@ function StateDataSummary({ state }) {
         attribute: item.attribute,
         value: item.value
     }));
+    console.log(transposedData)
+    console.log('fuck')
     const transposedRows = transposedData.map(item => ({
         attribute: item.attribute,
         value: item.value // Assign the value object directly
@@ -166,6 +174,7 @@ function StateDataSummary({ state }) {
             sortable: true,
             wrap: true,
             width: '25%',
+            right: true,
             style: {
                 textAlign: 'right',
             }

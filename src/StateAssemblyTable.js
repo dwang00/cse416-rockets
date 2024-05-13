@@ -22,72 +22,117 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     }
 
     const data = tableData
-
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    };
     const columns = [
         {
             name: 'Image',
             selector: 'img',
             id: 'img',
-            cell: row => <img src={row.img} alt="Profile" style={{ width: '50px', height: "100%", borderRadius: '50%', backgroundColor: "white" }} data-tag="allowRowEvents"/>,
-            style: {
-                background: 'white',
+            cell: row => (
+                <div
+                    style={{
+                        position: 'relative',
+                        overflow: 'hidden',
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '50%',
+                        transition: 'width 0.3s, height 0.3s'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.target.style.width = '100px';
+                        e.target.style.height = '100px';
+                        e.target.parentElement.style.width = '100px';
+                        e.target.parentElement.style.height = '100px';
+
+                    }}
+                    onMouseLeave={(e) => {
+                        e.target.style.width = '50px';
+                        e.target.style.height = '50px';
+
+                        e.target.parentElement.style.width = '50px';
+                        e.target.parentElement.style.height = '50px';
+                    }}
+                    onClick={() => handleClick(row.district)}
+                >
+                    <img
+                        src={row.img}
+                        alt="Profile"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                        }}
+                    />
+                </div>
+            ),
+            headCells: {
+                style: {
+                    fontWeight: 'bold',
+                },
             },
+
         },
         {
             name: 'Name',
             selector: 'name',
             id: 'name',
             sortable: true,
-            style: {
-                background: 'white',
-            },
         },
         {
             name: 'District',
             selector: 'district',
             id: 'district',
             sortable: true,
-            style: {
-                background: 'white',
-                textAlign: 'right',
-            },
+            right: true,
+            width: "89px",
+            cell: row => <div style={{ textAlign: "center" }}>{row.district}</div>
         },
         {
             name: 'Party',
             selector: 'party',
             id: 'party',
             sortable: true,
-            style: {
-                background: 'white',
-            },
+            width: "140px",
+            cell: row => capitalizeFirstLetter(row.party), // Capitalize the first letter and convert the rest to lowercase
         },
         {
             name: 'Race (s)',
             selector: 'races',
             id: 'races',
             sortable: true,
-            style: {
-                background: 'white',
-            },
+            width: "150px",
+            cell: row => capitalizeFirstLetter(row.races[0]), // Capitalize the first letter and convert the rest to lowercase
+
         },
         {
-            name: 'Vote Margin',
+            name: 'Vote Margin (%)',
             selector: 'margin',
             id: 'margin',
             sortable: true,
-            style: {
-                background: 'white',
-                textAlign: 'right',
-            },
+            right: true,
+            width: "140px"
         },
     ];
+
     const customStyles = {
+        head: {
+            style: {
+                fontWeight: 'bold'
+            }
+        },
+        rows: {
+            style: {
+                minHeight: 'auto', // Adjust row height
+            },
+        },
         pagination: {
             style: {
-                backgroundColor: '#ffffff', // Change the background color of the pagination controls
-                color: 'black', // Change the text color of the pagination controls
-                padding: '10px', // Add padding to the pagination controls
-                borderRadius: '5px', // Add border radius to the pagination control
+                backgroundColor: '#ffffff',
+                color: 'black',
+                padding: '10px',
+                borderRadius: '5px',
             },
         },
         table: {
@@ -96,6 +141,8 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
                 color: 'black',
                 padding: '20px',
                 borderRadius: '5px',
+                fontWeight: 'bold'
+
             },
         },
         header: {
@@ -103,6 +150,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
                 minHeight: '10%',
                 maxHeight: '10%',
                 backgroundColor: 'ffffff',
+
             },
         },
         headRow: {
@@ -129,6 +177,7 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
         },
     };
 
+
     // const handleRowClicked = (row) => {
     //     setSelectedRowsData(prevSelectedRowsData => {
     //         const selectedIndex = prevSelectedRowsData.findIndex(selectedRow => selectedRow === row);
@@ -154,9 +203,26 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             }
         });
     };
+    const ai = {
+        "ALABAMA": {"white": 63, "asian": 6, "middle eastern": 2, "indian": 1, "black": 25, "latino hispanic": 8, "Difference": 42,},
+        "DELAWARE": {"black": 10, "white": 24,  "latino hispanic": 4, "indian": 1, "middle eastern": 2, "Difference": 12}
+    }
+    const renderPredictedRaces = () => {
+        if (ai[state]) {
+            const predictedRaces = Object.entries(ai[state]).map(([race, count]) => (
+                <div key={race} style={{ marginRight: '10px' }}> {race}: {count}</div>
+            ));
+            return (
+                <div style = {{display: 'flex'}}>
+                    <strong>AI Predicted Races: </strong> {predictedRaces}
+                </div>
+            );
+        }
+        return null; // Return null if no predicted races for the current state
+    };
 
     return (
-        <div className = "w-100" >
+        <div className = "w-100">
             <DataTable
                 columns={columns}
                 data={data}
@@ -166,6 +232,8 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
                 onRowClicked={(row, event) => handleClick(row.district)}
                 pointerOnHover
             />
+            {renderPredictedRaces()}
+
         </div>
     );
 }

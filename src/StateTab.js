@@ -218,7 +218,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                         title="Click for election information" onClick={() => setCurrTab("analysis")}>
                             <StateDataSummary state={fullName[currState]}/>
                         </div>
-                        <div className="w-100 h-100" style={{borderStyle: "solid"}}>
+                        <div className="w-100 h-100" style={{borderStyle: "solid"}} data-toggle="tooltip" data-placement="top" 
+                        title="Click for district plan information" >
                             {React.createElement(components[0].type, {...components[0].props})}
                         </div>
                     </div>

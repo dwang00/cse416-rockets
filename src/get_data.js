@@ -1,5 +1,4 @@
 export async function get_data() {
-
     var geoJsonAl;
     var geoJsonDe;
 
@@ -28,6 +27,7 @@ export async function get_data() {
     catch (error) {
         console.error(error)
     }
+
 
     // useEffect(() => {
     //     fetch('http://localhost:8080/get_geojson/sums_geojson')

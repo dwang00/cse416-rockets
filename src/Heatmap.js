@@ -79,7 +79,10 @@ function HeatMap(props) {
     const [highlightedDistrictId, setHighlightedDistrictId] = useState(null);
     function getFeatureIdByDistrict(district, state) {
         // Assuming the GeoJSON features have a property called 'ID' representing the district number
-        const geojson = JSON.parse(props.my_json);
+        let geojson = props.my_json;
+        if(!props.isNotString) {
+            geojson = JSON.parse(props.my_json);
+        }
         const feature = geojson.features.find(feature => {
             return parseInt(feature.properties.DISTRICT) === district;
         });
@@ -270,7 +273,6 @@ function HeatMap(props) {
                             });
                         }}
                     />}
-
                 <TileLayer
                     url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />

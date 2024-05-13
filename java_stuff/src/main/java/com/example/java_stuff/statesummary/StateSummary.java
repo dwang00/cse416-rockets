@@ -15,19 +15,19 @@ public class StateSummary {
     @Field("statePopulation")
     private int statePopulation;
     @Field("voterDistribution")
-    private PartyDistribution voterDistribution;
+    private Object voterDistribution;
     @Field("caucasianPop")
     private int caucasianPop;
     @Field("africanAmericanPop")
     private int africanAmericanPop;
     @Field("stateRepsPartyDistribution")
-    private PartyDistribution stateRepsPartyDistribution;
+    private Object stateRepsPartyDistribution;
     @Field("stateRepsRaceDistribution")
-    private RaceCount stateRepsRaceDistribution;
+    private Object stateRepsRaceDistribution;
 
-    public StateSummary(String id, State state, int statePopulation, PartyDistribution voterDistribution,
-                        int caucasianPop, int africanAmericanPop, PartyDistribution stateRepsPartyDistribution,
-                        RaceCount stateRepsRaceDistribution) {
+    public StateSummary(String id, State state, int statePopulation, Object voterDistribution,
+                        int caucasianPop, int africanAmericanPop, Object stateRepsPartyDistribution,
+                        Object stateRepsRaceDistribution) {
         this.id = id;
         this.state = state;
         this.statePopulation = statePopulation;
@@ -36,7 +36,7 @@ public class StateSummary {
         this.africanAmericanPop = africanAmericanPop;
         this.stateRepsPartyDistribution = stateRepsPartyDistribution;
         this.stateRepsRaceDistribution = stateRepsRaceDistribution;
-        System.out.println("hello");
+
     }
 
     public String getId() {
@@ -63,11 +63,11 @@ public class StateSummary {
         this.statePopulation = statePopulation;
     }
 
-    public PartyDistribution getVoterDistribution() {
+    public Object getVoterDistribution() {
         return voterDistribution;
     }
 
-    public void setVoterDistribution(PartyDistribution voterDistribution) {
+    public void setVoterDistribution(Object voterDistribution) {
         this.voterDistribution = voterDistribution;
     }
 
@@ -87,19 +87,19 @@ public class StateSummary {
         this.africanAmericanPop = africanAmericanPop;
     }
 
-    public PartyDistribution getStateRepsPartyDistribution() {
+    public Object getStateRepsPartyDistribution() {
         return stateRepsPartyDistribution;
     }
 
-    public void setStateRepsPartyDistribution(PartyDistribution stateRepsPartyDistribution) {
+    public void setStateRepsPartyDistribution(Object stateRepsPartyDistribution) {
         this.stateRepsPartyDistribution = stateRepsPartyDistribution;
     }
 
-    public RaceCount getStateRepsRaceDistribution() {
+    public Object getStateRepsRaceDistribution() {
         return stateRepsRaceDistribution;
     }
 
-    public void setStateRepsRaceDistribution(RaceCount stateRepsRaceDistribution) {
+    public void setStateRepsRaceDistribution(Object stateRepsRaceDistribution) {
         this.stateRepsRaceDistribution = stateRepsRaceDistribution;
     }
 }

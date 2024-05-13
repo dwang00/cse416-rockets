@@ -24,24 +24,17 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
     const [selectedGinglesOption, setSelectedGinglesOption] = useState("scatter")
 
     const [selectedGerrymanderingRace, setSelectedGerrymanderingRace] = useState("black");
-    const [selectedGerrymanderingEnsemble, setSelectedGerrymanderingEnsemble] = useState("250")
+    const [selectedGerrymanderingEnsemble, setSelectedGerrymanderingEnsemble] = useState(250)
     const [selectedGerrymanderingPoints, setSelectedGerrymanderingPoints] = useState("initial_partition_Black")
-
-    const [selectedGerrymanderingPoints2, setSelectedGerrymanderingPoints2] = useState("initial_partition_Democratic")
-    const [selectedGerrymanderingEnsemble2, setSelectedGerrymanderingEnsemble2] = useState("250")
-    const [selectedGerrymanderingParty, setSelectedGerrymanderingParty] = useState("democratic")
 
     const [selectedEcoInfOption, setSelectedEcoInfOption] = useState("Presidential");
 
     const [selectedOppBarRace, setSelectedOppBarRace] = useState("Black")
-    const [selectedOppBarEnsemble, setSelectedOppBarEnsemble] = useState("250")
+    const [selectedOppBarEnsemble, setSelectedOppBarEnsemble] = useState(250)
     const [selectedOppBarThreshold, setSelectedOppBarThreshold] = useState("t37")
 
     const handleGerrymanderingPointsChange = (option) => {
       setSelectedGerrymanderingPoints(option)
-    };
-    const handleGerrymanderingPointsChange2 = (option) => {
-        setSelectedGerrymanderingPoints2(option)
     };
     const handleGinglesRaceChange = (option) => {
         console.log(option);
@@ -54,14 +47,8 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
     const handleGerrymanderingRaceChange = (option) => {
         setSelectedGerrymanderingRace(option);
     };
-    const handleGerrymanderingPartyChange = (option) => {
-        setSelectedGerrymanderingParty(option);
-    };
     const handleGerrymanderingEnsembleChange = (option) => {
       setSelectedGerrymanderingEnsemble(option)
-    };
-    const handleGerrymanderingEnsembleChange2 = (option) => {
-        setSelectedGerrymanderingEnsemble2(option)
     };
     const handleEcoInfOptionChange = (option) => {
         setSelectedEcoInfOption(option);
@@ -216,113 +203,12 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
                                     </>
                                 )}
                             </select>
-                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}1`}
+                        <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}${selectedGerrymanderingEnsemble}`}
                                                   typeOfBox={selectedGerrymanderingRace}
                                                   typeOfPoint={selectedGerrymanderingPoints}
                                                   ensemble={selectedGerrymanderingEnsemble}
 
                                                   style={{display: "inline-block"}}/>,
-                            {/* <select value={selectedGerrymanderingParty}
-                                    onChange={(e) => handleGerrymanderingPartyChange(e.target.value)}>
-                                <option value="democratic">Democrat</option>
-                                <option value="republican">Republican</option>
-                            </select>
-                            <select value={selectedGerrymanderingEnsemble2}
-                                    onChange={(e) => handleGerrymanderingEnsembleChange2(e.target.value)}>
-                                <option value={250}>Small Ensemble</option>
-                                <option value={5000}>Large Ensembles</option>
-                            </select>
-                            <select value={selectedGerrymanderingPoints2}
-                                    onChange={(e) => handleGerrymanderingPointsChange2(e.target.value)}>
-                                {selectedGerrymanderingParty === "democratic" ? (
-                                    <>
-                                        <option value="initial_partition_Democratic">Enacted
-                                        </option>
-                                        <option value="max_White_for_Democratic_@0.37">Partition with Most White
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="min_White_for_Democratic_@0.37">Partition with Least White
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="max_White_for_Democratic_@0.5">Partition with Most White
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="min_White_for_Democratic_@0.5">Partition with Least White
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="max_White_for_Democratic_@0.44">Partition with Most White
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="min_White_for_Democratic_@0.44">Partition with Least White
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="max_Black_for_Democratic_@0.37">Partition with Most Black
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="min_Black_for_Democratic_@0.37">Partition with Least Black
-                                            Opportunity Districts at 0.37 threshold
-                                        </option>
-                                        <option value="max_Black_for_Democratic_@0.5">Partition with Most Black
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="min_Black_for_Democratic_@0.5">Partition with Least Black
-                                            Opportunity Districts at 0.5 threshold
-                                        </option>
-                                        <option value="max_Black_for_Democratic_@0.44">Partition with Most Black
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="min_Black_for_Democratic_@0.44">Partition with Least Black
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                    </>
-                                ) : (
-                                    <>
-                                        <option value="initial_partition_Republican">Enacted
-                                        </option>
-                                        <option value="max_White_for_Republican_@0.37">Partition with Most White
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="min_White_for_Republican_@0.37">Partition with Least White
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="max_White_for_Republican_@0.5">Partition with Most White
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="min_White_for_Republican_@0.5">Partition with Least White
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="max_White_for_Republican_@0.44">Partition with Most White
-                                            Opportunity Districts at 0.44 Threshold
-                                        </option>
-                                        <option value="min_White_for_Republican_@0.44">Partition with Least White
-                                            Opportunity Districts at 0.44 Threshold
-                                        </option>
-                                        <option value="max_Black_for_Republican_@0.37">Partition with Most Black
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="min_Black_for_Republican_@0.37">Partition with Least Black
-                                            Opportunity Districts at 0.37 Threshold
-                                        </option>
-                                        <option value="max_Black_for_Republican_@0.5">Partition with Most Black
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="min_Black_for_Republican_@0.5">Partition with Least Black
-                                            Opportunity Districts at 0.5 Threshold
-                                        </option>
-                                        <option value="max_Black_for_Republican_@0.44">Partition with Most Black
-                                            Opportunity Districts at 0.44 threshold
-                                        </option>
-                                        <option value="min_Black_for_Republican_@0.44">Partition with Least Black
-                                            Opportunity Districts at 0.44 Threshold
-                                        </option>
-                                    </>
-                                )}
-                            </select> */}
-                        {/* <Gerrymandering_Graph state={fullName[currState]} chartId={`chart${fullName[currState]}2`}
-                                                  typeOfBox={selectedGerrymanderingParty}
-                                                  typeOfPoint={selectedGerrymanderingPoints2}
-                                                  ensemble={selectedGerrymanderingEnsemble2}
-                                                  style={{display: "inline-block"}}/>, */}
 
                     </div>
                 </div>)}

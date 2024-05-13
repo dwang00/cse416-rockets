@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ApexCharts from 'apexcharts';
 import './App.css'
 
-function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble}) {
+function Gerrymandering_Graph({ state, typeOfBox, typeOfPoint, ensemble}) {
     const [data, setData] = useState(null);
+    const chartRef = useRef(null); // Ref to keep track of the chart instance
+
     const pointLabels = {
         "initial_partition_White": 'Enacted District Plan',
         "initial_partition_Black": 'Enacted District Plan',
@@ -40,15 +42,16 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
         fetch(`http://localhost:8080/boxPlotByState?state=${state}`)
             .then(response => response.json())
             .then(data => {
-                if(ensemble === "250") {
-                    setData(data[0])
-                }
-                else if (ensemble === "5000") {
+                if(ensemble == 250) {
                     setData(data[1])
+                }
+                else if (ensemble == 5000) {
+                    setData(data[0])
                 }
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [state, typeOfBox, typeOfPoint, ensemble]);
+
+    }, [state,  typeOfBox, typeOfPoint, ensemble]);
 
     useEffect(() => {
         console.log(data)
@@ -59,7 +62,8 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
         window.dispatchEvent(new Event('resize'));
         console.log("yo1")
         console.log(data)
-        console.log("yo2 " + typeOfBox)
+        console.log("yo2 ", ensemble)
+        console.log(data[typeOfBox][40])
         const boxplotData = data[typeOfBox].map((item, index) => ({
             x: index+1,
             y: [item.min, item.q1, item.median, item.q3, item.max]
@@ -119,7 +123,7 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                     style: {
                         color: "#000000",
 
-                        fontWeight: 'normal',
+                        fontWeight: 'bold',
                     }
                 },
                 labels: {
@@ -160,21 +164,30 @@ function Gerrymandering_Graph({ state, chartId, typeOfBox, typeOfPoint, ensemble
                 enabled: false
             }
         };
-
-        const chartElement = document.querySelector(`#${chartId}`);
-        console.log("chartId:", chartId);
-        console.log("chartElement:", chartElement);
-
-        if (!chartElement) {
-            console.error(`Chart element with ID '${chartId}' not found.`);
-            return;
+        if (chartRef.current) {
+            // Destroy the old chart instance if it exists
+            chartRef.current.destroy();
         }
+        const chartElement = document.createElement('div');
+        chartElement.id = 'chart';
+        document.getElementById('chartContainer').appendChild(chartElement);
 
         const chart = new ApexCharts(chartElement, options);
         chart.render();
-    }, [data, chartId, typeOfBox, typeOfPoint, ensemble]);
 
-    return <div id={chartId} />;
+        // Save chart instance to the ref
+        chartRef.current = chart;
+
+        return () => {
+            // Cleanup function to destroy the chart instance when component unmounts
+            if (chartRef.current) {
+                chartRef.current.destroy();
+            }
+        };
+
+    }, [data,  typeOfBox, typeOfPoint, ensemble, state]);
+
+    return <div id="chartContainer" />;
 }
 
 export default Gerrymandering_Graph;

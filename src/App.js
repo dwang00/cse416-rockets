@@ -69,7 +69,7 @@ function App() {
             },
             {
                 data: alabamaPop,
-                backgroundColor: ['orange', 'yellow'],
+                backgroundColor: ['blue', 'green'],
                 borderWidth: 1
             }
         ],
@@ -148,7 +148,7 @@ const barOptionsAlabama = {
             },
             {
                 data: delawarePop,
-                backgroundColor: ['orange', 'yellow'],
+                backgroundColor: ['blue', 'green', 'red'],
                 borderWidth: 1
             }
         ],

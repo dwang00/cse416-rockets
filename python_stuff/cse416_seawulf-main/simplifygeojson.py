@@ -7,7 +7,7 @@ import topojson as tp
 
 if __name__ == "__main__":
     # Example usage
-    gdf = gpd.read_file("DE_AL_data_250/DE_White_max37.geojson")
+    gdf = gpd.read_file("save_data_250/DE_White_max37.geojson")
 
     topo = tp.Topology(gdf,
                        prequantize=True,

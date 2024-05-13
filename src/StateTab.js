@@ -11,7 +11,7 @@ import Gerrymandering_Graph from "./Gerrymandering_Graph";
 import Gingles_Graph from "./Gingles_Graph";
 import OpportunityDistrictBarChart from "./OpportunityDistrictBarChart";
 import OpportunityDistrictTable from "./OpportunityDistrictTable";
-function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
+function StateTab({components, navbarHeight, geoJsons, precinct, currState, currTab}) {
     const height = window.innerHeight - navbarHeight;
 
     const fullName = {"al" : "ALABAMA", "de" : "DELAWARE"};
@@ -79,7 +79,10 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
         setCurrDistrict(null);
         setIsDensity(false);
     }, [currTab]);
-
+    console.log("beginning of geojsons")
+    console.log(geoJsons)
+    console.log(precinct)
+    console.log("end of geojsons")
     return (
         <div className="w-100 d-flex" style={{height: `${height}px`, }}>
             {/* <div className="w-100 justify-content-left"> */}
@@ -141,11 +144,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_White_for_White_@0.5">partition with least white opportunity
                                             districts at 0.5 threshold
                                         </option>
-                                        <option value="max_White_for_White_@0.6">partition with most white opportunity
-                                            districts at 0.6 threshold
+                                        <option value="max_White_for_White_@0.44">partition with most white opportunity
+                                            districts at 0.44 threshold
                                         </option>
-                                        <option value="min_White_for_White_@0.6">partition with least white opportunity
-                                            districts at 0.6 threshold
+                                        <option value="min_White_for_White_@0.44">partition with least white opportunity
+                                            districts at 0.44 threshold
                                         </option>
                                         <option value="max_Black_for_White_@0.37">partition with most black opportunity
                                             districts at 0.37 threshold
@@ -159,11 +162,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_Black_for_White_@0.5">partition with least black opportunity
                                             districts at 0.5 threshold
                                         </option>
-                                        <option value="max_Black_for_White_@0.6">partition with most black opportunity
-                                            districts at 0.6 threshold
+                                        <option value="max_Black_for_White_@0.44">partition with most black opportunity
+                                            districts at 0.44 threshold
                                         </option>
-                                        <option value="min_Black_for_White_@0.6">partition with least black opportunity
-                                            districts at 0.6 threshold
+                                        <option value="min_Black_for_White_@0.44">partition with least black opportunity
+                                            districts at 0.44 threshold
                                         </option>
                                     </>
                                 ) : (
@@ -182,11 +185,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_White_for_Black_@0.5">partition with least white opportunity
                                             districts at 0.5 threshold
                                         </option>
-                                        <option value="max_White_for_Black_@0.6">partition with most white opportunity
-                                            districts at 0.6 threshold
+                                        <option value="max_White_for_Black_@0.44">partition with most white opportunity
+                                            districts at 0.44 threshold
                                         </option>
-                                        <option value="min_White_for_Black_@0.6">partition with least white opportunity
-                                            districts at 0.6 threshold
+                                        <option value="min_White_for_Black_@0.44">partition with least white opportunity
+                                            districts at 0.44 threshold
                                         </option>
                                         <option value="max_Black_for_Black_@0.37">partition with most black opportunity
                                             districts at 0.37 threshold
@@ -200,11 +203,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_Black_for_Black_@0.5">partition with least black opportunity
                                             districts at 0.5 threshold
                                         </option>
-                                        <option value="max_Black_for_Black_@0.6">partition with most black opportunity
-                                            districts at 0.6 threshold
+                                        <option value="max_Black_for_Black_@0.44">partition with most black opportunity
+                                            districts at 0.44 threshold
                                         </option>
-                                        <option value="min_Black_for_Black_@0.6">partition with least black opportunity
-                                            districts at 0.6 threshold
+                                        <option value="min_Black_for_Black_@0.44">partition with least black opportunity
+                                            districts at 0.44 threshold
                                         </option>
                                     </>
                                 )}
@@ -242,11 +245,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_White_for_Democratic_@0.5">partition with least white
                                             opportunity districts at 0.5 threshold
                                         </option>
-                                        <option value="max_White_for_Democratic_@0.6">partition with most white
-                                            opportunity districts at 0.6 threshold
+                                        <option value="max_White_for_Democratic_@0.44">partition with most white
+                                            opportunity districts at 0.44 threshold
                                         </option>
-                                        <option value="min_White_for_Democratic_@0.6">partition with least white
-                                            opportunity districts at 0.6 threshold
+                                        <option value="min_White_for_Democratic_@0.44">partition with least white
+                                            opportunity districts at 0.44 threshold
                                         </option>
                                         <option value="max_Black_for_Democratic_@0.37">partition with most black
                                             opportunity districts at 0.37 threshold
@@ -260,11 +263,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_Black_for_Democratic_@0.5">partition with least black
                                             opportunity districts at 0.5 threshold
                                         </option>
-                                        <option value="max_Black_for_Democratic_@0.6">partition with most black
-                                            opportunity districts at 0.6 threshold
+                                        <option value="max_Black_for_Democratic_@0.44">partition with most black
+                                            opportunity districts at 0.44 threshold
                                         </option>
-                                        <option value="min_Black_for_Democratic_@0.6">partition with least black
-                                            opportunity districts at 0.6 threshold
+                                        <option value="min_Black_for_Democratic_@0.44">partition with least black
+                                            opportunity districts at 0.44 threshold
                                         </option>
                                     </>
                                 ) : (
@@ -283,11 +286,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_White_for_Republican_@0.5">partition with least white
                                             opportunity districts at 0.5 threshold
                                         </option>
-                                        <option value="max_White_for_Republican_@0.6">partition with most white
-                                            opportunity districts at 0.6 threshold
+                                        <option value="max_White_for_Republican_@0.44">partition with most white
+                                            opportunity districts at 0.44 threshold
                                         </option>
-                                        <option value="min_White_for_Republican_@0.6">partition with least white
-                                            opportunity districts at 0.6 threshold
+                                        <option value="min_White_for_Republican_@0.44">partition with least white
+                                            opportunity districts at 0.44 threshold
                                         </option>
                                         <option value="max_Black_for_Republican_@0.37">partition with most black
                                             opportunity districts at 0.37 threshold
@@ -301,11 +304,11 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                                         <option value="min_Black_for_Republican_@0.5">partition with least black
                                             opportunity districts at 0.5 threshold
                                         </option>
-                                        <option value="max_Black_for_Republican_@0.6">partition with most black
-                                            opportunity districts at 0.6 threshold
+                                        <option value="max_Black_for_Republican_@0.44">partition with most black
+                                            opportunity districts at 0.44 threshold
                                         </option>
-                                        <option value="min_Black_for_Republican_@0.6">partition with least black
-                                            opportunity districts at 0.6 threshold
+                                        <option value="min_Black_for_Republican_@0.44">partition with least black
+                                            opportunity districts at 0.44 threshold
                                         </option>
                                     </>
                                 )}
@@ -365,6 +368,9 @@ function StateTab({components, navbarHeight, geoJsons, currState, currTab}) {
                             <option value="t37">District plan at .37 threshold
                             </option>
                             <option value="t5">District plan at .5 threshold
+                            </option>
+                            <option value="t44"> District plan at .44 threshold
+
                             </option>
                         </select>
                         <OpportunityDistrictBarChart state={fullName[currState]} race={selectedOppBarRace}

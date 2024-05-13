@@ -22,11 +22,6 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
     }
 
     const data = tableData
-    let string;
-    for(let i = 0; i < data.length; i++) {
-        string = string + data[i].img + ","
-    }
-    console.log(string)
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     };
@@ -208,6 +203,23 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
             }
         });
     };
+    const ai = {
+        "ALABAMA": {"white": 63, "asian": 6, "middle eastern": 2, "indian": 1, "black": 25, "latino hispanic": 8, "Difference": 42,},
+        "DELAWARE": {"black": 10, "white": 24,  "latino hispanic": 4, "indian": 1, "middle eastern": 2, "Difference": 12}
+    }
+    const renderPredictedRaces = () => {
+        if (ai[state]) {
+            const predictedRaces = Object.entries(ai[state]).map(([race, count]) => (
+                <div key={race} style={{ marginRight: '10px' }}> {race}: {count}</div>
+            ));
+            return (
+                <div style = {{display: 'flex'}}>
+                    <strong>AI Predicted Races: </strong> {predictedRaces}
+                </div>
+            );
+        }
+        return null; // Return null if no predicted races for the current state
+    };
 
     return (
         <div className = "w-100">
@@ -220,6 +232,8 @@ function StateAssemblyTable({state, map, setMap, currDistrict, setCurrDistrict }
                 onRowClicked={(row, event) => handleClick(row.district)}
                 pointerOnHover
             />
+            {renderPredictedRaces()}
+
         </div>
     );
 }

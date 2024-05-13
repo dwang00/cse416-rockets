@@ -28,14 +28,21 @@ for district, table in zip(districts, tables):
         cells = row.find_all('td')
         candidate_name = cells[0].text.strip()
         if 'LISA BLUNT ROCHESTER' in candidate_name:
-            data_dict['Rochester Percentage'] = cells[-1].text.strip().replace('%', '').strip()
+            data_dict['rochester_votes'] = cells[-2].text.strip().replace(',', '').strip()
         elif 'LEE MURPHY' in candidate_name:
-            data_dict['Murphy Percentage'] = cells[-1].text.strip().replace('%', '').strip()
+            data_dict['murphy_votes'] = cells[-2].text.strip().replace(',', '').strip()
 
     results.append(data_dict)
 
 # Create a DataFrame
 df = pd.DataFrame(results)
+
+df['rochester_votes'] = pd.to_numeric(df['rochester_votes'])
+df['murphy_votes'] = pd.to_numeric(df['murphy_votes'])
+df['total_votes'] = df['rochester_votes'] + df['murphy_votes']
+
+df['pct_rochester'] = df['rochester_votes'] / df['total_votes']
+df['pct_murphy'] = df['murphy_votes'] / df['total_votes']
 
 df.rename(columns={'Election District': 'RDED'}, inplace=True)
 
@@ -45,8 +52,26 @@ district_data['RDED'] = district_data['RDED'].astype(str)
 df['RDED'] = df['RDED'].astype(str)
 
 merged_data = pd.merge(district_data, df, on='RDED', how='left')
-merged_data.to_csv('DE_precincts_updated3.csv', index=False)
 
-# Print the DataFrame
-print(df)
+merged_data['ETH1_EUR'] = pd.to_numeric(merged_data['ETH1_EUR'])
+merged_data['ETH1_AA'] = pd.to_numeric(merged_data['ETH1_AA'])
+merged_data['ETH1_UNK'] = pd.to_numeric(merged_data['ETH1_UNK'])
+merged_data['totalPop'] = merged_data['ETH1_EUR'] + merged_data['ETH1_AA'] + merged_data['ETH1_UNK']
+
+
+merged_data['pct_eur'] = merged_data['ETH1_EUR'] / merged_data['totalPop']
+merged_data['pct_aa'] = merged_data['ETH1_AA'] / merged_data['totalPop']
+merged_data['pct_other'] = merged_data['ETH1_UNK'] / merged_data['totalPop']
+
+columns_to_normalize = merged_data[['pct_rochester', 'pct_murphy']]
+row_sums = columns_to_normalize.sum(axis=1)
+normalized_cols = columns_to_normalize.div(row_sums, axis=0)
+merged_data[['pct_rochester', 'pct_murphy']] = normalized_cols
+
+columns_to_normalize = merged_data[['pct_eur', 'pct_aa', 'pct_other']]
+row_sums = columns_to_normalize.sum(axis=1)
+normalized_cols = columns_to_normalize.div(row_sums, axis=0)
+merged_data[['pct_eur', 'pct_aa', 'pct_other']] = normalized_cols
+
+merged_data.to_csv('DE_precincts_updated3.csv', index=False)
 

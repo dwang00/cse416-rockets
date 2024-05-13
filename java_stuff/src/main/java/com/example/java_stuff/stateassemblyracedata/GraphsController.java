@@ -20,13 +20,16 @@ public class GraphsController {
     private final OppDistService oppDistService;
     private final OppDistBinsService oppDistBinsService;
     private final VSShareService vsShareService;
+    private final OppDistMapService oppDistMapService;
+    private final PrecinctMapService precinctMapService;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     public GraphsController(StateAssemblyRaceDataService stateAssemblyRaceService,
                             GinglesService ginglesService, BoxPlotService boxPlotService,
                             PrecinctService precinctService, OppDistService oppDistService,
-                            OppDistBinsService oppDistBinsService, VSShareService vsShareService) {
+                            OppDistBinsService oppDistBinsService, VSShareService vsShareService,
+                            OppDistMapService oppDistMapService, PrecinctMapService precinctMapService) {
         this.stateAssemblyRaceService = stateAssemblyRaceService;
         this.ginglesService = ginglesService;
         this.boxPlotService = boxPlotService;
@@ -34,6 +37,8 @@ public class GraphsController {
         this.oppDistService = oppDistService;
         this.oppDistBinsService = oppDistBinsService;
         this.vsShareService = vsShareService;
+        this.oppDistMapService = oppDistMapService;
+        this.precinctMapService = precinctMapService;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -75,6 +80,12 @@ public class GraphsController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("precinctMapByState")
+    public PrecinctMap getMapByState(@RequestParam("state") String state) {
+        return precinctMapService.getByState(state);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("oppDistrictsByState")
     public List<OppDistData> getOppDistsByState(@RequestParam("state") String state) {
         return oppDistService.getByState(state);
@@ -91,4 +102,12 @@ public class GraphsController {
     public List<VSShare> getShareByState(@RequestParam("state") String state) {
         return this.vsShareService.getByState(state);
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("oppDistMapsByState")
+    public List<OppDistMap> getOppDistMapsByState(@RequestParam("state") String state) {
+        return this.oppDistMapService.getByState(state);
+    }
+
+
 }

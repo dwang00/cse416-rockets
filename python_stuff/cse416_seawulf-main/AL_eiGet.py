@@ -49,7 +49,7 @@ columns_to_keep = ['County', 'G22GOVDFLO', 'G22GOVRIVE', 'G22GOVOWRI', 'G22GOVLB
 df = df[columns_to_keep]
 df['County'] = df['County'].str.upper()
 df = df.groupby('County').sum().reset_index()
-df['votecount'] = df['G22GOVDFLO'] + df['G22GOVRIVE'] + df['G22GOVOWRI'] + df['G22GOVLBLA']
+df['votecount'] = df['G22GOVDFLO'] + df['G22GOVRIVE']
 del df['G22GOVOWRI']
 del df['G22GOVLBLA']
 df.rename(columns={'G22GOVDFLO':'voted_for_flowers'}, inplace=True)
@@ -67,7 +67,6 @@ df2.rename(columns={'g20221108_voted_aa': 'voted_aa'}, inplace=True)
 
 merged_df = pd.merge(df, df2, on='County', how='inner')
 
-merged_df['voted_for_others'] = merged_df['votecount'] - merged_df['voted_for_flowers'] - merged_df['voted_for_ivey']
 merged_df['voted_oth'] = merged_df['votecount'] - merged_df['voted_eur'] - merged_df['voted_aa']
 
 del merged_df['County']
@@ -76,12 +75,11 @@ merged_df = merged_df.drop(negative_rows.index)
 
 merged_df['pct_flowers'] = merged_df['voted_for_flowers'] / merged_df['votecount']
 merged_df['pct_ivey'] = merged_df['voted_for_ivey'] / merged_df['votecount']
-merged_df['pct_others'] = merged_df['voted_for_others'] / merged_df['votecount']
 
-columns_to_normalize = merged_df[['pct_flowers', 'pct_ivey', 'pct_others']]
+columns_to_normalize = merged_df[['pct_flowers', 'pct_ivey']]
 row_sums = columns_to_normalize.sum(axis=1)
 normalized_cols = columns_to_normalize.div(row_sums, axis=0)
-merged_df[['pct_flowers', 'pct_ivey', 'pct_others']] = normalized_cols
+merged_df[['pct_flowers', 'pct_ivey']] = normalized_cols
 
 merged_df['pct_eth_eur'] = merged_df['voted_eur'] / merged_df['votecount']
 merged_df['pct_eth_aa'] = merged_df['voted_aa'] / merged_df['votecount']

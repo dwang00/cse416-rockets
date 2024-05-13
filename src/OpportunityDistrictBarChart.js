@@ -9,6 +9,8 @@ function OpportunityDistrictBarChart({ state, race, ensemble, threshold}) {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                console.log("102970128301928301")
+                console.log(race)
                 if(ensemble==="250") {
                     setOppDistrictsData(data[0][threshold][race])
                 }

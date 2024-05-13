@@ -380,7 +380,7 @@ function StateTab({components, navbarHeight, geoJsons, precinct, currState, curr
 
                             </option>
                         </select>
-                        <OpportunityDistrictBarChart state={fullName[currState]} race={"black"}
+                        <OpportunityDistrictBarChart state={fullName[currState]} race={"Black"}
                                                      threshold={selectedOppBarThreshold}
                                                      ensemble={selectedOppBarEnsemble}/>
                     </div>
